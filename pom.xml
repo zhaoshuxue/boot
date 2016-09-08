@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>boot</groupId>
+  <artifactId>boot</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>boot</name>
+  
+  
+  <parent>
+  	<groupId>org.springframework.boot</groupId>
+  	<artifactId>spring-boot-starter-parent</artifactId>
+  	<version>1.3.3.RELEASE</version>
+  </parent>
+  
+  
+  <dependencies>
+  
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-web</artifactId>
+  	</dependency>
+  	
+  	<!-- 不引入会报异常：Add a provider like Hibernate Validator (RI) to your classpath.  -->
+  	<dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-validator</artifactId>
+    	<version>5.1.0.Final</version>
+	</dependency>
+  	
+  	<!-- Junit 单元测试 -->
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-test</artifactId>
+  		<scope>test</scope>
+  	</dependency>
+  	
+  	
+  	
+  	
+  	
+  	
+  </dependencies>
+  
+  
+  
+  <build>
+  
+  	<plugins>
+  	
+  		<plugin>
+  			<groupId>org.springframework.boot</groupId>
+  			<artifactId>spring-boot-maven-plugin</artifactId>
+  		</plugin>
+  	
+  	
+  	</plugins>
+  
+  </build>
+  
+  
+  
+  
+  
+  
+</project>
