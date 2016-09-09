@@ -1,6 +1,17 @@
 package com.zsx.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name= "t_demo")
 public class Demo {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue
 	private long id;//主键.
     private String name;//测试名称.
 	public long getId() {
