@@ -14,6 +14,7 @@ import com.zsx.service.MyDemoService;
 
 @RestController
 @RequestMapping("/demo")
+@EnableAutoConfiguration
 public class DemoController {
 
 //	@Qualifier("demoService")
@@ -43,5 +44,13 @@ public class DemoController {
 		d.setName(name);
 		myDemoService.save(d);// 保存数据.
 		return "ok.Demo2Controller.save";
+	}
+	
+	@RequestMapping("/save2/{name}")
+	public Demo save2(@PathVariable String name) {
+		Demo d = new Demo();
+		d.setName(name);
+		Demo demo = myDemoService.save(d);// 保存数据.
+		return demo;
 	}
 }

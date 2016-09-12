@@ -14,6 +14,23 @@ public class Demo {
 //	@GeneratedValue
 	private long id;//主键.
     private String name;//测试名称.
+    
+    
+    
+	public Demo() {
+		super();
+	}
+
+
+
+	public Demo(long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
+	
+	
 	public long getId() {
 		return id;
 	}

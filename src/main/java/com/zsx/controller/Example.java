@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration
+
 public class Example {
 
 	@RequestMapping("/")
 	String home() {
 		return "Hello World!";
 	}
+	
 
 	@RequestMapping("/hello/{myName}")
 	String index(@PathVariable String myName) {
