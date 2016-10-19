@@ -1,5 +1,7 @@
 package bootTest;
 
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -10,9 +12,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.zsx.controller.App;
 import com.zsx.Application;
+import com.zsx.bean.Demo;
 import com.zsx.service.HelloService;
+import com.zsx.service.MyDemoService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -28,11 +31,22 @@ public class HelloServiceTest {
 	@Autowired
 	private HelloService helloService;
 	
+	@Resource
+	private MyDemoService demoService;
 	
 	@Test
 	public void test(){
-		Assert.assertEquals("helle", helloService.getName());
+//		Assert.assertEquals("helle", helloService.getName());
+		System.out.println(helloService.getName());
 	}
 	
+	@Test
+	public void testSave(){
+		Demo demo = new Demo();
+//		demo.setName(UUID.randomUUID().toString());
+		demo.setName("拜拜");
+		Demo save = demoService.save(demo);
+		System.out.println(save.getId());
+	}
 	
 }

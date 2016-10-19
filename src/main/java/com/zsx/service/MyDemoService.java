@@ -19,8 +19,9 @@ public class MyDemoService {
 	private DemoRepository demoRepository;
 
 	@Transactional
-	public void save(Demo demo) {
-		demoRepository.save(demo);
+	public Demo save(Demo demo) {
+		Demo demo2 = demoRepository.save(demo);
+		return demo2;
 	}
 
 }
