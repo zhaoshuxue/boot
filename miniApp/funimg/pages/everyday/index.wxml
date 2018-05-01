@@ -7,14 +7,15 @@
 <view class="" style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:key="">
 
-  
-     <view>0501：标题标题标题</view>
-     <view class='item-pic'>
-      <image mode="scaleToFill" src="http://ww2.sinaimg.cn/mw690/b11e11f9jw1f48rlmqbeig20ak06o4qr.gif"></image>
-     </view>
-    
-    
+    <view class="main" bindtap="gotoDetail" data-id="{{item.title}}">
 
-  
+      <view>{{item.title}}</view>
+      <view class='item-pic'>
+        <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
+      </view>
+
+
+    </view>
+
   </view>
 </view>
