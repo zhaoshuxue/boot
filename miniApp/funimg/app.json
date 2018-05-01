@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/everyday/index",
     "pages/home/index",
     "pages/index/index",
     "pages/logs/logs"
@@ -8,7 +9,27 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "精选趣图",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/everyday/index",
+        "text": "每日精选"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "精选趣图"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "我的收藏"
+      }
+    ]
   }
 }

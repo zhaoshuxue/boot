@@ -1,0 +1,24 @@
+/* pages/everyday/index.wxss */
+
+/* .flex-wrp {display: flex;} */
+
+.bc_green {background: green;width:100%; }
+.bc_red2 {background: red;width:100%; }
+.bc_blue3 {background: blue;width:100%; }
+
+.item {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  background-color: #ffffff;
+  height: 450rpx;
+  overflow: hidden;
+  margin-top: 20rpx;
+  
+}
+
+.item-pic{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}

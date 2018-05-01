@@ -1,0 +1,20 @@
+<!--pages/everyday/index.wxml-->
+<text>pages/everyday/index.wxml</text>
+<view>一个div，简单的介绍</view>
+<view>下面就是一个list， 卡片， 一个标题，一张图片 </view>
+
+
+<view class="" style="flex-direction:column;">
+  <view class="item" wx:for="{{dataList}}" wx:key="">
+
+  
+     <view>0501：标题标题标题</view>
+     <view class='item-pic'>
+      <image mode="scaleToFill" src="http://ww2.sinaimg.cn/mw690/b11e11f9jw1f48rlmqbeig20ak06o4qr.gif"></image>
+     </view>
+    
+    
+
+  
+  </view>
+</view>
