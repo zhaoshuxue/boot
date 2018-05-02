@@ -71,5 +71,19 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  // **************************************
+  // ************ 自定义方法 ***************
+  // **************************************
+
+  /**
+   * 跳转到详情页面
+   */
+  gotoDetail: function (event) {
+    var id = event.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '/pages/detail/index?id=' + id
+    })
   }
 })

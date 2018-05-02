@@ -1,7 +1,11 @@
-<!--pages/everyday/index.wxml-->
-<text>pages/everyday/index.wxml</text>
-<view>一个div，简单的介绍</view>
-<view>下面就是一个list， 卡片， 一个标题，一张图片 </view>
+<!--  -->
+<view class='header'>
+  <view class='logo'>
+    <image mode="scaleToFill" src="/images/logo.png"></image>
+  </view>
+  <view class='logo-text'>给你一个天天开心的理由</view>
+</view>
+
 
 
 <view class="" style="flex-direction:column;">

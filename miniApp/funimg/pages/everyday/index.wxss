@@ -1,29 +1,66 @@
 /* pages/everyday/index.wxss */
 
-/* .flex-wrp {display: flex;} */
-
-.bc_green {background: green;width:100%; }
-.bc_red2 {background: red;width:100%; }
-.bc_blue3 {background: blue;width:100%; }
-
-.item {
-  border-top: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
-  background-color: #ffffff;
-  height: 450rpx;
-  overflow: hidden;
-  margin-top: 20rpx;
-  
+page {
+  /* background-color: #f6f6f6;  */
+  background-color: #f6f8f8;
 }
 
-.item-pic{
+/* .flex-wrp {display: flex;} */
+
+.header {
+  height: 41rpx;
+}
+
+.header .logo {
+  float: left;
+  width: 35%;
+  display: flex;
+  justify-content: center;
+}
+
+.header .logo image {
+  width: 228rpx;
+  height: 41rpx;
+}
+
+.header .logo-text {
+  float: left;
+  width: 65%;
+  font-family: suxingme,"Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
+}
+
+.bc_green {
+  background: green;
+  width: 100%;
+}
+
+.bc_red2 {
+  background: red;
+  width: 100%;
+}
+
+.bc_blue3 {
+  background: blue;
+  width: 100%;
+}
+
+.item {
+  border-top: 1px solid #ddd;
+   border-bottom: 1px solid #dddddd;  
+  background-color: #fff;
+  height: 450rpx;
+  overflow: hidden;
+   margin-top: 20rpx; 
+  /* margin: 25rpx 10rpx 10rpx 10rpx; */
+}
+
+.item-pic {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
-.item-pic image{
+.item-pic image {
   width: 720rpx;
   height: 410rpx;
 }
