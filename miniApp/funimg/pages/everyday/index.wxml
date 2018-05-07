@@ -13,7 +13,7 @@
 
     <view class="main" bindtap="gotoDetail" data-id="{{item.title}}">
 
-      <view>{{item.title}}</view>
+      <view class='item-title'>{{item.title}}</view>
       <view class='item-pic'>
         <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
       </view>

@@ -45,13 +45,17 @@ page {
 }
 
 .item {
-  border-top: 1px solid #ddd;
-   border-bottom: 1px solid #dddddd;  
+  /* border-top: 1px solid #ddd; */
+   /* border-bottom: 1px solid #dddddd;   */
   background-color: #fff;
   height: 450rpx;
   overflow: hidden;
    margin-top: 20rpx; 
   /* margin: 25rpx 10rpx 10rpx 10rpx; */
+}
+
+.item .item-title {
+  padding-left: 20rpx;
 }
 
 .item-pic {

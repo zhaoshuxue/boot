@@ -1,2 +1,37 @@
 <!--pages/detail/index.wxml-->
 <text>pages/detail/index.wxml</text>
+
+
+
+<view class="" style="flex-direction:column;">
+  <view class="item" wx:for="{{dataList}}" wx:key="">
+
+    <view class="main" data-id="{{item.title}}">
+
+      <view class='item-title'>{{item.title}}</view>
+      <view class='item-pic'>
+        <image mode="widthFix" bindload='imageLoad' src="{{item.imgUrl}}"></image>
+      </view>
+
+
+    </view>
+
+  </view>
+</view>
+
+<view>
+
+<view>查看上一篇</view>
+
+<view>查看下一篇</view>
+
+</view>
+
+
+
+<view style="height:100rpx;">
+  <!--占位-->
+</view>
+<cover-view class="toolbar">
+  <cover-view class="goto-back" bindtap="goBack">返回</cover-view>
+</cover-view>

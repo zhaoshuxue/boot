@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    dataList: []
   },
 
   /**
@@ -19,14 +19,37 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+    this.setData({
+      dataList: [{
+        "title": "0501：阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫",
+        "imgUrl": "http://highness.qiniudn.com/tiaoqilai.gif"
+      }, {
+        "title": "0430：阿萨德法师法士大夫",
+        "imgUrl": "http://ww1.sinaimg.cn/mw690/b11e11f9jw1f48rlsc2sjg20au06n4qv.gif"
+      }, {
+        "title": "0429：阿萨德法师法士大夫",
+        "imgUrl": "http://ww2.sinaimg.cn/mw690/b11e11f9jw1f48rllabiqg20c806fdz7.gif"
+      }, {
+        "title": "0429：阿萨德法师法士大夫",
+        "imgUrl": "/images/1.jpg"
+      }, {
+        "title": "0429：阿萨德法师法士大夫",
+        "imgUrl": "/images/2.jpg"
+      }, {
+        "title": "0429：阿萨德法师法士大夫",
+        "imgUrl": "/images/3.jpg"
+      }]
+    })
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    // 设置当前页面的标题
+    wx.setNavigationBarTitle({
+      title: 'shuxue'
+    })
   },
 
   /**
@@ -62,5 +85,19 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+
+  //
+  //
+  //
+
+  /**返回上一页 */
+  goBack: function () {
+    wx.navigateBack()
+  },
+
+
+  imageLoad: function(e){
+    // console.log(e)
   }
 })
