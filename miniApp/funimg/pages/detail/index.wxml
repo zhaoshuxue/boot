@@ -1,19 +1,15 @@
 <!--pages/detail/index.wxml-->
 <text>pages/detail/index.wxml</text>
 
-
-
 <view class="" style="flex-direction:column;">
-  <view class="item" wx:for="{{dataList}}" wx:key="">
+  <view class="item" wx:for="{{dataList}}" wx:for-item="item" wx:key="">
 
     <view class="main" data-id="{{item.title}}">
 
       <view class='item-title'>{{item.title}}</view>
-      <view class='item-pic'>
-        <image mode="widthFix" bindload='imageLoad' src="{{item.imgUrl}}"></image>
+      <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img">
+        <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
       </view>
-
-
     </view>
 
   </view>

@@ -20,7 +20,7 @@ page {
   margin-bottom: 10rpx;
 }
 
-image {
+.item .main .item-pic image {
   width: 100%;
 }
 
