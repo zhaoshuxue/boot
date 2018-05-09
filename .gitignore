@@ -4,5 +4,5 @@ target/
 .settings/
 .classpath
 .project
-*/application-dev.yml
-*/mybatis-generator.properties
+/funimg-springboot/src/main/resources/application-dev.yml
+/funimg-springboot/src/main/resources/mybatis-generator.properties
