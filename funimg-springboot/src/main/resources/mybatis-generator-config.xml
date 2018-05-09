@@ -58,7 +58,7 @@
         </javaClientGenerator>
 
         <!-- 配置表信息 -->
-        <table tableName="rent_images" domainObjectName="RentImages"
+        <table tableName="fun_images" domainObjectName="FunImages"
 
                enableSelectByExample="false"
                enableCountByExample="false"

@@ -1,9 +1,8 @@
 package com.zsx.controller;
 
-import com.zsx.dao.RentImagesDao;
+import com.zsx.ext.RentImagesDao;
 import com.zsx.dao.RentImagesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
