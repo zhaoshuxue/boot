@@ -4,3 +4,5 @@ target/
 .settings/
 .classpath
 .project
+*/application-dev.yml
+*/mybatis-generator.properties
