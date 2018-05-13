@@ -7,6 +7,19 @@
 </view>
 
 
+<view>
+<video  id="myVideo"  src='http://highness.qiniudn.com/20180430002.mp4' style='width:100%'
+
+controls='{{false}}'
+autoplay=true
+loop=true
+muted=true
+
+
+></video>
+</view>
+
+
 
 <view class="" style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:key="">
@@ -23,3 +36,5 @@
 
   </view>
 </view>
+
+

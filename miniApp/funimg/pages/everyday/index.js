@@ -28,7 +28,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.videoContext = wx.createVideoContext('myVideo')
   },
 
   /**
@@ -85,5 +85,12 @@ Page({
     wx.navigateTo({
       url: '/pages/detail/index?id=' + id
     })
+  },
+
+  videoLoading: function(){
+    console.log(new Date())
+  },
+  videoError: function () {
+    console.log(222)
   }
 })
