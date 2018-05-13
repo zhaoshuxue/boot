@@ -8,11 +8,11 @@
 
       <view class='item-title'>{{item.title}}</view>
       <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img">
-        <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
-        <image mode="widthFix" src='http://highness.qiniudn.com/20180430002.mp4.jpg'></image>
-      </view>
-      
-      <video src='http://highness.qiniudn.com/20180430002.mp4' style='width:100%'
+        <view wx:if="{{img.type == 'gif'}}">
+          <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
+        </view>
+        <view wx:if="{{img.type == 'mp4'}}">
+          <video src='{{img.imgUrl}}' style='width:100%'
 
 controls='{{false}}'
 autoplay=true
@@ -21,8 +21,11 @@ muted=true
 
 
 ></video>
-    </view>
 
+        </view>
+
+      </view>
+    </view>
   </view>
 </view>
 

@@ -23,7 +23,8 @@ Page({
       dataList: [{
         "title": "0501：阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫",
         "imgList": [
-          { "imgUrl": "http://highness.qiniudn.com/tiaoqilai.gif" }
+          { "imgUrl": "http://highness.qiniudn.com/tiaoqilai.gif", "type": "gif" },
+          { "imgUrl": "http://highness.qiniudn.com/20180430002.mp4", "type": "mp4", "width": 222, "height": 242 }
         ]
       }, {
         "title": "0430：阿萨德法师法士大夫",
@@ -78,6 +79,17 @@ Page({
     // 设置当前页面的标题
     wx.setNavigationBarTitle({
       title: 'shuxue'
+    })
+
+    wx.getSystemInfo({
+      success: function (res) {
+        var windowWidth = res.windowWidth;
+        console.log("屏幕宽度为：" + windowWidth);
+        // var h = parseInt(windowWidth / 8.64 * 6)
+        // that.setData({
+        //   swiperHeight: h
+        // });
+      }
     })
   },
 
