@@ -7,12 +7,12 @@
     <view class="main" data-id="{{item.title}}">
 
       <view class='item-title'>{{item.title}}</view>
-      <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img">
-        <view wx:if="{{img.type == 'gif'}}">
+      <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img" wx:key="">
+        <view wx:if="{{img.type != 'mp4'}}">
           <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
         </view>
         <view wx:if="{{img.type == 'mp4'}}">
-          <video src='{{img.imgUrl}}' style='width:100%'
+          <video src='{{img.imgUrl}}' style='width:100%;  {{img.nh}}'
 
 controls='{{false}}'
 autoplay=true

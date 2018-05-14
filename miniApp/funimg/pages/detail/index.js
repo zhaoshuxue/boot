@@ -1,10 +1,14 @@
 // pages/detail/index.js
+
+var tableData = require('../../data/detailList.js');
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    windowWidth: 0,
     dataList: []
   },
 
@@ -19,57 +23,35 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({
-      dataList: [{
-        "title": "0501：阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫阿萨德法师法士大夫",
-        "imgList": [
-          { "imgUrl": "http://highness.qiniudn.com/tiaoqilai.gif", "type": "gif" },
-          { "imgUrl": "http://highness.qiniudn.com/20180430002.mp4", "type": "mp4", "width": 222, "height": 242 }
-        ]
-      }, {
-        "title": "0430：阿萨德法师法士大夫",
+    var that = this;
 
-        "imgList": [
-          {
-            "imgUrl": "http://ww1.sinaimg.cn/mw690/b11e11f9jw1f48rlsc2sjg20au06n4qv.gif"
-          }
-        ]
-      }, {
-        "title": "0429：阿萨德法师法士大夫",
-        "imgList": [
-          {
-            "imgUrl": "http://ww2.sinaimg.cn/mw690/b11e11f9jw1f48rllabiqg20c806fdz7.gif"
-          },
-          {
-            "imgUrl": "http://ww2.sinaimg.cn/mw690/b11e11f9jw1f48rllabiqg20c806fdz7.gif"
-          }
-        ]
-      }, {
-        "title": "0429：阿萨德法师法士大夫",
-        "imgList": [
-          {
-            "imgUrl": "/images/1.jpg"
-          }
-        ]
-      }, {
-        "title": "0429：阿萨德法师法士大夫",
-        "imgList": [
-          {
-            "imgUrl": "/images/2.jpg"
-          }
-        ]
-      }, {
-        "title": "0429：阿萨德法师法士大夫",
-        "imgList": [
-          {
-            "imgUrl": "/images/3.jpg"
-          },
-          {
-            "imgUrl": "/images/3.jpg"
-          }
-        ]
-      }]
-    })
+    let list = tableData.dataList;
+    console.log(list)
+
+    for(var i=0,len=list.length; i<len;i++){
+      var obj = list[i];
+      var imgList = obj.imgList;
+      // console.log(imgList)
+      for(var j=0,size=imgList.length; j<size; j++){
+        var img = imgList[j];
+        console.log(img.type)
+        if(img.type == 'mp4'){
+          console.log(img)
+          var a = that.data.windowWidth * 2 - 10 * 2;
+          var h = parseInt(a / img.width * img.height);
+          // img.h = h;
+          img.nh = "height: "+h+"rpx";
+        }
+      }
+    }
+    
+    console.log(list)
+    // 初始化数据
+    this.setData({
+      dataList: list
+    });
+
+    
   },
 
   /**
@@ -80,15 +62,15 @@ Page({
     wx.setNavigationBarTitle({
       title: 'shuxue'
     })
-
+    var that = this;
     wx.getSystemInfo({
       success: function (res) {
         var windowWidth = res.windowWidth;
         console.log("屏幕宽度为：" + windowWidth);
         // var h = parseInt(windowWidth / 8.64 * 6)
-        // that.setData({
-        //   swiperHeight: h
-        // });
+        that.setData({
+          windowWidth: windowWidth
+        });
       }
     })
   },
