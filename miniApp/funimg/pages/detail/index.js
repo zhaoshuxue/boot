@@ -26,7 +26,7 @@ Page({
     var that = this;
 
     let list = tableData.dataList;
-    console.log(list)
+    // console.log(list)
 
     for(var i=0,len=list.length; i<len;i++){
       var obj = list[i];
@@ -34,9 +34,11 @@ Page({
       // console.log(imgList)
       for(var j=0,size=imgList.length; j<size; j++){
         var img = imgList[j];
-        console.log(img.type)
+        // console.log(img.type)
+        // 当是mp4时需要特殊处理
         if(img.type == 'mp4'){
-          console.log(img)
+          // console.log(img)
+          // 计算视频要展示的高度
           var a = that.data.windowWidth * 2 - 10 * 2;
           var h = parseInt(a / img.width * img.height);
           // img.h = h;
@@ -45,7 +47,7 @@ Page({
       }
     }
     
-    console.log(list)
+    // console.log(list)
     // 初始化数据
     this.setData({
       dataList: list
