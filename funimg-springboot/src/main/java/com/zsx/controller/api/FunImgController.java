@@ -1,5 +1,6 @@
 package com.zsx.controller.api;
 
+import com.google.common.collect.Maps;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumList;
@@ -37,7 +38,7 @@ public class FunImgController {
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
-        HashMap<String, Object> search = new HashMap<String, Object>();
+        HashMap<String, Object> search = Maps.newHashMap();
         search.put("areaCode", 311);
         PageData<AlbumList> pageData = funAlbumService.getFunAlbumPageList(search, pageNum, pageSize);
         return pageData;
