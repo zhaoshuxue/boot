@@ -1,8 +1,10 @@
 package com.zsx.service;
 
 import com.zsx.util.PageData;
+import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumList;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,4 +21,6 @@ public interface FunAlbumService {
      * @return
      */
     PageData<AlbumList> getFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
+    List<AlbumData> getAlbumData(Long albumId);
 }

@@ -3,6 +3,7 @@ package com.zsx.controller.api;
 import com.google.common.collect.Maps;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
+import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by highness on 2018/5/10 0010.
@@ -23,7 +25,7 @@ public class FunImgController {
     @Autowired
     private FunAlbumService funAlbumService;
 
-//    @ApiOperation(value = "获取房屋列表", notes = "供小程序调用", httpMethod = "GET")
+    //    @ApiOperation(value = "获取房屋列表", notes = "供小程序调用", httpMethod = "GET")
     @GetMapping("/lists")
     public PageData getUserList(
 //            @ApiParam(value = "区域id") @RequestParam(value = "districtId", defaultValue = "") String districtId,
@@ -39,9 +41,19 @@ public class FunImgController {
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
         HashMap<String, Object> search = Maps.newHashMap();
-        search.put("areaCode", 311);
+        search.put("del", 0);
+        search.put("status", 0);
         PageData<AlbumList> pageData = funAlbumService.getFunAlbumPageList(search, pageNum, pageSize);
         return pageData;
+    }
+
+
+    @GetMapping("/albumData")
+    public List<AlbumData> getAlbumData(
+            @RequestParam(defaultValue = "0") Long albumId
+    ) {
+        List<AlbumData> albumData = funAlbumService.getAlbumData(albumId);
+        return albumData;
     }
 
 }

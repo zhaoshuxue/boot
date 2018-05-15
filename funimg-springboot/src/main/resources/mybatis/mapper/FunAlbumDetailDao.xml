@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zsx.ext.FunAlbumDetailDao" >
-  <resultMap id="BaseResultMap" type="com.zsx.entity.FunAlbumDetail" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="album_id" property="albumId" jdbcType="BIGINT" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="img_uuids" property="imgUuids" jdbcType="VARCHAR" />
-    <result column="del" property="del" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
-    <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
-    <result column="updater_id" property="updaterId" jdbcType="VARCHAR" />
-    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.zsx.ext.FunAlbumDetailDao">
+    <resultMap id="BaseResultMap" type="com.zsx.entity.FunAlbumDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="album_id" property="albumId" jdbcType="BIGINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="img_uuids" property="imgUuids" jdbcType="VARCHAR"/>
+        <result column="del" property="del" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creatorName" jdbcType="VARCHAR"/>
+        <result column="updater_id" property="updaterId" jdbcType="VARCHAR"/>
+        <result column="updater_name" property="updaterName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, album_id, sort, title, img_uuids, del, create_time, update_time, creator_id,
     creator_name, updater_id, updater_name
   </sql>
 
+
+    <select id="selectByAlbumId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM fun_album_detail
+        <where>
+            del = 0
+            and album_id = #{albumId}
+        </where>
+        ORDER BY sort
+    </select>
 
 </mapper>

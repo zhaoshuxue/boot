@@ -187,6 +187,7 @@
             </plugin>
 
             <!-- mybatis maven 插件 -->
+            <!--
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -205,6 +206,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
 
             <!-- 热部署 -->
             <plugin>

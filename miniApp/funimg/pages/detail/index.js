@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    baseUrl: '',
     windowWidth: 0,
     dataList: []
   },
@@ -16,7 +17,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var baseUrl = wx.getStorageSync('baseUrl')
+    this.setData({
+      baseUrl: baseUrl
+    })
+    this.getData(options.id);
   },
 
   /**
@@ -49,9 +54,9 @@ Page({
     
     // console.log(list)
     // 初始化数据
-    this.setData({
-      dataList: list
-    });
+    // this.setData({
+    //   dataList: list
+    // });
 
     
   },
@@ -112,9 +117,60 @@ Page({
 
   },
 
-  //
-  //
-  //
+  // ******************************************
+  // 自定义函数
+  // ******************************************
+
+  getData: function (id) {
+    var that = this;
+    var baseUrl = that.data.baseUrl;
+    wx.request({
+      url: baseUrl + '/funimg/api/funimg/albumData',
+      data: {
+        albumId: id
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: (res) => {
+        console.log(res)
+
+        if (res.data && res.data.length > 0) {
+          var list = res.data;
+
+          for (var i = 0, len = list.length; i < len; i++) {
+            var imgList = list[i].imgList;
+            for (var j = 0, size = imgList.length; j < size; j++) {
+              var img = imgList[j];
+              // console.log(img.type)
+              // 当是mp4时需要特殊处理
+              if (img.type == 4) {
+                // console.log(img)
+                // 计算视频要展示的高度
+                var a = that.data.windowWidth * 2 - 10 * 2;
+                var h = parseInt(a / img.width * img.height);
+                // img.h = h;
+                img.nh = "height: " + h + "rpx";
+              }
+            }
+          }
+
+          that.setData({
+            dataList: list
+          });
+
+          //          设置当前页面的标题
+          // wx.setNavigationBarTitle({
+          //   title: data.summary
+          // })
+
+        }
+      },
+      fail: (res) => {
+
+      }
+    })
+  },
 
   /**返回上一页 */
   goBack: function () {

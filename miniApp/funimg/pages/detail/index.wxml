@@ -8,10 +8,10 @@
 
       <view class='item-title'>{{item.title}}</view>
       <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img" wx:key="">
-        <view wx:if="{{img.type != 'mp4'}}">
+        <view wx:if="{{img.type != 4}}">
           <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
         </view>
-        <view wx:if="{{img.type == 'mp4'}}">
+        <view wx:if="{{img.type == 4}}">
           <video src='{{img.imgUrl}}' style='width:100%;  {{img.nh}}'
 
 controls='{{false}}'

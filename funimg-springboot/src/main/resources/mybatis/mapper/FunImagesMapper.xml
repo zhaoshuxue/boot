@@ -4,8 +4,11 @@
   <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="img_uuid" jdbcType="VARCHAR" property="imgUuid" />
+    <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
     <result column="img_type" jdbcType="INTEGER" property="imgType" />
+    <result column="width" jdbcType="INTEGER" property="width" />
+    <result column="height" jdbcType="INTEGER" property="height" />
     <result column="del" jdbcType="INTEGER" property="del" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -15,8 +18,8 @@
     <result column="updater_name" jdbcType="VARCHAR" property="updaterName" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, img_uuid, img_url, img_type, del, create_time, update_time, creator_id, creator_name, 
-    updater_id, updater_name
+    id, img_uuid, thumbnail, img_url, img_type, width, height, del, create_time, update_time, 
+    creator_id, creator_name, updater_id, updater_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -32,11 +35,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into fun_images (img_uuid, img_url, img_type, 
+    insert into fun_images (img_uuid, thumbnail, img_url, 
+      img_type, width, height, 
       del, create_time, update_time, 
       creator_id, creator_name, updater_id, 
       updater_name)
-    values (#{imgUuid,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{imgType,jdbcType=INTEGER}, 
+    values (#{imgUuid,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{imgType,jdbcType=INTEGER}, #{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, 
       #{del,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{creatorId,jdbcType=VARCHAR}, #{creatorName,jdbcType=VARCHAR}, #{updaterId,jdbcType=VARCHAR}, 
       #{updaterName,jdbcType=VARCHAR})
@@ -50,11 +55,20 @@
       <if test="imgUuid != null">
         img_uuid,
       </if>
+      <if test="thumbnail != null">
+        thumbnail,
+      </if>
       <if test="imgUrl != null">
         img_url,
       </if>
       <if test="imgType != null">
         img_type,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="height != null">
+        height,
       </if>
       <if test="del != null">
         del,
@@ -82,11 +96,20 @@
       <if test="imgUuid != null">
         #{imgUuid,jdbcType=VARCHAR},
       </if>
+      <if test="thumbnail != null">
+        #{thumbnail,jdbcType=VARCHAR},
+      </if>
       <if test="imgUrl != null">
         #{imgUrl,jdbcType=VARCHAR},
       </if>
       <if test="imgType != null">
         #{imgType,jdbcType=INTEGER},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
       </if>
       <if test="del != null">
         #{del,jdbcType=INTEGER},
@@ -117,11 +140,20 @@
       <if test="imgUuid != null">
         img_uuid = #{imgUuid,jdbcType=VARCHAR},
       </if>
+      <if test="thumbnail != null">
+        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      </if>
       <if test="imgUrl != null">
         img_url = #{imgUrl,jdbcType=VARCHAR},
       </if>
       <if test="imgType != null">
         img_type = #{imgType,jdbcType=INTEGER},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
       </if>
       <if test="del != null">
         del = #{del,jdbcType=INTEGER},
@@ -150,8 +182,11 @@
   <update id="updateByPrimaryKey" parameterType="com.zsx.entity.FunImages">
     update fun_images
     set img_uuid = #{imgUuid,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
       img_type = #{imgType,jdbcType=INTEGER},
+      width = #{width,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER},
       del = #{del,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

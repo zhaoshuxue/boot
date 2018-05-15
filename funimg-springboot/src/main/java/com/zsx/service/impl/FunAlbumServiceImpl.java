@@ -3,16 +3,24 @@ package com.zsx.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.zsx.entity.FunAlbum;
+import com.zsx.entity.FunAlbumDetail;
+import com.zsx.entity.FunImages;
 import com.zsx.ext.FunAlbumDao;
+import com.zsx.ext.FunAlbumDetailDao;
+import com.zsx.ext.FunImagesDao;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
+import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumList;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +32,10 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
     @Autowired
     private FunAlbumDao funAlbumDao;
+    @Autowired
+    private FunAlbumDetailDao funAlbumDetailDao;
+    @Autowired
+    private FunImagesDao funImagesDao;
 
 
     @Override
@@ -31,7 +43,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MMdd");
 
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageNum, pageSize, "publish_date desc");
         List<FunAlbum> funAlbums = funAlbumDao.selectByParams(search);
         PageInfo pageInfo = new PageInfo(funAlbums);
 
@@ -52,5 +64,43 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         pageData.setPageNum(pageInfo.getPageNum());
         pageData.setPageSize(pageInfo.getPageSize());
         return pageData;
+    }
+
+
+    @Override
+    public List<AlbumData> getAlbumData(Long albumId) {
+        List<AlbumData> resultData = Lists.newArrayList();
+
+        List<FunAlbumDetail> funAlbumDetails = funAlbumDetailDao.selectByAlbumId(albumId);
+        if (CollectionUtils.isEmpty(funAlbumDetails)){
+            return resultData;
+        }
+
+        AlbumData albumData;
+        for (FunAlbumDetail funAlbumDetail : funAlbumDetails) {
+            albumData = new AlbumData();
+
+            albumData.setId(funAlbumDetail.getId());
+            albumData.setTitle(funAlbumDetail.getTitle());
+
+            String imgUuids = funAlbumDetail.getImgUuids();
+            String[] imageIds = imgUuids.split("!@#");
+            for (String imageId : imageIds) {
+                FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
+                if (funImages == null){
+                    continue;
+                }
+                AlbumData.ImageList imageList = AlbumData.imgListBuilder()
+                        .imgUrl(funImages.getImgUrl())
+                        .type(funImages.getImgType())
+                        .width(funImages.getWidth())
+                        .height(funImages.getHeight());
+
+                albumData.addImgList(imageList);
+            }
+
+            resultData.add(albumData);
+        }
+        return resultData;
     }
 }
