@@ -48,4 +48,16 @@
         <include refid="Base_Where_Clause"/>
     </select>
 
+
+    <select id="getLastAlbumId">
+        SELECT
+          id
+        FROM fun_album
+        <where>
+            del = 0
+            and id = #{albumId}
+        </where>
+        ORDER BY publish_date
+    </select>
+
 </mapper>

@@ -8,4 +8,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FunAlbumDao extends FunAlbumMapper{
+
+
+    Long getLastAlbumId(Long albumId);
+
+
+    Long getNextAlbumId(Long albumId);
+
+
+
 }
