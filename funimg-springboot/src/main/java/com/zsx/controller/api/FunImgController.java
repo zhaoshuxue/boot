@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumData;
+import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,11 +50,11 @@ public class FunImgController {
 
 
     @GetMapping("/albumData")
-    public List<AlbumData> getAlbumData(
+    public AlbumDetail getAlbumData(
             @RequestParam(defaultValue = "0") Long albumId
     ) {
-        List<AlbumData> albumData = funAlbumService.getAlbumData(albumId);
-        return albumData;
+        AlbumDetail albumDetail = funAlbumService.getAlbumData(albumId);
+        return albumDetail;
     }
 
 }

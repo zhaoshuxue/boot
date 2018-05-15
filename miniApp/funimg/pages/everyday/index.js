@@ -67,7 +67,17 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    // 上拉加载更多的数据
+    var pages = this.data.pages;
+    var pageNum = this.data.params.pageNum;
+    if (pageNum < pages) {
+      this.loadData(pageNum + 1);
+      if (pageNum + 1 == pages) {
+        // this.setData({
+        //   nomore: false
+        // })
+      }
+    }
   },
 
   /**
@@ -175,12 +185,6 @@ Page({
         })
       }
     })
-  },
-
-  videoLoading: function(){
-    console.log(new Date())
-  },
-  videoError: function () {
-    console.log(222)
   }
+  
 })

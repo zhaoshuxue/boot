@@ -7,20 +7,16 @@
 </view>
 
 <!--  -->
-<view class="" style="flex-direction:column;">
+<view style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:key="">
-
     <view class="main" bindtap="gotoDetail" data-id="{{item.albumId}}">
-
       <view class='item-title'>{{item.title}}</view>
       <view class='item-pic'>
         <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
       </view>
-
-
     </view>
-
   </view>
 </view>
 
 
+<!-- end -->

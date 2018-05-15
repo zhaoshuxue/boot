@@ -121,6 +121,17 @@ Page({
   // 自定义函数
   // ******************************************
 
+  /**
+   * 跳转到详情页面
+   */
+  gotoDetail: function (event) {
+    var id = event.currentTarget.dataset.id;
+    console.log(id)
+    // wx.navigateTo({
+    //   url: '/pages/detail/index?id=' + id
+    // })
+  },
+
   getData: function (id) {
     var that = this;
     var baseUrl = that.data.baseUrl;
@@ -135,11 +146,12 @@ Page({
       success: (res) => {
         console.log(res)
 
-        if (res.data && res.data.length > 0) {
-          var list = res.data;
+        if (res.data && res.data.albumData.length > 0) {
+          var list = res.data.albumData;
 
           for (var i = 0, len = list.length; i < len; i++) {
             var imgList = list[i].imgList;
+            // list[i].index = i+1;
             for (var j = 0, size = imgList.length; j < size; j++) {
               var img = imgList[j];
               // console.log(img.type)
@@ -160,9 +172,9 @@ Page({
           });
 
           //          设置当前页面的标题
-          // wx.setNavigationBarTitle({
-          //   title: data.summary
-          // })
+          wx.setNavigationBarTitle({
+            title: res.data.title
+          })
 
         }
       },

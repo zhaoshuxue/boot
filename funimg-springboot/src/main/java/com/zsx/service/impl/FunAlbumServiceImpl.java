@@ -13,6 +13,7 @@ import com.zsx.ext.FunImagesDao;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumData;
+import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,12 +69,17 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
 
     @Override
-    public List<AlbumData> getAlbumData(Long albumId) {
+    public AlbumDetail getAlbumData(Long albumId) {
+
+        FunAlbum funAlbum = funAlbumDao.selectByPrimaryKey(albumId);
+        if (funAlbum == null){
+            return null;
+        }
         List<AlbumData> resultData = Lists.newArrayList();
 
         List<FunAlbumDetail> funAlbumDetails = funAlbumDetailDao.selectByAlbumId(albumId);
         if (CollectionUtils.isEmpty(funAlbumDetails)){
-            return resultData;
+            return null;
         }
 
         AlbumData albumData;
@@ -101,6 +107,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
             resultData.add(albumData);
         }
-        return resultData;
+
+        return new AlbumDetail(funAlbum.getTitle(), resultData);
     }
 }

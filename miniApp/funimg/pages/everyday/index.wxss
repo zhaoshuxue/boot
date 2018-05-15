@@ -50,7 +50,7 @@ page {
   background-color: #fff;
   height: 450rpx;
   overflow: hidden;
-   margin-top: 20rpx; 
+   margin-top: 30rpx; 
   /* margin: 25rpx 10rpx 10rpx 10rpx; */
 }
 
