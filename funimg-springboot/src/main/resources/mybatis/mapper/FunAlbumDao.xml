@@ -53,11 +53,22 @@
         SELECT
           id
         FROM fun_album
-        <where>
+        WHERE
             del = 0
-            and id = #{albumId}
-        </where>
-        ORDER BY publish_date
+            and publish_date &lt; #{publishDate, jdbcType=TIMESTAMP}
+        ORDER BY publish_date DESC
+        limit 1
+    </select>
+
+    <select id="getNextAlbumId">
+        SELECT
+        id
+        FROM fun_album
+        WHERE
+        del = 0
+        and publish_date > #{publishDate, jdbcType=TIMESTAMP}
+        ORDER BY publish_date ASC
+        limit 1
     </select>
 
 </mapper>

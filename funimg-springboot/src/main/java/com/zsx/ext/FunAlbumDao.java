@@ -3,6 +3,8 @@ package com.zsx.ext;
 import com.zsx.dao.FunAlbumMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
+
 /**
  * Created by highness on 2018/4/28 0028.
  */
@@ -10,11 +12,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FunAlbumDao extends FunAlbumMapper{
 
 
-    Long getLastAlbumId(Long albumId);
+    Long getLastAlbumId(Date publishDate);
 
-
-    Long getNextAlbumId(Long albumId);
-
+    Long getNextAlbumId(Date publishDate);
 
 
 }
