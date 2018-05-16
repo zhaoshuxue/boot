@@ -1,1 +1,86 @@
-/* pages/home/index.wxss */
+/* pages/detail/index.wxss */
+
+page {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F2F2F2;
+}
+
+/*  */
+
+.item {
+  margin-top: 30rpx;
+  background-color: #ffffff;
+}
+
+.item .main {
+  padding: 0rpx 5px;
+}
+
+.item .main .item-title {
+  font-size: 28rpx;
+  color: #329b64;
+  margin-bottom: 10rpx;
+}
+
+.item .main .item-pic image {
+  width: 100%;
+}
+
+/* 按钮 start */
+
+.btn-view {
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 20rpx;
+  padding-bottom: 22rpx;
+}
+
+.btn-view button {
+  display: inline-block;
+  margin-left: 18rpx;
+  margin-right: 18rpx;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 16px;
+  line-height: 2;
+}
+
+/* 按钮 end */
+
+/* 底部操作栏start */
+
+.toolbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 100rpx;
+  border: 1px solid #d9d9d9;
+  background-color: #fafafa;
+  flex-direction: row;
+  display: flex;
+  text-align: center;
+  font-size: 38rpx;
+}
+
+.toolbar .goto-back {
+  width: 100%;
+  padding: 25rpx 0;
+}
+
+.toolbar .goto-home {
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+}
+
+.toolbar .goto-home {
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+}
+
+.toolbar .share button {
+  display: inline-block;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 底部操作栏end */

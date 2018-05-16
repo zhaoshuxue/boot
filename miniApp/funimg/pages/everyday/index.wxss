@@ -2,7 +2,8 @@
 
 page {
   /* background-color: #f6f6f6;  */
-  background-color: #f6f8f8;
+  /* background-color: #f6f8f8; */
+  background-color: #F2F2F2;
 }
 
 /* .flex-wrp {display: flex;} */
