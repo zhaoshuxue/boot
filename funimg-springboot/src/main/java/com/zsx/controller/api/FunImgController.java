@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by highness on 2018/5/10 0010.
@@ -55,6 +54,18 @@ public class FunImgController {
     ) {
         AlbumDetail albumDetail = funAlbumService.getAlbumData(albumId);
         return albumDetail;
+    }
+
+
+    @GetMapping("/hotImgs")
+    public PageData getHotImageList(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize
+    ) {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        PageData<AlbumData> pageData = funAlbumService.getFunHotImagePageList(search, pageNum, pageSize);
+        return pageData;
     }
 
 }

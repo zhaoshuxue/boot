@@ -2,12 +2,17 @@ package com.zsx.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.zsx.entity.FunAlbum;
 import com.zsx.entity.FunAlbumDetail;
+import com.zsx.entity.FunHotImages;
 import com.zsx.entity.FunImages;
 import com.zsx.ext.FunAlbumDao;
 import com.zsx.ext.FunAlbumDetailDao;
+import com.zsx.ext.FunHotImagesDao;
 import com.zsx.ext.FunImagesDao;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
@@ -19,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +41,8 @@ public class FunAlbumServiceImpl implements FunAlbumService {
     private FunAlbumDetailDao funAlbumDetailDao;
     @Autowired
     private FunImagesDao funImagesDao;
+    @Autowired
+    private FunHotImagesDao funHotImagesDao;
 
 
     @Override
@@ -113,5 +122,70 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         albumDetail.setLastAlbumId(lastAlbumId);
         albumDetail.setNextAlbumId(nextAlbumId);
         return albumDetail;
+    }
+
+
+    @Override
+    public PageData<AlbumData> getFunHotImagePageList(Map<String, Object> search, Integer pageNum, Integer pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize, "update_time desc");
+        List<FunHotImages> funHotImages = funHotImagesDao.selectByParams(search);
+
+        List<Long> linkIds = Lists.transform(funHotImages, new Function<FunHotImages, Long>() {
+            @Override
+            public Long apply(FunHotImages funHotImages) {
+                return funHotImages.getLinkId();
+            }
+        });
+        HashMap<String, Object> params = Maps.newHashMap();
+        params.put("del", 0);
+        params.put("ids", linkIds);
+        List<FunAlbumDetail> funAlbumDetails = funAlbumDetailDao.selectByParams(params);
+
+        ImmutableMap<Long, FunAlbumDetail> funAlbumDetailMap = Maps.uniqueIndex(funAlbumDetails, new Function<FunAlbumDetail, Long>() {
+            @Override
+            public Long apply(FunAlbumDetail funAlbumDetail) {
+                return funAlbumDetail.getId();
+            }
+        });
+
+
+        ArrayList<AlbumData> albumDatas = Lists.newArrayList();
+        AlbumData albumData;
+        for (FunHotImages funHotImage : funHotImages) {
+            albumData = new AlbumData();
+
+            FunAlbumDetail funAlbumDetail = funAlbumDetailMap.get(funHotImage.getLinkId());
+            if (funAlbumDetail == null){
+                continue;
+            }
+
+            albumData.setId(funAlbumDetail.getId());
+            albumData.setTitle(funAlbumDetail.getTitle());
+            String imgIds = funAlbumDetail.getImgUuids();
+            String[] imageIds = imgIds.split("!@#");
+            for (String imageId : imageIds) {
+                FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
+                if (funImages == null) {
+                    continue;
+                }
+                AlbumData.ImageList imageList = AlbumData.imgListBuilder()
+                        .imgUrl(funImages.getImgUrl())
+                        .type(funImages.getImgType())
+                        .width(funImages.getWidth())
+                        .height(funImages.getHeight());
+
+                albumData.addImgList(imageList);
+            }
+
+            albumDatas.add(albumData);
+        }
+
+        PageInfo pageInfo = new PageInfo(funHotImages);
+
+        PageData pageData = new PageData(pageInfo.getTotal(), pageInfo.getPages(), albumDatas);
+        pageData.setPageNum(pageInfo.getPageNum());
+        pageData.setPageSize(pageInfo.getPageSize());
+        return pageData;
     }
 }

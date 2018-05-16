@@ -5,7 +5,6 @@ import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,4 +23,7 @@ public interface FunAlbumService {
     PageData<AlbumList> getFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
 
     AlbumDetail getAlbumData(Long albumId);
+
+    PageData<AlbumData> getFunHotImagePageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
 }
