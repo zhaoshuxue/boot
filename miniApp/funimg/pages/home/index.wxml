@@ -7,7 +7,10 @@
 
     <view class="main" bindtap="gotoImage" data-id="{{item.id}}">
 
-      <view class='item-title'>{{item.title}}</view>
+      <view class='item-title'>
+        <view class='sign'></view>
+        <view class='title'>{{item.title}}</view>
+      </view>
       <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img" wx:key="">
         <view wx:if="{{img.type != 4}}">
           <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>

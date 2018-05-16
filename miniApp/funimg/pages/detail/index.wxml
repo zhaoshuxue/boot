@@ -44,7 +44,4 @@ muted=true
 <cover-view class="toolbar">
   <cover-view class="goto-back" bindtap="goBack">返回</cover-view>
   <cover-view class="goto-back goto-home" bindtap="gotoHome">首页</cover-view>
-  <cover-view class="goto-back share">
-    <button open-type="share">分享</button>
-  </cover-view>
 </cover-view>

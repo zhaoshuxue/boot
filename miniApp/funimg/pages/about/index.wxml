@@ -1,0 +1,18 @@
+<!--pages/about/index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <block>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="/images/logo2.png" background-size="cover"></image>
+      <text class="userinfo-nickname">精选趣图</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">精选趣图，让你开心每一天！</text>
+    <view></view>
+    <text class="user-motto">免责声明：本应用内所有的素材全部来源于网络，如有侵权，请联系删除</text>
+  </view>
+</view>
+
+<view>
+
+</view>

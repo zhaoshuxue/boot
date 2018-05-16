@@ -11,6 +11,7 @@ Page({
     baseUrl: '',
     windowWidth: 0,
     dataList: [],
+    id: 0,
     hasLast: false,
     hasNext: false,
     lastAlbumId: 0,
@@ -23,7 +24,8 @@ Page({
   onLoad: function (options) {
     var baseUrl = wx.getStorageSync('baseUrl')
     this.setData({
-      baseUrl: baseUrl
+      baseUrl: baseUrl,
+      id: options.id
     })
     this.getData(options.id);
   },
@@ -82,8 +84,17 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (res) {
+    return {
+      title: '精选趣图',
+      path: '/pages/detail/index?id=' + this.data.id,
+      success: function (res) {
+        // 转发成功
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
   },
 
   // ******************************************

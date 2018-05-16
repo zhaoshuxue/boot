@@ -4,7 +4,8 @@
     "pages/home/index",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/detail/index"
+    "pages/detail/index",
+    "pages/about/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -27,8 +28,8 @@
         "text": "精选趣图"
       },
       {
-        "pagePath": "pages/logs/logs",
-        "text": "我的收藏"
+        "pagePath": "pages/about/index",
+        "text": "关于我"
       }
     ]
   }

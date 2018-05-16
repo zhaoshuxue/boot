@@ -1,7 +1,7 @@
 /* pages/detail/index.wxss */
 
 page {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Microsoft YaHei;
 }
 
 /*  */
@@ -72,13 +72,17 @@ page {
 
 .toolbar .goto-home {
   border-left: 1px solid #d9d9d9;
-  border-right: 1px solid #d9d9d9;
+  /* border-right: 1px solid #d9d9d9; */
 }
 
 .toolbar .share button {
   display: inline-block;
   padding-left: 0;
   padding-right: 0;
+  font-size: 40rpx;
+  line-height: 1;
+  border: 0;
+  overflow: visible;
 }
 
 /* 底部操作栏end */

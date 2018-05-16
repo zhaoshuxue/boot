@@ -4,6 +4,7 @@ page {
   /* background-color: #f6f6f6;  */
   /* background-color: #f6f8f8; */
   background-color: #F2F2F2;
+  font-family: Microsoft YaHei;
 }
 
 /* .flex-wrp {display: flex;} */
@@ -49,6 +50,7 @@ page {
   /* border-top: 1px solid #ddd; */
    /* border-bottom: 1px solid #dddddd;   */
   background-color: #fff;
+  color: #5A6580;
   height: 450rpx;
   overflow: hidden;
    margin-top: 30rpx; 

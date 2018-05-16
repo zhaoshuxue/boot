@@ -1,15 +1,16 @@
 /* pages/detail/index.wxss */
 
 page {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #F2F2F2;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: Microsoft YaHei;
+  background-color: #f2f2f2;
 }
 
 /*  */
 
 .item {
   margin-top: 30rpx;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .item .main {
@@ -24,6 +25,21 @@ page {
 
 .item .main .item-pic image {
   width: 100%;
+}
+
+.item .main .item-title .sign {
+  height: 20rpx;
+  width: 20rpx;
+  margin-top: 10rpx;
+  margin-right: 6rpx;
+  background-color: #329b64;
+  /* border-radius: 50%; */
+  float: left;
+  transform: rotate(45deg);
+}
+
+.item .main .item-title .title {
+  float: left;
 }
 
 /* 按钮 start */
