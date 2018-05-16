@@ -4,6 +4,7 @@ import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
+import com.zsx.vo.app.ImageComment;
 
 import java.util.Map;
 
@@ -25,5 +26,7 @@ public interface FunAlbumService {
     AlbumDetail getAlbumData(Long albumId);
 
     PageData<AlbumData> getFunHotImagePageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
+    ImageComment getImageComment(Long id);
 
 }

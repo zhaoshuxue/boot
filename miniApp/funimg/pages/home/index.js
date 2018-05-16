@@ -106,9 +106,9 @@ Page({
   gotoImage: function (event) {
     var id = event.currentTarget.dataset.id;
     console.log(id)
-    // wx.navigateTo({
-    //   url: '/pages/detail/index?id=' + id
-    // })
+    wx.navigateTo({
+      url: '/pages/comment/index?id=' + id
+    })
   },
 
   /**

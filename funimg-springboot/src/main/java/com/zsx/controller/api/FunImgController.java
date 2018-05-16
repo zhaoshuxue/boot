@@ -6,6 +6,7 @@ import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
+import com.zsx.vo.app.ImageComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,5 +68,14 @@ public class FunImgController {
         PageData<AlbumData> pageData = funAlbumService.getFunHotImagePageList(search, pageNum, pageSize);
         return pageData;
     }
+
+    @GetMapping("/imgComment")
+    public ImageComment getCommentData(
+            @RequestParam(defaultValue = "0") Long id
+    ) {
+        ImageComment comment = funAlbumService.getImageComment(id);
+        return comment;
+    }
+
 
 }

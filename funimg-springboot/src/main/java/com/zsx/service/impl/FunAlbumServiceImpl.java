@@ -19,6 +19,7 @@ import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
+import com.zsx.vo.app.ImageComment;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -187,5 +188,37 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         pageData.setPageNum(pageInfo.getPageNum());
         pageData.setPageSize(pageInfo.getPageSize());
         return pageData;
+    }
+
+
+    @Override
+    public ImageComment getImageComment(Long id) {
+        ImageComment comment = new ImageComment();
+
+        FunAlbumDetail funAlbumDetail = funAlbumDetailDao.selectByPrimaryKey(id);
+
+        AlbumData albumData = new AlbumData();
+
+        albumData.setId(funAlbumDetail.getId());
+        albumData.setTitle(funAlbumDetail.getTitle());
+        String imgIds = funAlbumDetail.getImgUuids();
+        String[] imageIds = imgIds.split("!@#");
+        for (String imageId : imageIds) {
+            FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
+            if (funImages == null) {
+                continue;
+            }
+            AlbumData.ImageList imageList = AlbumData.imgListBuilder()
+                    .imgUrl(funImages.getImgUrl())
+                    .type(funImages.getImgType())
+                    .width(funImages.getWidth())
+                    .height(funImages.getHeight());
+
+            albumData.addImgList(imageList);
+        }
+
+        comment.setImgData(albumData);
+
+        return comment;
     }
 }
