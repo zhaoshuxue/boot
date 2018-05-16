@@ -18,7 +18,6 @@
         <tomcat.version>8.5.23</tomcat.version>
         <guava.version>20.0</guava.version>
 
-
     </properties>
 
     <parent>

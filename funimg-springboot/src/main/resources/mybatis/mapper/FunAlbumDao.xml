@@ -49,7 +49,7 @@
     </select>
 
 
-    <select id="getLastAlbumId">
+    <select id="getLastAlbumId" resultType="java.lang.Long">
         SELECT
           id
         FROM fun_album
@@ -60,7 +60,7 @@
         limit 1
     </select>
 
-    <select id="getNextAlbumId">
+    <select id="getNextAlbumId" resultType="java.lang.Long">
         SELECT
         id
         FROM fun_album

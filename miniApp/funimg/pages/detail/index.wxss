@@ -11,7 +11,7 @@ page {
 }
 
 .item .main {
-  padding: 0rpx 10rpx;
+  padding: 0rpx 5px;
 }
 
 .item .main .item-title {
@@ -23,6 +23,27 @@ page {
 .item .main .item-pic image {
   width: 100%;
 }
+
+/* 按钮 start */
+
+.btn-view {
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 20rpx;
+  padding-bottom: 22rpx;
+}
+
+.btn-view button {
+  display: inline-block;
+  margin-left: 18rpx;
+  margin-right: 18rpx;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 16px;
+  line-height: 2;
+}
+
+/* 按钮 end */
 
 /* 底部操作栏start */
 
@@ -42,6 +63,22 @@ page {
 .toolbar .goto-back {
   width: 100%;
   padding: 25rpx 0;
+}
+
+.toolbar .goto-home {
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+}
+
+.toolbar .goto-home {
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+}
+
+.toolbar .share button {
+  display: inline-block;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* 底部操作栏end */

@@ -3,7 +3,6 @@ package com.zsx.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.zsx.entity.FunAlbum;
 import com.zsx.entity.FunAlbumDetail;
 import com.zsx.entity.FunImages;
@@ -20,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,13 +69,13 @@ public class FunAlbumServiceImpl implements FunAlbumService {
     public AlbumDetail getAlbumData(Long albumId) {
 
         FunAlbum funAlbum = funAlbumDao.selectByPrimaryKey(albumId);
-        if (funAlbum == null){
+        if (funAlbum == null) {
             return null;
         }
         List<AlbumData> resultData = Lists.newArrayList();
 
         List<FunAlbumDetail> funAlbumDetails = funAlbumDetailDao.selectByAlbumId(albumId);
-        if (CollectionUtils.isEmpty(funAlbumDetails)){
+        if (CollectionUtils.isEmpty(funAlbumDetails)) {
             return null;
         }
 
@@ -93,7 +90,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             String[] imageIds = imgUuids.split("!@#");
             for (String imageId : imageIds) {
                 FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
-                if (funImages == null){
+                if (funImages == null) {
                     continue;
                 }
                 AlbumData.ImageList imageList = AlbumData.imgListBuilder()
@@ -108,6 +105,13 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             resultData.add(albumData);
         }
 
-        return new AlbumDetail(funAlbum.getTitle(), resultData);
+        AlbumDetail albumDetail = new AlbumDetail(albumId, funAlbum.getTitle(), resultData);
+
+        Long lastAlbumId = funAlbumDao.getLastAlbumId(funAlbum.getPublishDate());
+        Long nextAlbumId = funAlbumDao.getNextAlbumId(funAlbum.getPublishDate());
+
+        albumDetail.setLastAlbumId(lastAlbumId);
+        albumDetail.setNextAlbumId(nextAlbumId);
+        return albumDetail;
     }
 }

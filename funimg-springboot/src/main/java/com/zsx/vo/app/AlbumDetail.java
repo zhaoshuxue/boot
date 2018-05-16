@@ -8,14 +8,42 @@ import java.util.List;
  */
 public class AlbumDetail implements Serializable {
 
+    private Long albumId;
+    private Long lastAlbumId;
+    private Long nextAlbumId;
     private String title;
 
     private List<AlbumData> albumData;
 
 
-    public AlbumDetail(String title, List<AlbumData> albumData) {
+    public AlbumDetail(Long albumId, String title, List<AlbumData> albumData) {
+        this.albumId = albumId;
         this.title = title;
         this.albumData = albumData;
+    }
+
+    public Long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Long albumId) {
+        this.albumId = albumId;
+    }
+
+    public Long getLastAlbumId() {
+        return lastAlbumId;
+    }
+
+    public void setLastAlbumId(Long lastAlbumId) {
+        this.lastAlbumId = lastAlbumId;
+    }
+
+    public Long getNextAlbumId() {
+        return nextAlbumId;
+    }
+
+    public void setNextAlbumId(Long nextAlbumId) {
+        this.nextAlbumId = nextAlbumId;
     }
 
     public String getTitle() {

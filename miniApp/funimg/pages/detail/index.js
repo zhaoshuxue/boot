@@ -10,7 +10,11 @@ Page({
   data: {
     baseUrl: '',
     windowWidth: 0,
-    dataList: []
+    dataList: [],
+    hasLast: false,
+    hasNext: false,
+    lastAlbumId: 0,
+    nextAlbumId: 0
   },
 
   /**
@@ -29,52 +33,17 @@ Page({
    */
   onReady: function () {
     var that = this;
-
-    let list = tableData.dataList;
-    // console.log(list)
-
-    for(var i=0,len=list.length; i<len;i++){
-      var obj = list[i];
-      var imgList = obj.imgList;
-      // console.log(imgList)
-      for(var j=0,size=imgList.length; j<size; j++){
-        var img = imgList[j];
-        // console.log(img.type)
-        // 当是mp4时需要特殊处理
-        if(img.type == 'mp4'){
-          // console.log(img)
-          // 计算视频要展示的高度
-          var a = that.data.windowWidth * 2 - 10 * 2;
-          var h = parseInt(a / img.width * img.height);
-          // img.h = h;
-          img.nh = "height: "+h+"rpx";
-        }
-      }
-    }
-    
-    // console.log(list)
-    // 初始化数据
-    // this.setData({
-    //   dataList: list
-    // });
-
-    
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 设置当前页面的标题
-    wx.setNavigationBarTitle({
-      title: 'shuxue'
-    })
     var that = this;
     wx.getSystemInfo({
       success: function (res) {
         var windowWidth = res.windowWidth;
         console.log("屏幕宽度为：" + windowWidth);
-        // var h = parseInt(windowWidth / 8.64 * 6)
         that.setData({
           windowWidth: windowWidth
         });
@@ -122,14 +91,28 @@ Page({
   // ******************************************
 
   /**
-   * 跳转到详情页面
+   * 跳转到图片评论页面
    */
-  gotoDetail: function (event) {
+  gotoImage: function (event) {
     var id = event.currentTarget.dataset.id;
     console.log(id)
     // wx.navigateTo({
     //   url: '/pages/detail/index?id=' + id
     // })
+  },
+
+  /**
+   * 跳转到其它详情页面
+   */
+  gotoLast: function (event) {
+    wx.navigateTo({
+      url: '/pages/detail/index?id=' + this.data.lastAlbumId
+    })
+  },
+  gotoNext: function (event) {
+    wx.navigateTo({
+      url: '/pages/detail/index?id=' + this.data.nextAlbumId
+    })
   },
 
   getData: function (id) {
@@ -159,10 +142,10 @@ Page({
               if (img.type == 4) {
                 // console.log(img)
                 // 计算视频要展示的高度
-                var a = that.data.windowWidth * 2 - 10 * 2;
+                var a = that.data.windowWidth - 10;
                 var h = parseInt(a / img.width * img.height);
                 // img.h = h;
-                img.nh = "height: " + h + "rpx";
+                img.nh = "height: " + h + "px";
               }
             }
           }
@@ -176,6 +159,27 @@ Page({
             title: res.data.title
           })
 
+          let lastAlbumId = res.data.lastAlbumId;
+          let nextAlbumId = res.data.nextAlbumId;
+
+          let hasLast = false;
+          if (lastAlbumId){
+            hasLast= true;
+          }
+
+          let hasNext = false;
+          if (nextAlbumId) {
+            hasNext = true;
+          }
+
+          that.setData({
+            hasLast: hasLast,
+            hasNext: hasNext,
+            lastAlbumId: lastAlbumId,
+            nextAlbumId: nextAlbumId
+          });
+
+
         }
       },
       fail: (res) => {
@@ -188,7 +192,12 @@ Page({
   goBack: function () {
     wx.navigateBack()
   },
-
+  /** 跳到首页 */ 
+  gotoHome: function(){
+    wx.switchTab({
+      url: '/pages/everyday/index'
+    })
+  },
 
   imageLoad: function (e) {
     // console.log(e)
