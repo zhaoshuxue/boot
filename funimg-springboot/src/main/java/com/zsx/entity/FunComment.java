@@ -10,7 +10,7 @@ public class FunComment implements Serializable {
 
     private String openid;
 
-    private Long commentId;
+    private String toOpenid;
 
     private String text;
 
@@ -54,12 +54,12 @@ public class FunComment implements Serializable {
         this.openid = openid == null ? null : openid.trim();
     }
 
-    public Long getCommentId() {
-        return commentId;
+    public String getToOpenid() {
+        return toOpenid;
     }
 
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+    public void setToOpenid(String toOpenid) {
+        this.toOpenid = toOpenid;
     }
 
     public String getText() {
@@ -135,7 +135,7 @@ public class FunComment implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", albumDetailId=").append(albumDetailId);
         sb.append(", openid=").append(openid);
-        sb.append(", commentId=").append(commentId);
+        sb.append(", toOpenid=").append(toOpenid);
         sb.append(", text=").append(text);
         sb.append(", del=").append(del);
         sb.append(", createTime=").append(createTime);

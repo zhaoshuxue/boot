@@ -6,29 +6,19 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.zsx.entity.FunAlbum;
-import com.zsx.entity.FunAlbumDetail;
-import com.zsx.entity.FunHotImages;
-import com.zsx.entity.FunImages;
-import com.zsx.ext.FunAlbumDao;
-import com.zsx.ext.FunAlbumDetailDao;
-import com.zsx.ext.FunHotImagesDao;
-import com.zsx.ext.FunImagesDao;
+import com.google.common.collect.Sets;
+import com.zsx.entity.*;
+import com.zsx.ext.*;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
-import com.zsx.vo.app.AlbumData;
-import com.zsx.vo.app.AlbumDetail;
-import com.zsx.vo.app.AlbumList;
-import com.zsx.vo.app.ImageComment;
+import com.zsx.vo.app.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by highness on 2018/5/10 0010.
@@ -44,6 +34,10 @@ public class FunAlbumServiceImpl implements FunAlbumService {
     private FunImagesDao funImagesDao;
     @Autowired
     private FunHotImagesDao funHotImagesDao;
+    @Autowired
+    private FunWxUserDao funWxUserDao;
+    @Autowired
+    private FunCommentDao funCommentDao;
 
 
     @Override
@@ -157,7 +151,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             albumData = new AlbumData();
 
             FunAlbumDetail funAlbumDetail = funAlbumDetailMap.get(funHotImage.getLinkId());
-            if (funAlbumDetail == null){
+            if (funAlbumDetail == null) {
                 continue;
             }
 
@@ -218,7 +212,72 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         }
 
         comment.setImgData(albumData);
-
+        List<Comment> commentList = this.getImageCommentList(id);
+        if (CollectionUtils.isNotEmpty(commentList)) {
+            comment.setComments(commentList);
+        }
         return comment;
+    }
+
+
+    @Override
+    public List<Comment> getImageCommentList(Long albumDetailId) {
+        List<Comment> commentResult = Lists.newArrayList();
+        HashMap<String, Object> params = Maps.newHashMap();
+        params.put("del", 0);
+        params.put("albumDetailId", albumDetailId);
+//        PageHelper.startPage(1, 50, "create_time desc");
+        PageHelper.startPage(1, 50);
+        List<FunComment> funComments = funCommentDao.selectByParams(params);
+
+        if (CollectionUtils.isEmpty(funComments)){
+            return commentResult;
+        }
+
+        Set<String> openIdSet = Sets.newHashSet();
+        for (FunComment funComment : funComments) {
+            openIdSet.add(funComment.getOpenid());
+            if (StringUtils.isNotBlank(funComment.getToOpenid())) {
+                openIdSet.add(funComment.getToOpenid());
+            }
+        }
+
+        params.clear();
+        params.put("openids", Lists.newArrayList(openIdSet));
+        List<FunWxUser> funWxUsers = funWxUserDao.selectByParams(params);
+
+        HashMap<String, FunWxUser> wxUserMap = Maps.newHashMap();
+
+        for (FunWxUser funWxUser : funWxUsers) {
+            wxUserMap.put(funWxUser.getOpenid(), funWxUser);
+        }
+
+        Comment comment;
+        for (FunComment funComment : funComments) {
+            comment = new Comment();
+
+            comment.setAlbumDetailId(albumDetailId);
+            comment.setCommentId(funComment.getId());
+            comment.setFromUser(funComment.getOpenid());
+            comment.setToUser(funComment.getToOpenid());
+            comment.setText(funComment.getText());
+//            comment.setCreateTime(String.valueOf(funComment.getCreateTime()));
+
+            FunWxUser funWxUser = wxUserMap.get(funComment.getOpenid());
+            if (funWxUser != null) {
+                comment.setNickName(funWxUser.getNickName());
+                comment.setHeadImg(funWxUser.getAvatarUrl());
+
+                if (StringUtils.isNotBlank(funComment.getToOpenid())) {
+                    funWxUser = wxUserMap.get(funComment.getToOpenid());
+                    if (funWxUser != null) {
+                        comment.setToNickName(funWxUser.getNickName());
+                    }
+                }
+
+                commentResult.add(comment);
+            }
+        }
+        return commentResult;
     }
 }

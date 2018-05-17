@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="album_detail_id" property="albumDetailId" jdbcType="BIGINT" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
-    <result column="comment_id" property="commentId" jdbcType="BIGINT" />
+    <result column="to_openid" property="toOpenid" jdbcType="VARCHAR" />
     <result column="text" property="text" jdbcType="VARCHAR" />
     <result column="del" property="del" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -16,7 +16,7 @@
     <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, album_detail_id, openid, comment_id, text, del, create_time, update_time, creator_id, 
+    id, album_detail_id, openid, to_openid, text, del, create_time, update_time, creator_id,
     creator_name, updater_id, updater_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -33,11 +33,11 @@
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into fun_comment (album_detail_id, openid, comment_id, 
+    insert into fun_comment (album_detail_id, openid, to_openid,
       text, del, create_time, 
       update_time, creator_id, creator_name, 
       updater_id, updater_name)
-    values (#{albumDetailId,jdbcType=BIGINT}, #{openid,jdbcType=VARCHAR}, #{commentId,jdbcType=BIGINT}, 
+    values (#{albumDetailId,jdbcType=BIGINT}, #{openid,jdbcType=VARCHAR}, #{toOpenid,jdbcType=VARCHAR},
       #{text,jdbcType=VARCHAR}, #{del,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=VARCHAR}, #{creatorName,jdbcType=VARCHAR}, 
       #{updaterId,jdbcType=VARCHAR}, #{updaterName,jdbcType=VARCHAR})
@@ -54,8 +54,8 @@
       <if test="openid != null" >
         openid,
       </if>
-      <if test="commentId != null" >
-        comment_id,
+      <if test="toOpenid != null" >
+        to_openid,
       </if>
       <if test="text != null" >
         text,
@@ -89,8 +89,8 @@
       <if test="openid != null" >
         #{openid,jdbcType=VARCHAR},
       </if>
-      <if test="commentId != null" >
-        #{commentId,jdbcType=BIGINT},
+      <if test="toOpenid != null" >
+        #{toOpenid,jdbcType=VARCHAR},
       </if>
       <if test="text != null" >
         #{text,jdbcType=VARCHAR},
@@ -127,8 +127,8 @@
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
       </if>
-      <if test="commentId != null" >
-        comment_id = #{commentId,jdbcType=BIGINT},
+      <if test="toOpenid != null" >
+        to_openid = #{toOpenid,jdbcType=VARCHAR},
       </if>
       <if test="text != null" >
         text = #{text,jdbcType=VARCHAR},
@@ -161,7 +161,7 @@
     update fun_comment
     set album_detail_id = #{albumDetailId,jdbcType=BIGINT},
       openid = #{openid,jdbcType=VARCHAR},
-      comment_id = #{commentId,jdbcType=BIGINT},
+      to_openid = #{toOpenid,jdbcType=VARCHAR},
       text = #{text,jdbcType=VARCHAR},
       del = #{del,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

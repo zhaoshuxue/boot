@@ -1,11 +1,9 @@
 package com.zsx.service;
 
 import com.zsx.util.PageData;
-import com.zsx.vo.app.AlbumData;
-import com.zsx.vo.app.AlbumDetail;
-import com.zsx.vo.app.AlbumList;
-import com.zsx.vo.app.ImageComment;
+import com.zsx.vo.app.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,5 +26,7 @@ public interface FunAlbumService {
     PageData<AlbumData> getFunHotImagePageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
 
     ImageComment getImageComment(Long id);
+
+    List<Comment> getImageCommentList(Long albumDetailId);
 
 }
