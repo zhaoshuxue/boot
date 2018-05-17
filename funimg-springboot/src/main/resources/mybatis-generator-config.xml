@@ -59,7 +59,7 @@
 
         <!-- 配置表信息 -->
         <!---->
-        <table tableName="fun_hot_images" domainObjectName="FunHotImages"
+        <table tableName="fun_wx_user" domainObjectName="FunWxUser"
 
                enableSelectByExample="false"
                enableCountByExample="false"

@@ -1,17 +1,8 @@
 package com.zsx.dao;
 
 import com.zsx.entity.FunImages;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface FunImagesMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(FunImages record);
-
-    int insertSelective(FunImages record);
-
-    FunImages selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(FunImages record);
-
-    int updateByPrimaryKey(FunImages record);
+@Mapper
+public interface FunImagesMapper extends BaseDao<FunImages> {
 }

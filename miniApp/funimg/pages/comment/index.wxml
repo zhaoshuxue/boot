@@ -1,7 +1,7 @@
 <!--pages/comment/index.wxml-->
 
-<open-data type="userAvatarUrl"></open-data>
-<open-data type="userNickName"></open-data>
+<!-- <open-data type="userAvatarUrl"></open-data>
+<open-data type="userNickName"></open-data> -->
 
 <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
 <view wx:else>请升级微信版本</view>
@@ -39,9 +39,29 @@ muted=true
 
 <!--  -->
 <view>
+  <view>
+    <view>精彩评论</view>
+  </view>
   <view wx:for="{{commentList}}" wx:for-item="item" wx:key="">
-
-    <view>{{item.text}}</view>
+    <view>
+      <!-- 头像图片 -->
+      <view>
+        <image style='width:60rpx; height: 60rpx;' src="{{item.headImg}}" background-size="cover"></image>
+      </view>
+      <!-- 内容 -->
+      <view>
+        <text>{{item.nickName}}</text>
+        <text wx:if="{{item.toUser}}">回复</text>
+        <text wx:if="{{item.toUser}}">{{item.toUser}}</text>
+        
+        <text>：</text>
+        <view>
+          {{item.text}}
+        </view>
+      
+      </view>
+    
+    </view>
   
   </view>
 

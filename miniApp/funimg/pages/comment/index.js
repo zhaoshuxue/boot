@@ -1,4 +1,7 @@
 // pages/comment/index.js
+
+var url = "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIWl3N2owM0L0cshibLpDzNicfO8GXLo1jg6ibekNgQNIIjAqbUWgvVUia7eSXv633CNDB4LGHrib5AVng/132";
+
 Page({
 
   /**
@@ -13,14 +16,13 @@ Page({
       imgList: []
     },
     commentList: [
-      { text: "asdf" },
-      { text: "asdf" },
-      { text: "asdf" },
-      { text: "asdf" },
-      { text: "asdf" }
+      { nickName: "AAAA", headImg: url, toUser: "", text: "11111" },
+      { nickName: "BBBB", headImg: url, toUser: "", text: "2222" },
+      { nickName: "BBBB", headImg: url, toUser: "AAAA", text: "333" },
+      { nickName: "C33C", headImg: url, toUser: "BBBB", text: "4444" }
     ],
     id: 0,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: false // wx.canIUse('button.open-type.getUserInfo')
   },
 
   /**
@@ -32,7 +34,7 @@ Page({
       baseUrl: baseUrl,
       id: options.id
     })
-    this.getData(options.id);
+    // this.getData(options.id);
   },
 
   /**
