@@ -294,11 +294,21 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             funWxUser.setOpenid(comment.getFromUser());
             funWxUser.setNickName(comment.getNickName());
             funWxUser.setAvatarUrl(comment.getHeadImg());
+            funWxUser.setCountry("");
+            funWxUser.setProvince("");
+            funWxUser.setCity("");
+            funWxUser.setLanguage("");
+            funWxUser.setGender(0);
             funWxUser.setDel(0);
             funWxUser.setCreateTime(new Date());
             funWxUser.setUpdateTime(new Date());
+            funWxUser.setCreatorId("");
+            funWxUser.setCreatorName("");
+            funWxUser.setUpdaterId("");
+            funWxUser.setUpdaterName("");
 
-            funWxUserDao.insert(funWxUser);
+
+            funWxUserDao.insertSelective(funWxUser);
         }else{
             funWxUser = funWxUsers.get(0);
         }
@@ -312,8 +322,12 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         funComment.setDel(0);
         funComment.setCreateTime(new Date());
         funComment.setUpdateTime(new Date());
+        funComment.setCreatorId("");
+        funComment.setCreatorName("");
+        funComment.setUpdaterId("");
+        funComment.setUpdaterName("");
 
-        funCommentDao.insert(funComment);
+        funCommentDao.insertSelective(funComment);
 
         return null;
     }
