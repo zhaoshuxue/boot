@@ -1,13 +1,5 @@
 <!--pages/comment/index.wxml-->
 
-<!-- <open-data type="userAvatarUrl"></open-data>
-<open-data type="userNickName"></open-data> -->
-
-<button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
-<view wx:else>请升级微信版本</view>
-
-{{canIUse}}
-
 <!--  -->
 <view class="" style="flex-direction:column;">
   <view class="item">
@@ -38,27 +30,23 @@ muted=true
 </view>
 
 <!--  -->
-<view>
-  <view>
-    <view>精彩评论</view>
+<view class='comment'>
+  <view class='jcpl'>
+    <view class='txt'>精彩评论</view>
   </view>
   <view wx:for="{{commentList}}" wx:for-item="item" wx:key="">
-    <view>
+    <view class='comments' style="flex-direction:row;">
       <!-- 头像图片 -->
-      <view>
+      <view class='head'>
         <image style='width:60rpx; height: 60rpx;' src="{{item.headImg}}" background-size="cover"></image>
       </view>
       <!-- 内容 -->
-      <view>
-        <text>{{item.nickName}}</text>
-        <text wx:if="{{item.toUser}}">回复</text>
-        <text wx:if="{{item.toUser}}">{{item.toUser}}</text>
-        
-        <text>：</text>
-        <view>
-          {{item.text}}
-        </view>
-      
+      <view class='content'>
+         <view class='nick-name' bindtap="replyUser" data-openid="{{item.fromUser}}"  data-name="{{item.nickName}}">{{item.nickName}}</view>
+         <view class='' wx:if="{{item.toUser}}">回复</view> 
+         <view class='nick-name' wx:if="{{item.toNickName}}" bindtap="replyUser" data-openid="{{item.toUser}}" data-name="{{item.toNickName}}">{{item.toNickName}}</view> 
+         <view class=''>：</view> 
+         <view class='text'>{{item.text}}</view>
       </view>
     
     </view>
@@ -73,11 +61,9 @@ muted=true
   <button type="primary" plain="true" bindtap="gotoNext" wx:if="{{hasNext}}">查看下一篇</button>
 </view>
 
-
-<view class="talk" bindtap="bindReply">回复</view>
-
+<!--  -->
 <view class="release" hidden="{{!releaseFocus}}">
-  <textarea class="text" 
+  <textarea class="text"  wx:if="{{userInfo}}"
       placeholder-class="input_null" 
       fixed="true" 
       maxlength="-1" 
@@ -85,18 +71,19 @@ muted=true
       cursor-spacing="15" 
       auto-height="true" 
       focus="{{releaseFocus}}" 
-      placeholder="回复 {{releaseName}}">
+      placeholder="{{placeholderText}}">
   </textarea>
   
-  <view class="submit" wx:if="{{canIUse}}">发送</view>
-  <view wx:else>评论？需先登录</view>
+  <view class="submit" wx:if="{{userInfo}}">发送</view>
+  <button wx:else open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录后才能评论</button>
 </view>
 
 
-<view style="height:100rpx;">
+<view style="height:200rpx;">
   <!--占位-->
 </view>
 <cover-view class="toolbar">
   <cover-view class="goto-back" bindtap="goBack">返回</cover-view>
+  <cover-view class="goto-back goto-comment" bindtap="bindReply">评论</cover-view>
   <cover-view class="goto-back goto-home" bindtap="gotoHome">首页</cover-view>
 </cover-view>

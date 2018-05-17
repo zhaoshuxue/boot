@@ -16,7 +16,9 @@ Page({
     commentList: [],
     id: 0,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    releaseFocus: true
+    userInfo: null,
+    releaseFocus: false,
+    placeholderText: "评论"
   },
 
   /**
@@ -24,9 +26,11 @@ Page({
    */
   onLoad: function (options) {
     var baseUrl = wx.getStorageSync('baseUrl')
+    var userInfo = wx.getStorageSync('userInfo')
     this.setData({
       baseUrl: baseUrl,
-      id: options.id
+      id: options.id,
+      userInfo: userInfo
     })
     this.getData(options.id);
   },
@@ -51,11 +55,11 @@ Page({
   },
 
   bindGetUserInfo: function (e) {
-    
     console.log(e.detail.userInfo)
     this.setData({
-      canIUse: false
+      userInfo: e.detail.userInfo
     })
+    wx.setStorageSync('userInfo', e.detail.userInfo)
   },
 
   /**
@@ -158,9 +162,9 @@ Page({
           }
           
 
-          // that.setData({
-          //   imgData: imgData
-          // });
+          that.setData({
+            imgData: imgData
+          });
 
           //          设置当前页面的标题
           // wx.setNavigationBarTitle({
@@ -201,6 +205,21 @@ Page({
   bindReply: function (e) {
     this.setData({
       releaseFocus: true
+    })
+  },
+
+  // 
+  replyUser: function (event){
+    var openid = event.currentTarget.dataset.openid;
+    var nickName = event.currentTarget.dataset.name;
+    // console.log(openid)
+    // console.log(nickName)
+
+    console.log(this.data.userInfo)
+
+    this.setData({
+      releaseFocus: true,
+      placeholderText: "回复" + nickName + "："
     })
   }
 

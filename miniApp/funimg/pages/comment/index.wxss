@@ -65,14 +65,9 @@ page {
   padding: 25rpx 0;
 }
 
-.toolbar .goto-home {
+.toolbar .goto-comment {
   border-left: 1px solid #d9d9d9;
   border-right: 1px solid #d9d9d9;
-}
-
-.toolbar .goto-home {
-  border-left: 1px solid #d9d9d9;
-  /* border-right: 1px solid #d9d9d9; */
 }
 
 .toolbar .share button {
@@ -87,6 +82,45 @@ page {
 
 /* 底部操作栏end */
 
+/* 评论 start */
+.comment {
+  margin-top: 30rpx;
+}
+
+.comment .jcpl {
+  border-bottom: 1px solid #cfcfcf;
+}
+
+.comment .jcpl .txt{
+  color: #333;
+  font-weight: 600;
+}
+
+/*  */
+
+.comments {
+  display:flex;
+  flex-direction:row;
+  border-bottom: 1px dotted #ccc;
+  padding: 16rpx 2rpx;
+}
+
+.comments .head{
+  overflow: hidden;
+}
+
+.comments .content{
+  width: 100%;
+}
+
+.comments .content view{
+  display: inline;
+}
+
+.comments .content .nick-name{
+  color: #596689;
+}
+/* 评论 end */
 
 /*  */
 
@@ -129,4 +163,14 @@ page {
   line-height: 64rpx;
   text-align: center;
   color: #6c0;
+}
+
+.release .login-btn button {
+  display: inline-block;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 40rpx;
+  line-height: 1;
+  border: 0;
+  overflow: visible;
 }
