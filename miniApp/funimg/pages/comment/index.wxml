@@ -63,7 +63,10 @@ muted=true
 
 <!--  -->
 <view class="release" hidden="{{!releaseFocus}}">
-  <textarea class="text"  wx:if="{{userInfo}}"
+  <form bindsubmit="formSubmit">
+    <textarea class="text"  wx:if="{{userInfo}}"
+      value="{{textareaTxt}}"
+      bindblur="getVal"
       placeholder-class="input_null" 
       fixed="true" 
       maxlength="-1" 
@@ -72,10 +75,12 @@ muted=true
       auto-height="true" 
       focus="{{releaseFocus}}" 
       placeholder="{{placeholderText}}">
-  </textarea>
-  
-  <view class="submit" wx:if="{{userInfo}}">发送</view>
-  <button wx:else open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录后才能评论</button>
+    </textarea>
+
+    <button class="submit" formType="submit" type="primary" size="mini" wx:if="{{userInfo}}">发送</button>
+    <!-- <view class="submit" bindtap='sendMsg' wx:if="{{userInfo}}">发送</view> -->
+    <button wx:else open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录后才能评论</button>
+  </form>
 </view>
 
 

@@ -1,17 +1,15 @@
 package com.zsx.controller.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.zsx.service.FunAlbumService;
+import com.zsx.util.HttpUtil;
 import com.zsx.util.PageData;
-import com.zsx.vo.app.AlbumData;
-import com.zsx.vo.app.AlbumDetail;
-import com.zsx.vo.app.AlbumList;
-import com.zsx.vo.app.ImageComment;
+import com.zsx.vo.app.*;
+import com.zsx.vo.json.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -22,6 +20,14 @@ import java.util.HashMap;
 @RequestMapping(path = "/api/funimg")
 @RestController
 public class FunImgController {
+
+    /**
+     * 配置文件中的配置
+     */
+    @Value("${miniapp.appId}")
+    private String appId;
+    @Value("${miniapp.appsecret}")
+    private String appsecret;
 
     @Autowired
     private FunAlbumService funAlbumService;
@@ -77,5 +83,48 @@ public class FunImgController {
         return comment;
     }
 
+
+//    @ApiOperation(value = "获取小程序用户openid", notes = "", httpMethod = "GET")
+    @GetMapping("/getOpenId")
+    public String getOpenId(
+//            @ApiParam(value = "code")
+            @RequestParam(value = "code") String code
+    ) {
+        try {
+            String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" +
+                    appId + "&secret=" +
+                    appsecret + "&js_code=" +
+                    code + "&grant_type=authorization_code";
+            String str = HttpUtil.httpGet(url);
+            JSONObject object = JSONObject.parseObject(str);
+            String openid = object.getString("openid");
+            return openid;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @PostMapping("addComment")
+    public JsonData addFavorite(
+//            @ApiParam(value = "用户openid")
+            @RequestParam(value = "openid") String openid,
+            @RequestParam(value = "toOpenid", defaultValue = "") String toOpenid,
+            @RequestParam(value = "nickName", defaultValue = "") String nickName,
+            @RequestParam(value = "head", defaultValue = "") String head,
+            @RequestParam(value = "text", defaultValue = "") String text,
+//            @ApiParam(value = "房屋id")
+            @RequestParam(value = "id") Long id
+    ) {
+        Comment comment = new Comment();
+
+        comment.setFromUser(openid);
+        comment.setToUser(toOpenid);
+        comment.setNickName(nickName);
+        comment.setHeadImg(head);
+        comment.setAlbumDetailId(id);
+        comment.setText(text);
+
+        return funAlbumService.addComment(comment);
+    }
 
 }

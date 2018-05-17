@@ -12,6 +12,7 @@ import com.zsx.ext.*;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.*;
+import com.zsx.vo.json.JsonData;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -279,5 +280,41 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             }
         }
         return commentResult;
+    }
+
+    @Override
+    public JsonData addComment(Comment comment) {
+        HashMap<String, Object> params = Maps.newHashMap();
+        params.put("openid", comment.getFromUser());
+        List<FunWxUser> funWxUsers = funWxUserDao.selectByParams(params);
+        FunWxUser funWxUser;
+        if (CollectionUtils.isEmpty(funWxUsers)){
+            funWxUser = new FunWxUser();
+
+            funWxUser.setOpenid(comment.getFromUser());
+            funWxUser.setNickName(comment.getNickName());
+            funWxUser.setAvatarUrl(comment.getHeadImg());
+            funWxUser.setDel(0);
+            funWxUser.setCreateTime(new Date());
+            funWxUser.setUpdateTime(new Date());
+
+            funWxUserDao.insert(funWxUser);
+        }else{
+            funWxUser = funWxUsers.get(0);
+        }
+
+        FunComment funComment = new FunComment();
+
+        funComment.setAlbumDetailId(comment.getAlbumDetailId());
+        funComment.setOpenid(comment.getFromUser());
+        funComment.setToOpenid(comment.getToUser());
+        funComment.setText(comment.getText());
+        funComment.setDel(0);
+        funComment.setCreateTime(new Date());
+        funComment.setUpdateTime(new Date());
+
+        funCommentDao.insert(funComment);
+
+        return null;
     }
 }

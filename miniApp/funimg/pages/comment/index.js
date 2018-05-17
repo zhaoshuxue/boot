@@ -17,8 +17,11 @@ Page({
     id: 0,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userInfo: null,
+    openid: '',
+    toOpenid: '',
     releaseFocus: false,
-    placeholderText: "评论"
+    placeholderText: "评论",
+    commentValue: ''
   },
 
   /**
@@ -32,6 +35,7 @@ Page({
       id: options.id,
       userInfo: userInfo
     })
+    this.getOpenId()
     this.getData(options.id);
   },
 
@@ -219,8 +223,114 @@ Page({
 
     this.setData({
       releaseFocus: true,
+      toOpenid: openid,
       placeholderText: "回复" + nickName + "："
     })
+  },
+
+  sendMsg: function(e){
+    console.log('sendMsg')
+  },
+
+  formSubmit: function(e){
+
+    console.log('formSubmit')
+
+    var baseUrl = this.data.baseUrl
+    var that = this;
+
+    console.log(that.data.userInfo)
+
+
+    var openid = that.data.openid;
+    var toOpenid = that.data.toOpenid;
+    var nickName = that.data.userInfo.nickName;
+    var head = that.data.userInfo.avatarUrl;
+    var text = that.data.commentValue;
+    var id = that.data.id;
+
+    wx.request({
+      url: baseUrl + '/funimg/api/funimg/addComment',
+      method: 'POST',
+      data: {
+        openid: openid,
+        toOpenid: toOpenid,
+        nickName: nickName,
+        head: head,
+        text: text,
+        id: id
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res)
+        return;
+        // if (res.data) {
+        //   wx.showToast({
+        //     title: res.data.message
+        //   })
+        //   that.setData({
+        //     starUrl: 'http://highness.qiniudn.com/star_2.ico',
+        //     starTxt: '已收藏',
+        //     star: true
+        //   })
+        // }
+      },
+      fail: function (res) {
+        wx.showModal({
+          title: '收藏失败',
+          content: '网络连接失败，请检查',
+          showCancel: false
+        })
+      }
+    })
+  },
+
+  getVal: function (e) {
+    console.log(e.detail.value)
+    this.setData({
+      commentValue: e.detail.value
+    })
+  },
+
+
+  /**
+   * 获取openid
+   */
+  getOpenId: function () {
+    var that = this;
+    var openid = wx.getStorageSync('openid')
+    // console.info('openid : ' + openid)
+    if (openid == '') {
+      var baseUrl = this.data.baseUrl
+      var code = wx.getStorageSync('login_code');
+      if (code != '') {
+        wx.request({
+          url: baseUrl + '/funimg/api/funimg/getOpenId',
+          data: {
+            code: code
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success: (res) => {
+            // console.log(res)
+            if (res.data) {
+              // 保存openid，用于用户的收藏操作
+              wx.setStorageSync('openid', res.data)
+              that.setData({
+                openid: openid
+              })
+            }
+          }
+        })
+      }
+    }else{
+      this.setData({
+        openid: openid
+      })
+    }
   }
 
 

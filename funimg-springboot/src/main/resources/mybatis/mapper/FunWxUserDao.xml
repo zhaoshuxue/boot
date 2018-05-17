@@ -30,6 +30,10 @@
             <if test="search.del != null">
                 and del = #{search.del,jdbcType=INTEGER}
             </if>
+
+            <if test="search.openid != null">
+                and openid = #{search.openid,jdbcType=VARCHAR}
+            </if>
             <if test="search.openids != null and search.openids.size() > 0">
                 and openid in
                 <foreach item="item" index="index" collection="search.openids" open="(" separator="," close=")">

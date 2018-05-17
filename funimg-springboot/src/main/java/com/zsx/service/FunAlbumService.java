@@ -2,6 +2,7 @@ package com.zsx.service;
 
 import com.zsx.util.PageData;
 import com.zsx.vo.app.*;
+import com.zsx.vo.json.JsonData;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +29,7 @@ public interface FunAlbumService {
     ImageComment getImageComment(Long id);
 
     List<Comment> getImageCommentList(Long albumDetailId);
+
+    JsonData addComment(Comment comment);
 
 }
