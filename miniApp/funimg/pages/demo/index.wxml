@@ -1,0 +1,19 @@
+<!--pages/demo/index.wxml-->
+<text>pages/demo/index.wxml</text>
+
+<view class="talk" bindtap="bindReply">回复</view>
+
+<view class="release" hidden="{{!releaseFocus}}">
+  <textarea class="text" 
+      placeholder-class="input_null" 
+      fixed="true" 
+      maxlength="-1" 
+      show-confirm-bar="false" 
+      cursor-spacing="15" 
+      auto-height="true" 
+      focus="{{releaseFocus}}" 
+      placeholder="回复 {{releaseName}}">
+  </textarea>
+  
+  <view class="submit">发送</view>
+</view>

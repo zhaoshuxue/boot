@@ -58,6 +58,12 @@
 					"name": "评论",
 					"pathName": "pages/comment/index",
 					"query": "id=10000"
+				},
+				{
+					"id": -1,
+					"name": "demo",
+					"pathName": "pages/demo/index",
+					"query": ""
 				}
 			]
 		}

@@ -96,6 +96,11 @@ Page({
    */
   gotoDetail: function (event) {
     var id = event.currentTarget.dataset.id;
+
+    // wx.navigateTo({
+    //   url: '/pages/demo/index'
+    // })
+
     wx.navigateTo({
       url: '/pages/detail/index?id=' + id
     })
