@@ -19,9 +19,11 @@ Page({
     userInfo: null,
     openid: '',
     toOpenid: '',
+    toNickName: '',
     releaseFocus: false,
     placeholderText: "评论",
-    commentValue: ''
+    commentValue: '',
+    submitDisabled: true
   },
 
   /**
@@ -35,7 +37,7 @@ Page({
       id: options.id,
       userInfo: userInfo
     })
-    this.getOpenId()
+    
     this.getData(options.id);
   },
 
@@ -80,6 +82,8 @@ Page({
         });
       }
     })
+//  获取用户的openid
+    this.getOpenId()
   },
 
   /**
@@ -224,12 +228,9 @@ Page({
     this.setData({
       releaseFocus: true,
       toOpenid: openid,
+      toNickName: nickName,
       placeholderText: "回复" + nickName + "："
     })
-  },
-
-  sendMsg: function(e){
-    console.log('sendMsg')
   },
 
   formSubmit: function(e){
@@ -241,13 +242,40 @@ Page({
 
     console.log(that.data.userInfo)
 
-
     var openid = that.data.openid;
+    if (openid == '') {
+      wx.showModal({
+        title: '错误',
+        content: '您未登录，请退出后重新操作',
+        showCancel: false
+      })
+      return;
+    }
     var toOpenid = that.data.toOpenid;
     var nickName = that.data.userInfo.nickName;
     var head = that.data.userInfo.avatarUrl;
+    if (nickName == '') {
+      wx.showModal({
+        title: '提示',
+        content: '您未登录，请点击授权登录',
+        showCancel: false
+      })
+      that.setData({
+        userInfo: null
+      })
+      return;
+    }
     var text = that.data.commentValue;
     var id = that.data.id;
+
+
+    
+
+    
+
+    
+
+    // return;
 
     wx.request({
       url: baseUrl + '/funimg/api/funimg/addComment',
@@ -265,21 +293,52 @@ Page({
       },
       success: function (res) {
         console.log(res)
-        return;
-        // if (res.data) {
-        //   wx.showToast({
-        //     title: res.data.message
-        //   })
-        //   that.setData({
-        //     starUrl: 'http://highness.qiniudn.com/star_2.ico',
-        //     starTxt: '已收藏',
-        //     star: true
-        //   })
-        // }
+
+        
+
+        if (res.data && res.data.code == 200) {
+          // wx.showToast({
+          //   title: '评论成功' // res.data.message
+          // })
+
+          let commentList = that.data.commentList;
+          // console.log(commentList)
+
+          let newComment = {
+            fromUser: openid,
+            headImg: head,
+            nickName: nickName,
+            text: text,
+            toNickName: that.data.toNickName,
+            toUser: toOpenid
+          }
+
+          commentList.push(newComment)
+
+          that.setData({
+            releaseFocus: false,
+            toOpenid: '',
+            toNickName: '',
+            placeholderText: "评论",
+            commentList: commentList,
+            commentValue: '',
+            submitDisabled: true
+          })
+
+//        滚动到最底
+          wx.createSelectorQuery().select('#commentID').boundingClientRect(function (rect) {
+            // var res = wx.getSystemInfoSync()
+            // if (rect.height > res.screenHeight){
+              wx.pageScrollTo({
+                scrollTop: rect.height
+              })
+            // }
+          }).exec()
+        }
       },
       fail: function (res) {
         wx.showModal({
-          title: '收藏失败',
+          title: '评论失败',
           content: '网络连接失败，请检查',
           showCancel: false
         })
@@ -287,13 +346,23 @@ Page({
     })
   },
 
-  getVal: function (e) {
-    console.log(e.detail.value)
+
+  bindinputFun: function(e){
+    // console.log(e)
+
+    var value = e.detail.value, len = parseInt(value.length);
+    if (len == 0){
+      this.setData({
+        submitDisabled: true
+      })
+      return;
+    }
+
     this.setData({
-      commentValue: e.detail.value
+      commentValue: value,
+      submitDisabled: false
     })
   },
-
 
   /**
    * 获取openid
@@ -301,7 +370,7 @@ Page({
   getOpenId: function () {
     var that = this;
     var openid = wx.getStorageSync('openid')
-    // console.info('openid : ' + openid)
+    console.info('openid : ' + openid)
     if (openid == '') {
       var baseUrl = this.data.baseUrl
       var code = wx.getStorageSync('login_code');
@@ -318,9 +387,9 @@ Page({
             // console.log(res)
             if (res.data) {
               // 保存openid，用于用户的收藏操作
-              wx.setStorageSync('openid', res.data)
+              wx.setStorageSync('openid', res.data.data)
               that.setData({
-                openid: openid
+                openid: res.data.data
               })
             }
           }

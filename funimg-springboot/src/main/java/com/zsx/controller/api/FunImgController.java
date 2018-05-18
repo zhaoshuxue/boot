@@ -7,6 +7,7 @@ import com.zsx.util.HttpUtil;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.*;
 import com.zsx.vo.json.JsonData;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -86,7 +87,7 @@ public class FunImgController {
 
 //    @ApiOperation(value = "获取小程序用户openid", notes = "", httpMethod = "GET")
     @GetMapping("/getOpenId")
-    public String getOpenId(
+    public JsonData getOpenId(
 //            @ApiParam(value = "code")
             @RequestParam(value = "code") String code
     ) {
@@ -98,9 +99,9 @@ public class FunImgController {
             String str = HttpUtil.httpGet(url);
             JSONObject object = JSONObject.parseObject(str);
             String openid = object.getString("openid");
-            return openid;
+            return JsonData.returnObject(openid);
         } catch (Exception e) {
-            return "";
+            return JsonData.fail("");
         }
     }
 
@@ -113,8 +114,14 @@ public class FunImgController {
             @RequestParam(value = "head", defaultValue = "") String head,
             @RequestParam(value = "text", defaultValue = "") String text,
 //            @ApiParam(value = "房屋id")
-            @RequestParam(value = "id") Long id
+            @RequestParam(value = "id", defaultValue = "0") Long id
     ) {
+        if (StringUtils.isBlank(openid)){
+            return JsonData.fail("");
+        }
+        if (StringUtils.isBlank(text)){
+            return JsonData.fail("");
+        }
         Comment comment = new Comment();
 
         comment.setFromUser(openid);

@@ -329,6 +329,6 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
         funCommentDao.insertSelective(funComment);
 
-        return null;
+        return JsonData.returnObject(comment);
     }
 }

@@ -30,7 +30,7 @@ muted=true
 </view>
 
 <!--  -->
-<view class='comment'>
+<view class='comment' id="commentID">
   <view class='jcpl'>
     <view class='txt'>精彩评论</view>
   </view>
@@ -46,7 +46,7 @@ muted=true
          <view class='' wx:if="{{item.toUser}}">回复</view> 
          <view class='nick-name' wx:if="{{item.toNickName}}" bindtap="replyUser" data-openid="{{item.toUser}}" data-name="{{item.toNickName}}">{{item.toNickName}}</view> 
          <view class=''>：</view> 
-         <view class='text'>{{item.text}}</view>
+         <text class='text'>{{item.text}}</text>
       </view>
     
     </view>
@@ -56,20 +56,15 @@ muted=true
 </view>
 
 
-<view class='btn-view'>
-  <button type="primary" plain="true" bindtap="gotoLast" wx:if="{{hasLast}}">查看上一篇</button>
-  <button type="primary" plain="true" bindtap="gotoNext" wx:if="{{hasNext}}">查看下一篇</button>
-</view>
-
 <!--  -->
 <view class="release" hidden="{{!releaseFocus}}">
-  <form bindsubmit="formSubmit">
+  <form style='width:95%' bindsubmit="formSubmit">
     <textarea class="text"  wx:if="{{userInfo}}"
-      value="{{textareaTxt}}"
-      bindblur="getVal"
+      value="{{commentValue}}"
+      bindinput="bindinputFun"
       placeholder-class="input_null" 
       fixed="true" 
-      maxlength="-1" 
+      maxlength="200" 
       show-confirm-bar="false" 
       cursor-spacing="15" 
       auto-height="true" 
@@ -77,9 +72,10 @@ muted=true
       placeholder="{{placeholderText}}">
     </textarea>
 
-    <button class="submit" formType="submit" type="primary" size="mini" wx:if="{{userInfo}}">发送</button>
-    <!-- <view class="submit" bindtap='sendMsg' wx:if="{{userInfo}}">发送</view> -->
-    <button wx:else open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录后才能评论</button>
+    <view style='text-align: center' wx:if="{{userInfo}}">
+      <button class="submit" formType="submit" type="primary" disabled="{{submitDisabled}}">发送</button>
+    </view>
+    <button style='width:98%' type="primary" plain="true" wx:else open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录后才能评论</button>
   </form>
 </view>
 

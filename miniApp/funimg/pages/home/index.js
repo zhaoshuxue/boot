@@ -33,6 +33,7 @@ Page({
    */
   onReady: function () {
     var that = this;
+    
   },
 
   /**
@@ -291,5 +292,37 @@ Page({
 
   imageLoad: function (e) {
     // console.log(e)
+  },
+
+
+  /**
+   * 获取openid
+   */
+  getOpenId: function () {
+    var that = this;
+    var openid = wx.getStorageSync('openid')
+    console.info('openid : ' + openid)
+    if (openid == '') {
+      var baseUrl = this.data.baseUrl
+      var code = wx.getStorageSync('login_code');
+      if (code != '') {
+        wx.request({
+          url: baseUrl + '/funimg/api/funimg/getOpenId',
+          data: {
+            code: code
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success: (res) => {
+            // console.log(res)
+            if (res.data) {
+              // 保存openid，用于用户的收藏操作
+              wx.setStorageSync('openid', res.data)
+            }
+          }
+        })
+      }
+    }
   }
 })
