@@ -145,7 +145,7 @@ page {
 }
 
 .release .text {
-  width: 98%;
+  width: 604rpx;
   min-height: 34rpx;
   max-height: 102rpx; /*最多显示三行*/
   border-width: 15rpx 20rpx; /*使用padding与预期留白不一致，故使用border*/
@@ -158,11 +158,11 @@ page {
 }
 
 .release .submit {
+  width: 116rpx;
   height: 64rpx;
-  width: 45%;
-  font-size: 38rpx;
   line-height: 64rpx;
   text-align: center;
+  color: #6c0;
 }
 
 .release .login-btn button {

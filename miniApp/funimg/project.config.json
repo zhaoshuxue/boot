@@ -57,7 +57,7 @@
 					"id": 3,
 					"name": "评论",
 					"pathName": "pages/comment/index",
-					"query": "id=10005"
+					"query": "id=10004"
 				},
 				{
 					"id": -1,
