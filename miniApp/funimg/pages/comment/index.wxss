@@ -158,11 +158,10 @@ page {
 }
 
 .release .submit {
-  width: 116rpx;
+  width: 45%;
   height: 64rpx;
   line-height: 64rpx;
   text-align: center;
-  color: #6c0;
 }
 
 .release .login-btn button {
