@@ -3,17 +3,15 @@
     "pages/everyday/index",
     "pages/home/index",
     "pages/index/index",
-    "pages/logs/logs",
     "pages/detail/index",
     "pages/about/index",
-    "pages/comment/index",
-    "pages/demo/index"
+    "pages/comment/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#000000",
     "navigationBarTitleText": "精选趣图",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#7A7E83",

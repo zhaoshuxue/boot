@@ -1,10 +1,5 @@
 /* pages/about/index.wxss */
-/* page{
-  text-align: center;
-  padding: 24rpx;
-} */
 
-/**index.wxss**/
 .userinfo {
   display: flex;
   flex-direction: column;

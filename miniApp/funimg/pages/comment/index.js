@@ -1,10 +1,6 @@
 // pages/comment/index.js
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     baseUrl: '',
     windowWidth: 0,
@@ -15,7 +11,6 @@ Page({
     },
     commentList: [],
     id: 0,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userInfo: null,
     openid: '',
     toOpenid: '',
@@ -45,23 +40,13 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    // 查看是否授权
-    // wx.getSetting({
-    //   success: function (res) {
-    //     if (res.authSetting['scope.userInfo']) {
-    //       // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-    //       wx.getUserInfo({
-    //         success: function (res) {
-    //           console(res.userInfo)
-    //         }
-    //       })
-    //     }
-    //   }
-    // })  
+    
   },
 
+  /**
+   * 点击授权操作
+   */
   bindGetUserInfo: function (e) {
-    console.log(e.detail.userInfo)
     this.setData({
       userInfo: e.detail.userInfo
     })
@@ -75,10 +60,8 @@ Page({
     var that = this;
     wx.getSystemInfo({
       success: function (res) {
-        var windowWidth = res.windowWidth;
-        console.log("屏幕宽度为：" + windowWidth);
         that.setData({
-          windowWidth: windowWidth
+          windowWidth: res.windowWidth
         });
       }
     })
@@ -149,7 +132,7 @@ Page({
         'content-type': 'application/json'
       },
       success: (res) => {
-        console.log(res)
+        // console.log(res)
 
         if (res.data && res.data.imgData && res.data.imgData.imgList && res.data.imgData.imgList.length > 0) {
           var imgData = res.data.imgData;
@@ -157,29 +140,20 @@ Page({
 
           for (var j = 0, size = imgList.length; j < size; j++) {
             var img = imgList[j];
-            // console.log(img.type)
             // 当是mp4时需要特殊处理
             if (img.type == 4) {
-              // console.log(img)
               // 计算视频要展示的高度
               var a = that.data.windowWidth - 10;
               var h = parseInt(a / img.width * img.height);
-              // img.h = h;
               img.nh = "height: " + h + "px";
             }
           }
           
-
           that.setData({
             imgData: imgData
           });
-
-          //          设置当前页面的标题
-          // wx.setNavigationBarTitle({
-          //   title: imgData.title
-          // })
         }
-
+        // 评论列表
         if (res.data && res.data.comments && res.data.comments.length > 0){
           that.setData({
             commentList: res.data.comments
@@ -187,7 +161,11 @@ Page({
         }
       },
       fail: (res) => {
-
+        wx.showModal({
+          title: '错误',
+          content: '网络连接失败，请检查',
+          showCancel: false
+        })
       }
     })
   },
@@ -216,14 +194,12 @@ Page({
     })
   },
 
-  // 
+  /**
+   * 点击 评论中 用户名 的函数
+   */
   replyUser: function (event){
     var openid = event.currentTarget.dataset.openid;
     var nickName = event.currentTarget.dataset.name;
-    // console.log(openid)
-    // console.log(nickName)
-
-    console.log(this.data.userInfo)
 
     this.setData({
       releaseFocus: true,
@@ -233,15 +209,12 @@ Page({
     })
   },
 
+  /**
+   * 表单提交
+   */
   formSubmit: function(e){
-
-    console.log('formSubmit')
-
     var baseUrl = this.data.baseUrl
     var that = this;
-
-    console.log(that.data.userInfo)
-
     var openid = that.data.openid;
     if (openid == '') {
       wx.showModal({
@@ -268,15 +241,6 @@ Page({
     var text = that.data.commentValue;
     var id = that.data.id;
 
-
-    
-
-    
-
-    
-
-    // return;
-
     wx.request({
       url: baseUrl + '/funimg/api/funimg/addComment',
       method: 'POST',
@@ -292,18 +256,13 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        console.log(res)
-
-        
-
+        // console.log(res)
         if (res.data && res.data.code == 200) {
           // wx.showToast({
           //   title: '评论成功' // res.data.message
           // })
 
           let commentList = that.data.commentList;
-          // console.log(commentList)
-
           let newComment = {
             fromUser: openid,
             headImg: head,
@@ -312,7 +271,6 @@ Page({
             toNickName: that.data.toNickName,
             toUser: toOpenid
           }
-
           commentList.push(newComment)
 
           that.setData({
@@ -346,10 +304,10 @@ Page({
     })
   },
 
-
+  /**
+   * 输入绑定事件
+   */
   bindinputFun: function(e){
-    // console.log(e)
-
     var value = e.detail.value, len = parseInt(value.length);
     if (len == 0){
       this.setData({
@@ -370,7 +328,7 @@ Page({
   getOpenId: function () {
     var that = this;
     var openid = wx.getStorageSync('openid')
-    console.info('openid : ' + openid)
+    // console.info('openid : ' + openid)
     if (openid == '') {
       var baseUrl = this.data.baseUrl
       var code = wx.getStorageSync('login_code');
@@ -401,6 +359,5 @@ Page({
       })
     }
   }
-
 
 })

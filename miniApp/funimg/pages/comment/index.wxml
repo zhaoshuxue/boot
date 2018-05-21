@@ -1,11 +1,9 @@
 <!--pages/comment/index.wxml-->
 
-<!--  -->
-<view class="" style="flex-direction:column;">
+<!-- 展示 -->
+<view style="flex-direction:column;">
   <view class="item">
-
     <view class="main">
-
       <view class='item-title'>{{imgData.title}}</view>
       <view class='item-pic' wx:for="{{imgData.imgList}}" wx:for-item="img" wx:key="">
         <view wx:if="{{img.type != 4}}">
@@ -13,23 +11,18 @@
         </view>
         <view wx:if="{{img.type == 4}}">
           <video src='{{img.imgUrl}}' style='width:100%;  {{img.nh}}'
-
 controls='{{false}}'
 autoplay=true
 loop=true
 muted=true
-
-
 ></video>
-
         </view>
-
       </view>
     </view>
   </view>
 </view>
 
-<!--  -->
+<!-- 评论展示 -->
 <view class='comment' id="commentID">
   <view class='jcpl'>
     <view class='txt'>精彩评论</view>
@@ -38,7 +31,7 @@ muted=true
     <view class='comments' style="flex-direction:row;">
       <!-- 头像图片 -->
       <view class='head'>
-        <image style='width:60rpx; height: 60rpx;' src="{{item.headImg}}" background-size="cover"></image>
+        <image src="{{item.headImg}}" background-size="cover"></image>
       </view>
       <!-- 内容 -->
       <view class='content'>
@@ -48,15 +41,12 @@ muted=true
          <view class=''>：</view> 
          <text class='text'>{{item.text}}</text>
       </view>
-    
     </view>
-  
   </view>
-
 </view>
 
 
-<!--  -->
+<!-- 评论输入区域 -->
 <view class="release" hidden="{{!releaseFocus}}">
   <form style='width:95%' bindsubmit="formSubmit">
     <textarea class="text"  wx:if="{{userInfo}}"

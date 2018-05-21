@@ -5,7 +5,6 @@ page {
 }
 
 /*  */
-
 .item {
   margin-top: 30rpx;
 }
@@ -24,29 +23,8 @@ page {
   width: 100%;
 }
 
-/* 按钮 start */
-
-.btn-view {
-  margin: 0 auto;
-  text-align: center;
-  padding-top: 20rpx;
-  padding-bottom: 22rpx;
-}
-
-.btn-view button {
-  display: inline-block;
-  margin-left: 18rpx;
-  margin-right: 18rpx;
-  padding-left: 8px;
-  padding-right: 8px;
-  font-size: 16px;
-  line-height: 2;
-}
-
-/* 按钮 end */
 
 /* 底部操作栏start */
-
 .toolbar {
   position: fixed;
   bottom: 0;
@@ -82,6 +60,7 @@ page {
 
 /* 底部操作栏end */
 
+
 /* 评论 start */
 .comment {
   margin-top: 30rpx;
@@ -96,8 +75,6 @@ page {
   font-weight: 600;
 }
 
-/*  */
-
 .comments {
   display:flex;
   flex-direction:row;
@@ -107,6 +84,11 @@ page {
 
 .comments .head{
   overflow: hidden;
+}
+
+.comments .head image{
+  width: 52rpx;
+  height: 52rpx;
 }
 
 .comments .content{
@@ -122,9 +104,7 @@ page {
 }
 /* 评论 end */
 
-/*  */
-
-
+/* 输入框 start */
 .input_null {
   color: #c9c9c9;
 }
@@ -173,3 +153,5 @@ page {
   border: 0;
   overflow: visible;
 }
+
+/* 输入框 end */

@@ -1,9 +1,6 @@
 // pages/detail/index.js
 
-var tableData = require('../../data/detailList.js');
-
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -34,7 +31,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    var that = this;
+    
   },
 
   /**
@@ -45,7 +42,7 @@ Page({
     wx.getSystemInfo({
       success: function (res) {
         var windowWidth = res.windowWidth;
-        console.log("屏幕宽度为：" + windowWidth);
+        // console.log("屏幕宽度为：" + windowWidth);
         that.setData({
           windowWidth: windowWidth
         });
@@ -106,7 +103,6 @@ Page({
    */
   gotoImage: function (event) {
     var id = event.currentTarget.dataset.id;
-    console.log(id)
     wx.navigateTo({
       url: '/pages/comment/index?id=' + id
     })
@@ -126,6 +122,9 @@ Page({
     })
   },
 
+  /** 
+   * 获取详细数据
+   */
   getData: function (id) {
     var that = this;
     var baseUrl = that.data.baseUrl;
@@ -138,7 +137,7 @@ Page({
         'content-type': 'application/json'
       },
       success: (res) => {
-        console.log(res)
+        // console.log(res)
 
         if (res.data && res.data.albumData.length > 0) {
           var list = res.data.albumData;
@@ -148,14 +147,11 @@ Page({
             // list[i].index = i+1;
             for (var j = 0, size = imgList.length; j < size; j++) {
               var img = imgList[j];
-              // console.log(img.type)
               // 当是mp4时需要特殊处理
               if (img.type == 4) {
-                // console.log(img)
                 // 计算视频要展示的高度
                 var a = that.data.windowWidth - 10;
                 var h = parseInt(a / img.width * img.height);
-                // img.h = h;
                 img.nh = "height: " + h + "px";
               }
             }
@@ -165,7 +161,7 @@ Page({
             dataList: list
           });
 
-          //          设置当前页面的标题
+          // 设置当前页面的标题
           wx.setNavigationBarTitle({
             title: res.data.title
           })
@@ -189,12 +185,14 @@ Page({
             lastAlbumId: lastAlbumId,
             nextAlbumId: nextAlbumId
           });
-
-
         }
       },
       fail: (res) => {
-
+        wx.showModal({
+          title: '错误',
+          content: '网络连接失败，请检查',
+          showCancel: false
+        })
       }
     })
   },

@@ -1,41 +1,35 @@
 <!--pages/detail/index.wxml-->
 
-
-<!--  -->
-<view class="" style="flex-direction:column;">
+<!-- 图文列表展示 -->
+<view style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:for-item="item" wx:for-index="idx" wx:key="">
-
     <view class="main" bindtap="gotoImage" data-id="{{item.id}}">
-
       <view class='item-title'>【{{idx+1}}】{{item.title}}</view>
       <view class='item-pic' wx:for="{{item.imgList}}" wx:for-item="img" wx:key="">
         <view wx:if="{{img.type != 4}}">
           <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
         </view>
-        <view wx:if="{{img.type == 4}}">
+        <view wx:if="{{img.type == 4}}" >
           <video src='{{img.imgUrl}}' style='width:100%;  {{img.nh}}'
-
+           
 controls='{{false}}'
 autoplay=true
 loop=true
 muted=true
-
-
-></video>
-
+>
+  <cover-view style='width:100%;  {{img.nh}}' bindtap="gotoImage" data-id="{{item.id}}"></cover-view>
+</video>
         </view>
-
       </view>
     </view>
   </view>
 </view>
 
+<!-- 操作按钮 -->
 <view class='btn-view'>
   <button type="primary" plain="true" bindtap="gotoLast" wx:if="{{hasLast}}">查看上一篇</button>
   <button type="primary" plain="true" bindtap="gotoNext" wx:if="{{hasNext}}">查看下一篇</button>
 </view>
-
-
 
 
 <view style="height:100rpx;">

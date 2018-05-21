@@ -1,11 +1,9 @@
 /* pages/detail/index.wxss */
-
 page {
   font-family: Microsoft YaHei;
 }
 
-/*  */
-
+/* list start */
 .item {
   margin-top: 30rpx;
 }
@@ -23,6 +21,7 @@ page {
 .item .main .item-pic image {
   width: 100%;
 }
+/* list end  */
 
 /* 按钮 start */
 
@@ -67,12 +66,6 @@ page {
 
 .toolbar .goto-home {
   border-left: 1px solid #d9d9d9;
-  border-right: 1px solid #d9d9d9;
-}
-
-.toolbar .goto-home {
-  border-left: 1px solid #d9d9d9;
-  /* border-right: 1px solid #d9d9d9; */
 }
 
 .toolbar .share button {
@@ -84,5 +77,4 @@ page {
   border: 0;
   overflow: visible;
 }
-
 /* 底部操作栏end */

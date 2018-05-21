@@ -33,13 +33,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": -1,
 			"list": [
 				{
 					"id": 0,
 					"name": "详情页面",
 					"pathName": "pages/detail/index",
-					"query": "id=10013"
+					"query": "id=10014"
 				},
 				{
 					"id": -1,
@@ -57,7 +57,7 @@
 					"id": 3,
 					"name": "评论",
 					"pathName": "pages/comment/index",
-					"query": "id=10004"
+					"query": "id=1"
 				},
 				{
 					"id": -1,

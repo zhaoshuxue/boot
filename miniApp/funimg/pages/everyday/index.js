@@ -11,6 +11,7 @@ Page({
       pageSize: 6
     },
     pages: 0,
+    nomore: true,
     dataList: []
   },
 
@@ -25,7 +26,6 @@ Page({
 
     // 开始加载数据
     this.loadData(1)
-
   },
 
   /**
@@ -73,9 +73,9 @@ Page({
     if (pageNum < pages) {
       this.loadData(pageNum + 1);
       if (pageNum + 1 == pages) {
-        // this.setData({
-        //   nomore: false
-        // })
+        this.setData({
+          nomore: false
+        })
       }
     }
   },
@@ -96,11 +96,6 @@ Page({
    */
   gotoDetail: function (event) {
     var id = event.currentTarget.dataset.id;
-
-    // wx.navigateTo({
-    //   url: '/pages/demo/index'
-    // })
-
     wx.navigateTo({
       url: '/pages/detail/index?id=' + id
     })
@@ -116,12 +111,6 @@ Page({
     wx.showLoading({
       title: '努力加载中'
     })
-    if (pageNum == 1) {
-      // 第一次加载时，把没有更多信息的提示隐藏掉
-      // that.setData({
-      //   nomore: true
-      // })
-    }
 
     var $param = this.data.params;
 
@@ -131,9 +120,6 @@ Page({
       params: $param
     })
 
-    // console.log('搜索参数为：')
-    // console.log($param)
-
     wx.request({
       url: baseUrl + '/funimg/api/funimg/lists',
       method: 'GET',
@@ -142,17 +128,9 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log(res)
-
+        // console.log(res)
         var list = res.data.list;
         if (list != null && list.length > 0) {
-
-          // for (var i = 0, len = list.length; i < len; i++) {
-          //   if (list[i].imgUrl == null || list[i].imgUrl == '') {
-          //     list[i].imgUrl = '/images/noimage.jpg'
-          //   }
-          // }
-
           var newDataList = list;
           if (pageNum > 1) {
             let dataList = that.data.dataList;
@@ -162,21 +140,10 @@ Page({
           that.setData({
             dataList: newDataList
           });
-        } else {
-          // 没有数据则清空列表
-          that.setData({
-            dataList: []
-          })
-          wx.showModal({
-            title: '',
-            content: '没有查到符合条件的数据，请修改过滤条件后重试', // todo
-            showCancel: false
-          })
         }
 
         wx.hideLoading()
-        console.log("总页数: " + res.data.pages)
-
+        // console.log("总页数: " + res.data.pages)
         that.setData({
           pages: res.data.pages
         })

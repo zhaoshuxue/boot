@@ -1,12 +1,8 @@
 <!--pages/detail/index.wxml-->
-
-
-<!--  -->
+<!-- 精选列表 -->
 <view class="" style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:for-item="item" wx:key="">
-
     <view class="main" bindtap="gotoImage" data-id="{{item.id}}">
-
       <view class='item-title'>
         <view class='sign'></view>
         <view class='title'>{{item.title}}</view>
@@ -16,19 +12,21 @@
           <image mode="widthFix" bindload='imageLoad' src="{{img.imgUrl}}"></image>
         </view>
         <view wx:if="{{img.type == 4}}">
-          <video src='{{img.imgUrl}}' style='width:100%;  {{img.nh}}'
-
-controls='{{false}}'
-autoplay=true
-loop=true
-muted=true
-
-
-></video>
-
+          <video src='{{img.imgUrl}}' style='width:100%;  {{img.nh}}' 
+          controls='{{false}}' 
+          autoplay=true 
+          loop=true 
+          muted=true 
+          >
+            <cover-view style='width:100%;  {{img.nh}}' bindtap="gotoImage" data-id="{{item.id}}"></cover-view>
+          </video>
         </view>
-
       </view>
     </view>
   </view>
+</view>
+
+<!-- 底部提示信息 -->
+<view class="btm-view" hidden="{{nomore}}">
+  <text>没有更多信息了</text>
 </view>

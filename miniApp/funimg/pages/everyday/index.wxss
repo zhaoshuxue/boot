@@ -1,13 +1,11 @@
 /* pages/everyday/index.wxss */
 
 page {
-  /* background-color: #f6f6f6;  */
-  /* background-color: #f6f8f8; */
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   font-family: Microsoft YaHei;
 }
 
-/* .flex-wrp {display: flex;} */
+/* header start  */
 
 .header {
   height: 41rpx;
@@ -28,33 +26,18 @@ page {
 .header .logo-text {
   float: left;
   width: 65%;
-  font-family: suxingme,"Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
 }
 
-.bc_green {
-  background: green;
-  width: 100%;
-}
+/* header end  */
 
-.bc_red2 {
-  background: red;
-  width: 100%;
-}
 
-.bc_blue3 {
-  background: blue;
-  width: 100%;
-}
-
+/* 列表 start  */
 .item {
-  /* border-top: 1px solid #ddd; */
-   /* border-bottom: 1px solid #dddddd;   */
   background-color: #fff;
-  color: #5A6580;
+  color: #5a6580;
   height: 450rpx;
   overflow: hidden;
-   margin-top: 30rpx; 
-  /* margin: 25rpx 10rpx 10rpx 10rpx; */
+  margin-top: 30rpx;
 }
 
 .item .item-title {
@@ -70,4 +53,18 @@ page {
 .item-pic image {
   width: 720rpx;
   height: 410rpx;
+}
+
+/* 列表 end  */
+
+
+/* 底部提示文字样式 */
+
+.btm-view {
+  color: #a4a9b0;
+  font-size: 24rpx;
+  text-align: center;
+  padding: 018rpx;
+  border-top: 1rpx solid #bbb;
+  margin-top: 20rpx;
 }

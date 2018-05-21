@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 头部 -->
 <view class='header'>
   <view class='logo'>
     <image mode="scaleToFill" src="/images/logo.png"></image>
@@ -6,7 +6,7 @@
   <view class='logo-text'>给你一个天天开心的理由</view>
 </view>
 
-<!--  -->
+<!-- 列表 -->
 <view style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:key="">
     <view class="main" bindtap="gotoDetail" data-id="{{item.albumId}}">
@@ -19,4 +19,7 @@
 </view>
 
 
-<!-- end -->
+<!-- 底部提示信息 -->
+<view class="btm-view" hidden="{{nomore}}">
+  <text>没有更多信息了</text>
+</view>
