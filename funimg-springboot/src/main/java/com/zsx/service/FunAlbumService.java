@@ -1,5 +1,6 @@
 package com.zsx.service;
 
+import com.zsx.entity.FunAlbum;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.*;
 import com.zsx.vo.json.JsonData;
@@ -21,6 +22,10 @@ public interface FunAlbumService {
      * @return
      */
     PageData<AlbumList> getFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
+
+    PageData<FunAlbum> queryFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
 
     AlbumDetail getAlbumData(Long albumId);
 

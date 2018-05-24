@@ -16,7 +16,7 @@ public class IndexController {
     public String toIndex(Model model){
 
         model.addAttribute("name", "xue");
-        return "index";
+        return "albumPage/albumList";
     }
 
 }

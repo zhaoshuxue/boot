@@ -69,6 +69,18 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         return pageData;
     }
 
+    @Override
+    public PageData<FunAlbum> queryFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize, "publish_date desc");
+        List<FunAlbum> funAlbums = funAlbumDao.selectByParams(search);
+        PageInfo pageInfo = new PageInfo(funAlbums);
+
+        PageData pageData = new PageData(pageInfo.getTotal(), pageInfo.getPages(), funAlbums);
+        pageData.setPageNum(pageInfo.getPageNum());
+        pageData.setPageSize(pageInfo.getPageSize());
+        return pageData;
+    }
 
     @Override
     public AlbumDetail getAlbumData(Long albumId) {
