@@ -37,4 +37,10 @@ public interface FunAlbumService {
 
     JsonData addComment(Comment comment);
 
+//    *******************************************************************
+//    web页面接口
+//    *******************************************************************
+
+    JsonData addAlbum(FunAlbum funAlbum);
+
 }

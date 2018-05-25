@@ -5,11 +5,16 @@ import com.zsx.entity.FunAlbum;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.AlbumList;
+import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -38,9 +43,35 @@ public class AlbumController {
     ) {
         HashMap<String, Object> search = Maps.newHashMap();
         search.put("del", 0);
-        search.put("status", 0);
         PageData<FunAlbum> pageData = funAlbumService.queryFunAlbumPageList(search, pageNum, pageSize);
         JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
         return jsonTable;
+    }
+
+
+    @PostMapping("add")
+    @ResponseBody
+    public JsonData addAlbum(
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "imgUrl") String imgUrl,
+            @RequestParam(value = "publish_date") String publish_date
+    ) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+        DateTime publishDate = DateTime.parse(publish_date, formatter);
+
+        FunAlbum funAlbum = new FunAlbum();
+        funAlbum.setPublishDate(publishDate.toDate());
+        funAlbum.setTitle(title);
+        funAlbum.setImgUuid("");
+        funAlbum.setImgUrl(imgUrl);
+        funAlbum.setStatus(1);
+        funAlbum.setDel(0);
+        funAlbum.setCreateTime(new Date());
+        funAlbum.setUpdateTime(new Date());
+        funAlbum.setCreatorId("");
+        funAlbum.setCreatorName("");
+        funAlbum.setUpdaterId("");
+        funAlbum.setUpdaterName("");
+        return funAlbumService.addAlbum(funAlbum);
     }
 }

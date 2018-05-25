@@ -343,4 +343,11 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
         return JsonData.returnObject(comment);
     }
+
+
+    @Override
+    public JsonData addAlbum(FunAlbum funAlbum) {
+        funAlbumDao.insertSelective(funAlbum);
+        return JsonData.success("");
+    }
 }

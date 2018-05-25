@@ -6,14 +6,50 @@
 
     <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-table/bootstrap-table.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/js/datepicker/skin/WdatePicker.css" />
 </head>
 <body>
     <div class="container">
-        <div></div>
+        <div>
+            <button type="button" class="btn btn-default" id="search">查询</button>
+            <button type="button" class="btn btn-primary" id="add">新增</button>
+        </div>
         <table id="table"></table>
     </div>
 
-<h1>A</h1>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel2" aria-hidden="true" style="top: 10%">
+        <div class="modal-dialog"  style="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">添加</h4>
+                </div>
+                <div id="detailDiv" class="modal-body" style="min-height:100px;">
+                    <form role="form">
+                        <div class="input-group">
+                            <span class="" style="">标题</span>
+                            <input class="form-control" id="title" placeholder="输入标题" />
+                        </div>
+                        <div class="input-group">
+                            <span class="" style="">发布日期</span>
+                            <input class="form-control" type="text" id="publish_date" onFocus="WdatePicker()"/>
+                        </div>
+                        <button class="btn btn-primary" onclick="save()">保存</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <h1>A</h1>
 
 <pre>${name}</pre>
 
@@ -22,10 +58,18 @@
 <script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
 
+<script type="text/javascript" src="/static/js/datepicker/WdatePicker.js"></script>
+
     <script type="text/javascript">
         var basePath = "";
         $(function () {
             loadTable();
+
+//
+            $("#add").click(function () {
+                $('#addModal').modal();
+            });
+
         });
 
         function loadTable() {
@@ -111,6 +155,26 @@
                 }
             });
             
+        }
+
+
+        function save() {
+            var title = $("#title").val();
+            var publish_date = $("#publish_date").val();
+
+            $.ajax({
+                type : "post",
+                url : "http://localhost:18080/album/add",
+                data : {
+                    title:title,
+                    imgUrl:'',
+                    publish_date:publish_date
+                },
+                dataType:"JSON",
+                success : function(data){
+                    console.log(data)
+                }
+            });
         }
 
 
