@@ -3,9 +3,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>图片列表</title>
-    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-table/bootstrap-table.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/js/jquery-confirm/jquery-confirm.min.css" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/bootstrap-3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/bootstrap-table/bootstrap-table.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/jquery-confirm/jquery-confirm.min.css" />
     <style type="text/css">
         .dn {
             display: none;
@@ -46,10 +46,9 @@
                     <div class="input-group">
                         <input name="tupian" id="tupian" type="file" class="form-control"
                                style="width:250px; display: none;"/>
-                        <span class="btn btn-primary btn-sm" id="selectImg">请选择一张图片</span>
-                        <span class="btn btn-primary btn-sm dn" id="startUpload">请选择一张图片</span>
+                        <span class="btn btn-primary" id="selectImg">请选择一张图片</span>
+                        <span class="btn btn-primary dn" id="startUpload">请选择一张图片</span>
                     </div>
-                    <button class="btn btn-primary" onclick="save()">保存</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -60,19 +59,19 @@
 </div>
 
 
-<script type="text/javascript" src="/static/js/jquery.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
 
-<script type="text/javascript" src="/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-confirm/jquery-confirm.min.js"></script>
 
 <!-- 上传组件 -->
-<script type="text/javascript" src="/static/js/jquery-fileupload/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="/static/js/jquery-fileupload/jquery.iframe-transport.js"></script>
-<script type="text/javascript" src="/static/js/jquery-fileupload/jquery.fileupload.js"></script>
-<script type="text/javascript" src="/static/js/jquery-fileupload/jquery.fileupload-process.js"></script>
-<script type="text/javascript" src="/static/js/jquery-fileupload/jquery.fileupload-validate.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.fileupload-process.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.fileupload-validate.js"></script>
 
 <script type="text/javascript">
 
@@ -171,12 +170,12 @@
     function loadTable() {
         $('#table').bootstrapTable({
             method: "post",
-            url: "http://localhost:18080/image/lists",
+            url: basePath + "/image/lists",
             cache: false,
             striped: true,
             pagination: true,
-            pageList: [10, 20],
-            pageSize: 10,
+            pageList: [5, 10, 20],
+            pageSize: 5,
             pageNumber: 1,
             sidePagination: 'server',//设置为服务器端分页
             //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
@@ -255,17 +254,17 @@
                         text += '高度：' + row.height;
                         return text;
                     }
-                }, {
-                    title: "操作",
-                    align: 'center',
-                    valign: 'middle',
-                    formatter: function (value, row, index) {
-                        var cls = 'btn btn-primary btn-sm';
-                        var btn_update = '<button class="' + cls + '" onclick="update(\'' + row.id + '\')">编辑</button>';
-                        var btn_img = '<button class="' + cls + '" onclick="albumDetail(\'' + row.id + '\')">详情</button>';
-                        var btn = btn_update + btn_img;
-                        return btn;
-                    }
+//                }, {
+//                    title: "操作",
+//                    align: 'center',
+//                    valign: 'middle',
+//                    formatter: function (value, row, index) {
+//                        var cls = 'btn btn-primary btn-sm';
+//                        var btn_update = '<button class="' + cls + '" onclick="update(\'' + row.id + '\')">编辑</button>';
+//                        var btn_img = '<button class="' + cls + '" onclick="albumDetail(\'' + row.id + '\')">详情</button>';
+//                        var btn = btn_update + btn_img;
+//                        return btn;
+//                    }
                 }
             ],
             onLoadSuccess: function () {  //加载成功时执行
@@ -277,27 +276,6 @@
         });
 
     }
-
-
-    function save() {
-        var title = $("#title").val();
-        var publish_date = $("#publish_date").val();
-
-        $.ajax({
-            type: "post",
-            url: "http://localhost:18080/album/add",
-            data: {
-                title: title,
-                imgUrl: '',
-                publish_date: publish_date
-            },
-            dataType: "JSON",
-            success: function (data) {
-                console.log(data)
-            }
-        });
-    }
-
 
     function alertMsg(msg) {
         $.alert({

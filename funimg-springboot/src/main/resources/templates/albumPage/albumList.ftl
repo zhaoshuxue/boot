@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>首页</title>
 
-    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-table/bootstrap-table.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/js/datepicker/skin/WdatePicker.css" />
-    <link rel="stylesheet" type="text/css" href="/static/js/jquery-confirm/jquery-confirm.min.css" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/bootstrap-3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/bootstrap-table/bootstrap-table.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/datepicker/skin/WdatePicker.css" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/jquery-confirm/jquery-confirm.min.css" />
     <style type="text/css">
         .dn{
             display: none;
@@ -69,20 +69,20 @@
         </div><!-- /.modal -->
     </div>
 
-<script type="text/javascript" src="/static/js/jquery.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
 
-<script type="text/javascript" src="/static/js/datepicker/WdatePicker.js"></script>
-<script type="text/javascript" src="/static/js/jquery-confirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/datepicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${basePath}/static/js/jquery-confirm/jquery-confirm.min.js"></script>
 
     <!-- 上传组件 -->
-    <script type="text/javascript" src="/static/js/jquery-fileupload/jquery.ui.widget.js"></script>
-    <script type="text/javascript" src="/static/js/jquery-fileupload/jquery.iframe-transport.js"></script>
-    <script type="text/javascript" src="/static/js/jquery-fileupload/jquery.fileupload.js"></script>
-    <script type="text/javascript" src="/static/js/jquery-fileupload/jquery.fileupload-process.js"></script>
-    <script type="text/javascript" src="/static/js/jquery-fileupload/jquery.fileupload-validate.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.fileupload-process.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/jquery-fileupload/jquery.fileupload-validate.js"></script>
 
 
     <script type="text/javascript">

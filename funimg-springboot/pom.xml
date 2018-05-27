@@ -79,7 +79,7 @@
             <version>1.2.31</version>
         </dependency>
 
-		<!-- freemarker模板 -->
+        <!-- freemarker模板 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
@@ -169,6 +169,13 @@
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
             <version>5.2.4</version>
+            <exclusions>
+                <!-- Detected both log4j-over-slf4j.jar AND bound slf4j-log4j12.jar on the class path -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- google开源图片处理工具类 -->

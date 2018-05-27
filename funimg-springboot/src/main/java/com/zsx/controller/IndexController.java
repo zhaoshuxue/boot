@@ -18,10 +18,13 @@ public class IndexController {
     private void getBasePath(HttpServletRequest request, Model model){
         String getContextPath = request.getContextPath();
         String scheme = request.getHeader("X-Forwarded-Scheme");
+//        String ip = request.getHeader("x-forwarded-for");
         if (StringUtils.isBlank(scheme)){
             scheme = request.getScheme();
         }
-        String basePath = scheme + "://" + request.getServerName() + ":" + request.getServerPort() + getContextPath + "/";
+        String port = request.getServerPort() == 80 || request.getServerPort() == 443 ? ""
+                : ":" + request.getServerPort();
+        String basePath = scheme + "://" + request.getServerName() + port + getContextPath;
         model.addAttribute("basePath", basePath);
     }
 
