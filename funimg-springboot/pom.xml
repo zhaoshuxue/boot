@@ -164,6 +164,13 @@
             <version>[7.2.0, 7.2.99]</version>
         </dependency>
 
+        <!-- 腾讯云服务 -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
         <!-- google开源图片处理工具类 -->
         <dependency>
             <groupId>net.coobird</groupId>
@@ -176,6 +183,10 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
         </dependency>
 
     </dependencies>

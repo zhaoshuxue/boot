@@ -10,6 +10,8 @@ public class FunImages implements Serializable {
 
     private String thumbnail;
 
+    private String title;
+
     private String imgUrl;
 
     private Integer imgType;
@@ -17,6 +19,8 @@ public class FunImages implements Serializable {
     private Integer width;
 
     private Integer height;
+
+    private Long fileSize;
 
     private Integer del;
 
@@ -58,6 +62,14 @@ public class FunImages implements Serializable {
         this.thumbnail = thumbnail == null ? null : thumbnail.trim();
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -88,6 +100,14 @@ public class FunImages implements Serializable {
 
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
     }
 
     public Integer getDel() {
@@ -155,10 +175,12 @@ public class FunImages implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", imgUuid=").append(imgUuid);
         sb.append(", thumbnail=").append(thumbnail);
+        sb.append(", title=").append(title);
         sb.append(", imgUrl=").append(imgUrl);
         sb.append(", imgType=").append(imgType);
         sb.append(", width=").append(width);
         sb.append(", height=").append(height);
+        sb.append(", fileSize=").append(fileSize);
         sb.append(", del=").append(del);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);

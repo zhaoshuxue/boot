@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.zsx.entity.FunAlbum;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
+import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
 import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
@@ -73,5 +74,17 @@ public class AlbumController {
         funAlbum.setUpdaterId("");
         funAlbum.setUpdaterName("");
         return funAlbumService.addAlbum(funAlbum);
+    }
+
+
+
+    @PostMapping("albumDetailList")
+    @ResponseBody
+    public JsonTable getAlbumDetailList(
+            @RequestParam(value = "albumId") Long albumId
+    ) {
+        AlbumDetail albumData = funAlbumService.getAlbumData(albumId);
+        JsonTable jsonTable = JsonTable.toTable(50L, albumData.getAlbumData());
+        return jsonTable;
     }
 }

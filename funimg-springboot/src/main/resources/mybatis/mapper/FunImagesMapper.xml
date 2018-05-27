@@ -1,192 +1,216 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zsx.dao.FunImagesMapper">
-  <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="img_uuid" jdbcType="VARCHAR" property="imgUuid" />
-    <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
-    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
-    <result column="img_type" jdbcType="INTEGER" property="imgType" />
-    <result column="width" jdbcType="INTEGER" property="width" />
-    <result column="height" jdbcType="INTEGER" property="height" />
-    <result column="del" jdbcType="INTEGER" property="del" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
-    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
-    <result column="updater_id" jdbcType="VARCHAR" property="updaterId" />
-    <result column="updater_name" jdbcType="VARCHAR" property="updaterName" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsx.dao.FunImagesMapper" >
+  <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="img_uuid" property="imgUuid" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="img_type" property="imgType" jdbcType="INTEGER" />
+    <result column="width" property="width" jdbcType="INTEGER" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+    <result column="del" property="del" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+    <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
+    <result column="updater_id" property="updaterId" jdbcType="VARCHAR" />
+    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, img_uuid, thumbnail, img_url, img_type, width, height, del, create_time, update_time, 
-    creator_id, creator_name, updater_id, updater_name
+  <sql id="Base_Column_List" >
+    id, img_uuid, thumbnail, title, img_url, img_type, width, height, file_size, del, 
+    create_time, update_time, creator_id, creator_name, updater_id, updater_name
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from fun_images
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from fun_images
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.zsx.entity.FunImages">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+  <insert id="insert" parameterType="com.zsx.entity.FunImages" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into fun_images (img_uuid, thumbnail, img_url, 
-      img_type, width, height, 
-      del, create_time, update_time, 
-      creator_id, creator_name, updater_id, 
-      updater_name)
-    values (#{imgUuid,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
-      #{imgType,jdbcType=INTEGER}, #{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, 
-      #{del,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=VARCHAR}, #{creatorName,jdbcType=VARCHAR}, #{updaterId,jdbcType=VARCHAR}, 
-      #{updaterName,jdbcType=VARCHAR})
+    insert into fun_images (img_uuid, thumbnail, title, 
+      img_url, img_type, width, 
+      height, file_size, del, 
+      create_time, update_time, creator_id, 
+      creator_name, updater_id, updater_name
+      )
+    values (#{imgUuid,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{imgType,jdbcType=INTEGER}, #{width,jdbcType=INTEGER}, 
+      #{height,jdbcType=INTEGER}, #{fileSize,jdbcType=BIGINT}, #{del,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=VARCHAR}, 
+      #{creatorName,jdbcType=VARCHAR}, #{updaterId,jdbcType=VARCHAR}, #{updaterName,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.zsx.entity.FunImages">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+  <insert id="insertSelective" parameterType="com.zsx.entity.FunImages" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into fun_images
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="imgUuid != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imgUuid != null" >
         img_uuid,
       </if>
-      <if test="thumbnail != null">
+      <if test="thumbnail != null" >
         thumbnail,
       </if>
-      <if test="imgUrl != null">
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="imgUrl != null" >
         img_url,
       </if>
-      <if test="imgType != null">
+      <if test="imgType != null" >
         img_type,
       </if>
-      <if test="width != null">
+      <if test="width != null" >
         width,
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         height,
       </if>
-      <if test="del != null">
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+      <if test="del != null" >
         del,
       </if>
-      <if test="createTime != null">
+      <if test="createTime != null" >
         create_time,
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="creatorId != null">
+      <if test="creatorId != null" >
         creator_id,
       </if>
-      <if test="creatorName != null">
+      <if test="creatorName != null" >
         creator_name,
       </if>
-      <if test="updaterId != null">
+      <if test="updaterId != null" >
         updater_id,
       </if>
-      <if test="updaterName != null">
+      <if test="updaterName != null" >
         updater_name,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="imgUuid != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imgUuid != null" >
         #{imgUuid,jdbcType=VARCHAR},
       </if>
-      <if test="thumbnail != null">
+      <if test="thumbnail != null" >
         #{thumbnail,jdbcType=VARCHAR},
       </if>
-      <if test="imgUrl != null">
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
         #{imgUrl,jdbcType=VARCHAR},
       </if>
-      <if test="imgType != null">
+      <if test="imgType != null" >
         #{imgType,jdbcType=INTEGER},
       </if>
-      <if test="width != null">
+      <if test="width != null" >
         #{width,jdbcType=INTEGER},
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         #{height,jdbcType=INTEGER},
       </if>
-      <if test="del != null">
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="del != null" >
         #{del,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
+      <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creatorId != null">
+      <if test="creatorId != null" >
         #{creatorId,jdbcType=VARCHAR},
       </if>
-      <if test="creatorName != null">
+      <if test="creatorName != null" >
         #{creatorName,jdbcType=VARCHAR},
       </if>
-      <if test="updaterId != null">
+      <if test="updaterId != null" >
         #{updaterId,jdbcType=VARCHAR},
       </if>
-      <if test="updaterName != null">
+      <if test="updaterName != null" >
         #{updaterName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zsx.entity.FunImages">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zsx.entity.FunImages" >
     update fun_images
-    <set>
-      <if test="imgUuid != null">
+    <set >
+      <if test="imgUuid != null" >
         img_uuid = #{imgUuid,jdbcType=VARCHAR},
       </if>
-      <if test="thumbnail != null">
+      <if test="thumbnail != null" >
         thumbnail = #{thumbnail,jdbcType=VARCHAR},
       </if>
-      <if test="imgUrl != null">
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
         img_url = #{imgUrl,jdbcType=VARCHAR},
       </if>
-      <if test="imgType != null">
+      <if test="imgType != null" >
         img_type = #{imgType,jdbcType=INTEGER},
       </if>
-      <if test="width != null">
+      <if test="width != null" >
         width = #{width,jdbcType=INTEGER},
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         height = #{height,jdbcType=INTEGER},
       </if>
-      <if test="del != null">
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="del != null" >
         del = #{del,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
+      <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creatorId != null">
+      <if test="creatorId != null" >
         creator_id = #{creatorId,jdbcType=VARCHAR},
       </if>
-      <if test="creatorName != null">
+      <if test="creatorName != null" >
         creator_name = #{creatorName,jdbcType=VARCHAR},
       </if>
-      <if test="updaterId != null">
+      <if test="updaterId != null" >
         updater_id = #{updaterId,jdbcType=VARCHAR},
       </if>
-      <if test="updaterName != null">
+      <if test="updaterName != null" >
         updater_name = #{updaterName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zsx.entity.FunImages">
+  <update id="updateByPrimaryKey" parameterType="com.zsx.entity.FunImages" >
     update fun_images
     set img_uuid = #{imgUuid,jdbcType=VARCHAR},
       thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
       img_type = #{imgType,jdbcType=INTEGER},
       width = #{width,jdbcType=INTEGER},
       height = #{height,jdbcType=INTEGER},
+      file_size = #{fileSize,jdbcType=BIGINT},
       del = #{del,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

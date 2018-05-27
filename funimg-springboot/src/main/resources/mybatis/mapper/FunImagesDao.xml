@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zsx.ext.FunImagesDao" >
-  <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="img_uuid" property="imgUuid" jdbcType="VARCHAR" />
-    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
-    <result column="img_type" property="imgType" jdbcType="INTEGER" />
-    <result column="del" property="del" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
-    <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
-    <result column="updater_id" property="updaterId" jdbcType="VARCHAR" />
-    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, img_uuid, img_url, img_type, del, create_time, update_time, creator_id, creator_name,
-    updater_id, updater_name
+<mapper namespace="com.zsx.ext.FunImagesDao">
+    <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="img_uuid" property="imgUuid" jdbcType="VARCHAR" />
+        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+        <result column="img_type" property="imgType" jdbcType="INTEGER" />
+        <result column="width" property="width" jdbcType="INTEGER" />
+        <result column="height" property="height" jdbcType="INTEGER" />
+        <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+        <result column="del" property="del" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+        <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
+        <result column="updater_id" property="updaterId" jdbcType="VARCHAR" />
+        <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, img_uuid, thumbnail, title, img_url, img_type, width, height, file_size, del,
+    create_time, update_time, creator_id, creator_name, updater_id, updater_name
   </sql>
+
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="search.del != null">
+                and del = #{search.del,jdbcType=INTEGER}
+            </if>
+            <if test="search.status != null">
+                and status = #{search.status,jdbcType=INTEGER}
+            </if>
+            <if test="search.ids != null and search.ids.size() > 0">
+                and id in
+                <foreach item="item" index="index" collection="search.ids" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="search.summary != null">
+                and summary like concat('%', #{search.summary,jdbcType=VARCHAR}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByParams" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM fun_images
+        <include refid="Base_Where_Clause"/>
+    </select>
 
 </mapper>
