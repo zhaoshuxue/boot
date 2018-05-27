@@ -65,6 +65,8 @@ public class ImageController {
     private String regionName;
     @Value("${qcloud.bucket}")
     private String bucket;
+    @Value("${qcloud.prefix}")
+    private String keyPrefix;
 
 
     @Autowired
@@ -116,6 +118,7 @@ public class ImageController {
             if (!file.isEmpty()) {
                 String originalFilename = file.getOriginalFilename();
                 String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String fileTitle = originalFilename.substring(0, originalFilename.lastIndexOf("."));
 //                统一为小写
                 fileNameSuffix = fileNameSuffix.toLowerCase();
                 String uuid = UUID.randomUUID().toString();
@@ -136,7 +139,7 @@ public class ImageController {
 //               图片地址
                 String imgUrl = "";
 //                上传
-                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, "/201805/" + tempFileName, tempFile);
+                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, keyPrefix + tempFileName, tempFile);
                 if (StringUtils.isBlank(uploadImgUrl)) {
                     return JsonData.fail("上传失败");
                 }
@@ -169,7 +172,7 @@ public class ImageController {
                         width = bufferedImage.getWidth();
                         height = bufferedImage.getHeight();
 
-                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, "/201805/" + uuid + ".jpg", thumbnailFile);
+                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, keyPrefix + uuid + ".jpg", thumbnailFile);
                         if (StringUtils.isNotBlank(thumbnailFileUrl)) {
                             thumbnail = thumbnailFileUrl;
                         }
@@ -192,6 +195,9 @@ public class ImageController {
                 FunImages funImages = new FunImages();
                 funImages.setImgUuid(uuid);
                 funImages.setThumbnail(thumbnail);
+                if (StringUtils.isBlank(title)){
+                    title = fileTitle;
+                }
                 funImages.setTitle(title);
                 funImages.setImgUrl(imgUrl);
                 funImages.setImgType(imgType);

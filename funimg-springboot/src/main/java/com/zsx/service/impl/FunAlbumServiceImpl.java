@@ -1,5 +1,8 @@
 package com.zsx.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Function;
@@ -11,8 +14,11 @@ import com.zsx.entity.*;
 import com.zsx.ext.*;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
+import com.zsx.vo.FunAlbumDetailVO;
+import com.zsx.vo.FunAlbumVO;
 import com.zsx.vo.app.*;
 import com.zsx.vo.json.JsonData;
+import com.zsx.vo.json.JsonTable;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,13 +76,14 @@ public class FunAlbumServiceImpl implements FunAlbumService {
     }
 
     @Override
-    public PageData<FunAlbum> queryFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize) {
+    public PageData<FunAlbumVO> queryFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize) {
 
         PageHelper.startPage(pageNum, pageSize, "publish_date desc");
         List<FunAlbum> funAlbums = funAlbumDao.selectByParams(search);
         PageInfo pageInfo = new PageInfo(funAlbums);
 
-        PageData pageData = new PageData(pageInfo.getTotal(), pageInfo.getPages(), funAlbums);
+        List<FunAlbumVO> funAlbumVOS = JSONArray.parseArray(JSON.toJSONString(funAlbums), FunAlbumVO.class);
+        PageData pageData = new PageData(pageInfo.getTotal(), pageInfo.getPages(), funAlbumVOS);
         pageData.setPageNum(pageInfo.getPageNum());
         pageData.setPageSize(pageInfo.getPageSize());
         return pageData;
@@ -104,7 +111,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             albumData.setTitle(funAlbumDetail.getTitle());
 
             String imgUuids = funAlbumDetail.getImgUuids();
-            String[] imageIds = imgUuids.split("!@#");
+            String[] imageIds = imgUuids.split(",");
             for (String imageId : imageIds) {
                 FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
                 if (funImages == null) {
@@ -171,7 +178,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             albumData.setId(funAlbumDetail.getId());
             albumData.setTitle(funAlbumDetail.getTitle());
             String imgIds = funAlbumDetail.getImgUuids();
-            String[] imageIds = imgIds.split("!@#");
+            String[] imageIds = imgIds.split(",");
             for (String imageId : imageIds) {
                 FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
                 if (funImages == null) {
@@ -209,7 +216,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         albumData.setId(funAlbumDetail.getId());
         albumData.setTitle(funAlbumDetail.getTitle());
         String imgIds = funAlbumDetail.getImgUuids();
-        String[] imageIds = imgIds.split("!@#");
+        String[] imageIds = imgIds.split(",");
         for (String imageId : imageIds) {
             FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
             if (funImages == null) {
@@ -348,6 +355,92 @@ public class FunAlbumServiceImpl implements FunAlbumService {
     @Override
     public JsonData addAlbum(FunAlbum funAlbum) {
         funAlbumDao.insertSelective(funAlbum);
-        return JsonData.success("");
+        return JsonData.success("保存成功");
+    }
+
+    @Override
+    public JsonData updAlbum(FunAlbum funAlbum) {
+        funAlbumDao.updateByPrimaryKeySelective(funAlbum);
+        return JsonData.success("更新成功");
+    }
+
+    @Override
+    public JsonTable getAlbumDetailList(Long albumId) {
+        List<FunAlbumDetail> funAlbumDetails = funAlbumDetailDao.selectByAlbumId(albumId);
+        if (CollectionUtils.isEmpty(funAlbumDetails)) {
+            return JsonTable.toTable(0L, Lists.newArrayList());
+        }
+
+        List<Long> funImageIds = Lists.newArrayList();
+        for (FunAlbumDetail funAlbumDetail : funAlbumDetails) {
+            String imgUuids = funAlbumDetail.getImgUuids();
+            String[] imageIds = imgUuids.split(",");
+            for (String imageId : imageIds) {
+                funImageIds.add(Long.valueOf(imageId));
+            }
+        }
+
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("ids", funImageIds);
+        List<FunImages> funImagesList = funImagesDao.selectByParams(params);
+        Map<Long, FunImages> funImagesMap = Maps.uniqueIndex(funImagesList, new Function<FunImages, Long>() {
+            @Override
+            public Long apply(FunImages funImages) {
+                return funImages.getId();
+            }
+        });
+
+        List<FunAlbumDetailVO> albumDetailVOList = Lists.newArrayList();
+
+        for (FunAlbumDetail funAlbumDetail : funAlbumDetails) {
+            FunAlbumDetailVO funAlbumDetailVO = JSONObject.parseObject(JSON.toJSONString(funAlbumDetail), FunAlbumDetailVO.class);
+
+            List<FunImages> images = Lists.newArrayList();
+            String imgUuids = funAlbumDetailVO.getImgUuids();
+            if (StringUtils.isNotBlank(imgUuids)){
+                String[] imageIds = imgUuids.split(",");
+                for (String imageId : imageIds) {
+                    FunImages funImages = funImagesMap.get(Long.valueOf(imageId));
+                    if (funImages == null){
+                        continue;
+                    }
+                    images.add(funImages);
+                }
+            }
+            funAlbumDetailVO.setImages(images);
+
+            albumDetailVOList.add(funAlbumDetailVO);
+        }
+        return JsonTable.toTable(Long.valueOf(String.valueOf(albumDetailVOList.size())), albumDetailVOList);
+    }
+
+    @Override
+    public JsonData saveFunAlbumDetail(FunAlbumDetail funAlbumDetail) {
+        Long id = funAlbumDetail.getId();
+
+        funAlbumDetail.setUpdateTime(new Date());
+        funAlbumDetail.setUpdaterId("");
+        funAlbumDetail.setUpdaterName("");
+
+        if (id != null && id != 0L){
+            funAlbumDetailDao.updateByPrimaryKeySelective(funAlbumDetail);
+        }else{
+            funAlbumDetail.setSort(0);
+            funAlbumDetail.setDel(0);
+            funAlbumDetail.setCreateTime(new Date());
+            funAlbumDetail.setCreatorId("");
+            funAlbumDetail.setCreatorName("");
+
+            funAlbumDetailDao.insertSelective(funAlbumDetail);
+        }
+        return JsonData.returnObject(funAlbumDetail);
+    }
+
+    @Override
+    public JsonData updateAlbumDetailSort(List<FunAlbumDetail> albumDetailList) {
+        for (FunAlbumDetail funAlbumDetail : albumDetailList) {
+            funAlbumDetailDao.updateByPrimaryKeySelective(funAlbumDetail);
+        }
+        return JsonData.success("保存成功");
     }
 }

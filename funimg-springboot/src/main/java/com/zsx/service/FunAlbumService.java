@@ -1,9 +1,12 @@
 package com.zsx.service;
 
 import com.zsx.entity.FunAlbum;
+import com.zsx.entity.FunAlbumDetail;
 import com.zsx.util.PageData;
+import com.zsx.vo.FunAlbumVO;
 import com.zsx.vo.app.*;
 import com.zsx.vo.json.JsonData;
+import com.zsx.vo.json.JsonTable;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,7 @@ public interface FunAlbumService {
     PageData<AlbumList> getFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
 
 
-    PageData<FunAlbum> queryFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+    PageData<FunAlbumVO> queryFunAlbumPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
 
 
     AlbumDetail getAlbumData(Long albumId);
@@ -42,5 +45,14 @@ public interface FunAlbumService {
 //    *******************************************************************
 
     JsonData addAlbum(FunAlbum funAlbum);
+
+    JsonData updAlbum(FunAlbum funAlbum);
+
+    JsonTable getAlbumDetailList(Long albumId);
+
+    JsonData saveFunAlbumDetail(FunAlbumDetail funAlbumDetail);
+
+    JsonData updateAlbumDetailSort(List<FunAlbumDetail> albumDetailList);
+
 
 }

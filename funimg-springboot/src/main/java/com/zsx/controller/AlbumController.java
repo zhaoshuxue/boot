@@ -1,13 +1,18 @@
 package com.zsx.controller;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.zsx.entity.FunAlbum;
+import com.zsx.entity.FunAlbumDetail;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
+import com.zsx.vo.FunAlbumVO;
 import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.app.AlbumList;
 import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by highness on 2018/5/25 0025.
@@ -44,7 +50,7 @@ public class AlbumController {
     ) {
         HashMap<String, Object> search = Maps.newHashMap();
         search.put("del", 0);
-        PageData<FunAlbum> pageData = funAlbumService.queryFunAlbumPageList(search, pageNum, pageSize);
+        PageData<FunAlbumVO> pageData = funAlbumService.queryFunAlbumPageList(search, pageNum, pageSize);
         JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
         return jsonTable;
     }
@@ -55,6 +61,7 @@ public class AlbumController {
     public JsonData addAlbum(
             @RequestParam(value = "title") String title,
             @RequestParam(value = "imgUrl") String imgUrl,
+            @RequestParam(value = "imgUuid") String imgUuid,
             @RequestParam(value = "publish_date") String publish_date
     ) {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -63,7 +70,7 @@ public class AlbumController {
         FunAlbum funAlbum = new FunAlbum();
         funAlbum.setPublishDate(publishDate.toDate());
         funAlbum.setTitle(title);
-        funAlbum.setImgUuid("");
+        funAlbum.setImgUuid(imgUuid);
         funAlbum.setImgUrl(imgUrl);
         funAlbum.setStatus(1);
         funAlbum.setDel(0);
@@ -76,6 +83,20 @@ public class AlbumController {
         return funAlbumService.addAlbum(funAlbum);
     }
 
+    @PostMapping("updateAlbumStatus")
+    @ResponseBody
+    public JsonData updateAlbumStatus(
+            @RequestParam(value = "albumId") Long albumId,
+            @RequestParam(value = "status") Integer status
+    ) {
+        FunAlbum funAlbum = new FunAlbum();
+        funAlbum.setId(albumId);
+        funAlbum.setStatus(status);
+        funAlbum.setUpdateTime(new Date());
+//        funAlbum.setUpdaterId("");
+//        funAlbum.setUpdaterName("");
+        return funAlbumService.updAlbum(funAlbum);
+    }
 
 
     @PostMapping("albumDetailList")
@@ -83,8 +104,48 @@ public class AlbumController {
     public JsonTable getAlbumDetailList(
             @RequestParam(value = "albumId") Long albumId
     ) {
-        AlbumDetail albumData = funAlbumService.getAlbumData(albumId);
-        JsonTable jsonTable = JsonTable.toTable(50L, albumData.getAlbumData());
-        return jsonTable;
+        return funAlbumService.getAlbumDetailList(albumId);
+    }
+
+    @PostMapping("saveAlbumDetail")
+    @ResponseBody
+    public JsonData saveAlbumDetail(
+            @RequestParam(value = "id", defaultValue = "0") Long id,
+            @RequestParam(value = "albumId") Long albumId,
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "imgUuids") String imgUuids
+    ) {
+        FunAlbumDetail funAlbumDetail = new FunAlbumDetail();
+        funAlbumDetail.setId(id);
+        funAlbumDetail.setAlbumId(albumId);
+        funAlbumDetail.setTitle(title);
+        funAlbumDetail.setImgUuids(imgUuids);
+
+        return funAlbumService.saveFunAlbumDetail(funAlbumDetail);
+    }
+
+
+    @PostMapping("sortAlbumDetail")
+    @ResponseBody
+    public JsonData sortAlbumDetail(
+            @RequestParam(value = "ids") String ids
+    ) {
+        List<FunAlbumDetail> albumDetailList = Lists.newArrayList();
+        if (StringUtils.isNotBlank(ids)){
+            FunAlbumDetail funAlbumDetail;
+            String[] split = ids.split(",");
+            for (int i = 0; i < split.length; i++) {
+                funAlbumDetail = new FunAlbumDetail();
+                funAlbumDetail.setId(Long.valueOf(split[i]));
+                funAlbumDetail.setSort(i+1);
+                funAlbumDetail.setUpdateTime(new Date());
+
+                albumDetailList.add(funAlbumDetail);
+            }
+        }
+        if (CollectionUtils.isNotEmpty(albumDetailList)){
+            return funAlbumService.updateAlbumDetailSort(albumDetailList);
+        }
+        return JsonData.fail("保存失败");
     }
 }

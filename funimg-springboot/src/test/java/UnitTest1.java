@@ -16,7 +16,10 @@ import java.io.IOException;
 public class UnitTest1 {
 
     public static void main(String[] args) throws IOException {
-
+        String originalFilename = "阿斯蒂芬骄傲了书法家拉上就分散，阿斯顿发顺丰的啊，，sdf.jpg";
+        String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        System.out.println(fileNameSuffix);
+        System.out.println(originalFilename.substring(0, originalFilename.lastIndexOf(".")));
 
     }
 }

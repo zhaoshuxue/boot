@@ -26,14 +26,14 @@ public class IndexController {
     }
 
     @RequestMapping("index")
-    public String toIndex(Model model) {
-
-        model.addAttribute("name", "xue");
+    public String toIndex(HttpServletRequest request, Model model) {
+        this.getBasePath(request, model);
         return "albumPage/albumList";
     }
 
     @RequestMapping("albumDetail")
     public String gotoAlbumDetail(HttpServletRequest request, Model model) {
+        this.getBasePath(request, model);
         model.addAttribute("albumId", request.getParameter("id"));
         return "albumPage/albumDetail";
     }
