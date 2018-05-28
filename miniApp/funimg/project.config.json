@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -57,7 +57,7 @@
 					"id": 3,
 					"name": "评论",
 					"pathName": "pages/comment/index",
-					"query": "id=1"
+					"query": "id=10089"
 				},
 				{
 					"id": -1,

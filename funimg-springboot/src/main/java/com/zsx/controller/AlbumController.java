@@ -131,21 +131,51 @@ public class AlbumController {
             @RequestParam(value = "ids") String ids
     ) {
         List<FunAlbumDetail> albumDetailList = Lists.newArrayList();
-        if (StringUtils.isNotBlank(ids)){
+        if (StringUtils.isNotBlank(ids)) {
             FunAlbumDetail funAlbumDetail;
             String[] split = ids.split(",");
             for (int i = 0; i < split.length; i++) {
                 funAlbumDetail = new FunAlbumDetail();
                 funAlbumDetail.setId(Long.valueOf(split[i]));
-                funAlbumDetail.setSort(i+1);
+                funAlbumDetail.setSort(i + 1);
                 funAlbumDetail.setUpdateTime(new Date());
 
                 albumDetailList.add(funAlbumDetail);
             }
         }
-        if (CollectionUtils.isNotEmpty(albumDetailList)){
+        if (CollectionUtils.isNotEmpty(albumDetailList)) {
             return funAlbumService.updateAlbumDetailSort(albumDetailList);
         }
         return JsonData.fail("保存失败");
+    }
+
+    @PostMapping("albumDetailPageList")
+    @ResponseBody
+    public JsonTable getAlbumDetailPageList(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize
+    ) {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        return funAlbumService.getAlbumDetailPageList(search, pageNum, pageSize);
+    }
+
+    @PostMapping("hotImgList")
+    @ResponseBody
+    public JsonTable getHotImagePageList(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize
+    ) {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        return funAlbumService.getHotImagePageList(search, pageNum, pageSize);
+    }
+
+    @PostMapping("setHotImg")
+    @ResponseBody
+    public JsonData setHotImg(
+            @RequestParam(value = "id") Long id
+    ) {
+        return funAlbumService.setHotImages(id);
     }
 }

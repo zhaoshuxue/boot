@@ -47,4 +47,12 @@ public class IndexController {
         return "imagePage/imageList";
     }
 
+    @RequestMapping("hotImages")
+    public String gotoHotImageList(HttpServletRequest request, Model model) {
+        this.getBasePath(request, model);
+        return "albumPage/hotImageList";
+    }
+
+
+
 }

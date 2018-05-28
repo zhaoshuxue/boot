@@ -68,7 +68,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    this.getData(this.data.id);
   },
 
   /**
@@ -138,6 +139,7 @@ Page({
       },
       success: (res) => {
         // console.log(res)
+        wx.stopPullDownRefresh()
 
         if (res.data && res.data.albumData.length > 0) {
           var list = res.data.albumData;
@@ -160,6 +162,8 @@ Page({
           that.setData({
             dataList: list
           });
+
+          wx.hideNavigationBarLoading() //完成停止加载
 
           // 设置当前页面的标题
           wx.setNavigationBarTitle({

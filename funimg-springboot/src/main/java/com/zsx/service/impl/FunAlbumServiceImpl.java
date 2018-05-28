@@ -250,7 +250,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         PageHelper.startPage(1, 50);
         List<FunComment> funComments = funCommentDao.selectByParams(params);
 
-        if (CollectionUtils.isEmpty(funComments)){
+        if (CollectionUtils.isEmpty(funComments)) {
             return commentResult;
         }
 
@@ -307,7 +307,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         params.put("openid", comment.getFromUser());
         List<FunWxUser> funWxUsers = funWxUserDao.selectByParams(params);
         FunWxUser funWxUser;
-        if (CollectionUtils.isEmpty(funWxUsers)){
+        if (CollectionUtils.isEmpty(funWxUsers)) {
             funWxUser = new FunWxUser();
 
             funWxUser.setOpenid(comment.getFromUser());
@@ -328,7 +328,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
 
             funWxUserDao.insertSelective(funWxUser);
-        }else{
+        } else {
             funWxUser = funWxUsers.get(0);
         }
 
@@ -397,11 +397,11 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
             List<FunImages> images = Lists.newArrayList();
             String imgUuids = funAlbumDetailVO.getImgUuids();
-            if (StringUtils.isNotBlank(imgUuids)){
+            if (StringUtils.isNotBlank(imgUuids)) {
                 String[] imageIds = imgUuids.split(",");
                 for (String imageId : imageIds) {
                     FunImages funImages = funImagesMap.get(Long.valueOf(imageId));
-                    if (funImages == null){
+                    if (funImages == null) {
                         continue;
                     }
                     images.add(funImages);
@@ -415,6 +415,69 @@ public class FunAlbumServiceImpl implements FunAlbumService {
     }
 
     @Override
+    public JsonTable getAlbumDetailPageList(Map<String, Object> search, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize, "update_time desc");
+        List<FunAlbumDetail> albumDetailList = funAlbumDetailDao.selectByParams(search);
+        if (CollectionUtils.isEmpty(albumDetailList)) {
+            return JsonTable.toTable(0L, Lists.newArrayList());
+        }
+        PageInfo pageInfo = new PageInfo(albumDetailList);
+
+        List<Long> funImageIds = Lists.newArrayList();
+        for (FunAlbumDetail funAlbumDetail : albumDetailList) {
+            String imgUuids = funAlbumDetail.getImgUuids();
+            String[] imageIds = imgUuids.split(",");
+            for (String imageId : imageIds) {
+                funImageIds.add(Long.valueOf(imageId));
+            }
+        }
+
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("ids", funImageIds);
+        List<FunImages> funImagesList = funImagesDao.selectByParams(params);
+        Map<Long, FunImages> funImagesMap = Maps.uniqueIndex(funImagesList, new Function<FunImages, Long>() {
+            @Override
+            public Long apply(FunImages funImages) {
+                return funImages.getId();
+            }
+        });
+
+        List<FunAlbumDetailVO> albumDetailVOList = Lists.newArrayList();
+
+        for (FunAlbumDetail funAlbumDetail : albumDetailList) {
+            FunAlbumDetailVO funAlbumDetailVO = JSONObject.parseObject(JSON.toJSONString(funAlbumDetail), FunAlbumDetailVO.class);
+
+            List<FunImages> images = Lists.newArrayList();
+            String imgUuids = funAlbumDetailVO.getImgUuids();
+            if (StringUtils.isNotBlank(imgUuids)) {
+                String[] imageIds = imgUuids.split(",");
+                for (String imageId : imageIds) {
+                    FunImages funImages = funImagesMap.get(Long.valueOf(imageId));
+                    if (funImages == null) {
+                        continue;
+                    }
+                    images.add(funImages);
+                }
+            }
+            funAlbumDetailVO.setImages(images);
+
+            albumDetailVOList.add(funAlbumDetailVO);
+        }
+        return JsonTable.toTable(Long.valueOf(String.valueOf(pageInfo.getTotal())), albumDetailVOList);
+    }
+
+    @Override
+    public JsonTable getHotImagePageList(Map<String, Object> search, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize, "update_time desc");
+        List<FunHotImages> funHotImages = funHotImagesDao.selectByParams(search);
+        if (CollectionUtils.isEmpty(funHotImages)) {
+            return JsonTable.toTable(0L, Lists.newArrayList());
+        }
+        PageInfo pageInfo = new PageInfo(funHotImages);
+        return JsonTable.toTable(Long.valueOf(String.valueOf(pageInfo.getTotal())), funHotImages);
+    }
+
+    @Override
     public JsonData saveFunAlbumDetail(FunAlbumDetail funAlbumDetail) {
         Long id = funAlbumDetail.getId();
 
@@ -422,9 +485,9 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         funAlbumDetail.setUpdaterId("");
         funAlbumDetail.setUpdaterName("");
 
-        if (id != null && id != 0L){
+        if (id != null && id != 0L) {
             funAlbumDetailDao.updateByPrimaryKeySelective(funAlbumDetail);
-        }else{
+        } else {
             funAlbumDetail.setSort(0);
             funAlbumDetail.setDel(0);
             funAlbumDetail.setCreateTime(new Date());
@@ -442,5 +505,35 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             funAlbumDetailDao.updateByPrimaryKeySelective(funAlbumDetail);
         }
         return JsonData.success("保存成功");
+    }
+
+    @Override
+    public JsonData setHotImages(Long id) {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        search.put("linkId", id);
+        List<FunHotImages> funHotImagesList = funHotImagesDao.selectByParams(search);
+        if (CollectionUtils.isNotEmpty(funHotImagesList)) {
+            FunHotImages funHotImages = funHotImagesList.get(0);
+            funHotImages.setUpdateTime(new Date());
+
+            funHotImagesDao.updateByPrimaryKeySelective(funHotImages);
+
+            return JsonData.success("已是热门，更新了时间");
+        }
+
+        FunHotImages funHotImages = new FunHotImages();
+        funHotImages.setLinkId(id);
+        funHotImages.setDel(0);
+        funHotImages.setCreateTime(new Date());
+        funHotImages.setUpdateTime(new Date());
+        funHotImages.setCreatorId("");
+        funHotImages.setCreatorName("");
+        funHotImages.setUpdaterId("");
+        funHotImages.setUpdaterName("");
+
+        funHotImagesDao.insertSelective(funHotImages);
+
+        return JsonData.success("成功设置为热门图片");
     }
 }

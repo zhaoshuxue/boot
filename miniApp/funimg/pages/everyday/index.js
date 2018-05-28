@@ -8,7 +8,7 @@ Page({
     baseUrl: '',
     params: {
       pageNum: 1,
-      pageSize: 6
+      pageSize: 4
     },
     pages: 0,
     nomore: true,
@@ -60,7 +60,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    this.loadData(1)
   },
 
   /**
@@ -129,6 +130,9 @@ Page({
       },
       success: function (res) {
         // console.log(res)
+        wx.stopPullDownRefresh()
+        wx.hideNavigationBarLoading() //完成停止加载
+        
         var list = res.data.list;
         if (list != null && list.length > 0) {
           var newDataList = list;

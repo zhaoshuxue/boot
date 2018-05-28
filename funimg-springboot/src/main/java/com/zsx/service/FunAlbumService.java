@@ -50,9 +50,15 @@ public interface FunAlbumService {
 
     JsonTable getAlbumDetailList(Long albumId);
 
+    JsonTable getAlbumDetailPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
+    JsonTable getHotImagePageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
+
     JsonData saveFunAlbumDetail(FunAlbumDetail funAlbumDetail);
 
     JsonData updateAlbumDetailSort(List<FunAlbumDetail> albumDetailList);
+
+    JsonData setHotImages(Long id);
 
 
 }

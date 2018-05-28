@@ -87,7 +87,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    this.getData(this.data.id);
   },
 
   /**
@@ -132,6 +133,7 @@ Page({
         'content-type': 'application/json'
       },
       success: (res) => {
+        wx.stopPullDownRefresh()
         // console.log(res)
 
         if (res.data && res.data.imgData && res.data.imgData.imgList && res.data.imgData.imgList.length > 0) {
@@ -159,6 +161,7 @@ Page({
             commentList: res.data.comments
           });
         }
+        wx.hideNavigationBarLoading() //完成停止加载
       },
       fail: (res) => {
         wx.showModal({
