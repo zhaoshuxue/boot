@@ -1,9 +1,8 @@
 <!--pages/videoPlayer/index.wxml-->
 <text>pages/videoPlayer/index.wxml</text>
 
-<video src='' style='width:100%;' 
+<video src='/data/demo.mp4' style='width:100%;' 
           controls='{{true}}' 
           autoplay=true 
-          muted=true 
           >
           </video>
