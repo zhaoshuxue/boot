@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 5,
 			"list": [
 				{
 					"id": 0,
@@ -63,6 +63,12 @@
 					"id": -1,
 					"name": "demo",
 					"pathName": "pages/demo/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "视频",
+					"pathName": "pages/videoPlayer/index",
 					"query": ""
 				}
 			]
