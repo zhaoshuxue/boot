@@ -152,7 +152,8 @@ Page({
               // 当是mp4时需要特殊处理
               if (img.type == 4) {
                 // 计算视频要展示的高度
-                var a = that.data.windowWidth - 10;
+                // var a = that.data.windowWidth - 10;
+                var a = that.data.windowWidth * 0.96;
                 var h = parseInt(a / img.width * img.height);
                 img.nh = "height: " + h + "px";
               }

@@ -1,6 +1,6 @@
 <!--pages/detail/index.wxml-->
 <!-- 精选列表 -->
-<view class="" style="flex-direction:column;">
+<view class="" style="flex-direction:column; margin-top:10rpx;">
   <view class="item" wx:for="{{dataList}}" wx:for-item="item" wx:key="">
     <view class="main" bindtap="gotoImage" data-id="{{item.id}}">
       <view class='item-title'>
