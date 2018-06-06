@@ -2,8 +2,8 @@
 App({
   onLaunch: function () {
     //  设置请求url
-    // wx.setStorageSync('baseUrl', 'http://localhost:8080')
-    wx.setStorageSync('baseUrl', 'https://www.funimg.top')
+    wx.setStorageSync('baseUrl', 'http://localhost:18080')
+    // wx.setStorageSync('baseUrl', 'https://www.funimg.top')
 
     this.getUserInfo()  
   },

@@ -6,7 +6,8 @@
     "pages/detail/index",
     "pages/about/index",
     "pages/comment/index",
-    "pages/videoPlayer/index"
+    "pages/videoPlayer/index",
+    "pages/videoComment/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -27,6 +28,10 @@
       {
         "pagePath": "pages/home/index",
         "text": "精选趣图"
+      },
+      {
+        "pagePath": "pages/videoPlayer/index",
+        "text": "精选视频"
       },
       {
         "pagePath": "pages/about/index",

@@ -1,0 +1,7 @@
+<!--pages/videoComment/index.wxml-->
+<view>
+  <video src='{{url}}' style='width:100%; {{videoHeight}}' 
+        controls='{{true}}' autoplay=true 
+        >
+  </video>
+</view>

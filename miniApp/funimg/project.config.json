@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -70,6 +70,12 @@
 					"name": "视频",
 					"pathName": "pages/videoPlayer/index",
 					"query": ""
+				},
+				{
+					"id": 6,
+					"name": "视频播放",
+					"pathName": "pages/videoComment/index",
+					"query": "id=10000&url=https://highness-1-1253922088.cos.ap-beijing.myqcloud.com/demo/20180606001.mp4&title=你好啊&height=852&width=480"
 				}
 			]
 		}

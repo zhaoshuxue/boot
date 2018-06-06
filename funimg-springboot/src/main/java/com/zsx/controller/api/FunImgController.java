@@ -3,6 +3,7 @@ package com.zsx.controller.api;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.zsx.service.FunAlbumService;
+import com.zsx.service.VideoService;
 import com.zsx.util.HttpUtil;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.*;
@@ -32,6 +33,8 @@ public class FunImgController {
 
     @Autowired
     private FunAlbumService funAlbumService;
+    @Autowired
+    private VideoService videoService;
 
     //    @ApiOperation(value = "获取房屋列表", notes = "供小程序调用", httpMethod = "GET")
     @GetMapping("/lists")
@@ -132,6 +135,18 @@ public class FunImgController {
         comment.setText(text);
 
         return funAlbumService.addComment(comment);
+    }
+
+
+    @GetMapping("/videos")
+    public PageData getVideoList(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize
+    ) {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        PageData<VideoData> pageData = videoService.getFunVideoDataPageList(search, pageNum, pageSize);
+        return pageData;
     }
 
 }

@@ -1,1 +1,55 @@
 /* pages/videoPlayer/index.wxss */
+
+page {
+  /* background-color: #fff; */
+  background-color: #f2f2f2;
+  font-family: Microsoft YaHei;
+}
+
+/* 列表 start  */
+.item {
+  /* display: flex; */
+  background-color: #fff;
+  color: #5a6580;
+  /* height: 450rpx; */
+   /* height: 480rpx;  */
+  overflow: hidden;
+  margin-top: 30rpx;
+  /* justify-content: center; */
+}
+
+/* .item .main{
+   box-shadow: 0 4px 8px 1px rgba(0,0,0,0.2), 0 6px 20px 1px rgba(0,0,0,0.19); 
+   width: 96%; 
+   margin-bottom: 24rpx;
+   border-radius: 12rpx;
+   overflow: hidden;
+} */
+
+.item .item-title {
+  padding-left: 20rpx;
+}
+
+.item-pic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-pic image {
+  width: 720rpx;
+  height: 410rpx;
+}
+
+/* 列表 end  */
+
+/* 底部提示文字样式 */
+
+.btm-view {
+  color: #a4a9b0;
+  font-size: 24rpx;
+  text-align: center;
+  padding: 018rpx;
+  border-top: 1rpx solid #bbb;
+  margin-top: 20rpx;
+}
