@@ -128,14 +128,14 @@ Page({
     })
 
     wx.request({
-      url: baseUrl + '/api/funimg/videos',
+      url: baseUrl + '/funimg/api/funimg/videos',
       method: 'GET',
       data: $param,
       header: {
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         // wx.stopPullDownRefresh()
         // wx.hideNavigationBarLoading() //完成停止加载
 

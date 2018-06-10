@@ -67,6 +67,8 @@ public class ImageController {
     private String bucket;
     @Value("${qcloud.prefix}")
     private String keyPrefix;
+    @Value("${qcloud.domain}")
+    private String CDNdomain;
 
 
     @Autowired
@@ -139,7 +141,7 @@ public class ImageController {
 //               图片地址
                 String imgUrl = "";
 //                上传
-                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, keyPrefix + tempFileName, tempFile);
+                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain,keyPrefix + tempFileName, tempFile);
                 if (StringUtils.isBlank(uploadImgUrl)) {
                     return JsonData.fail("上传失败");
                 }
@@ -172,7 +174,7 @@ public class ImageController {
                         width = bufferedImage.getWidth();
                         height = bufferedImage.getHeight();
 
-                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, keyPrefix + uuid + ".jpg", thumbnailFile);
+                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain,keyPrefix + uuid + ".jpg", thumbnailFile);
                         if (StringUtils.isNotBlank(thumbnailFileUrl)) {
                             thumbnail = thumbnailFileUrl;
                         }

@@ -62,6 +62,8 @@ public class VideoController {
     private String bucket;
     @Value("${qcloud.prefix}")
     private String keyPrefix;
+    @Value("${qcloud.domain}")
+    private String CDNdomain;
 
 
     @Autowired
@@ -96,7 +98,7 @@ public class VideoController {
         InputStream is = null;
         try {
             String title = request.getParameter("title");
-//            System.out.println(title);
+            System.out.println(title);
             if (!file.isEmpty()) {
                 String originalFilename = file.getOriginalFilename();
                 String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -113,88 +115,71 @@ public class VideoController {
 //              临时文件
                 File tempFile = new File(videoPath + tempFileName);
 
-                int width = 0, height = 0, imgType = 0;
+                int width = 0, height = 0;
 //                视频第一帧图片
                 String thumbnail = "";
 //               图片地址
-                String imgUrl = "";
+                String mp4Url = "";
 //                上传
-                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, keyPrefix + tempFileName, tempFile);
-                if (StringUtils.isBlank(uploadImgUrl)) {
+                String uploadMp4Url = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain,keyPrefix + tempFileName, tempFile);
+                if (StringUtils.isBlank(uploadMp4Url)) {
                     return JsonData.fail("上传失败");
                 }
-                imgUrl = uploadImgUrl;
+                mp4Url = uploadMp4Url;
 
-                if (fileNameSuffix.equals(".mp4")) {
-                    imgType = 4;
-//                    得到第一帧图片
-                    String tempFilePath = picturePath + tempFileName;
-                    String thumbnailFilePath = picturePath + uuid + ".jpg";
+//              得到第一帧图片
+                String tempFilePath = videoPath + tempFileName;
+                String thumbnailFilePath = videoPath + uuid + ".jpg";
 
 
-                    String exeFile = isWindow() ? "D:/ProgramFiles/ffmpeg/bin/ffmpeg.exe" : "/usr/local/bin/ffmpeg";
+                String exeFile = isWindow() ? "D:/ProgramFiles/ffmpeg/bin/ffmpeg.exe" : "/usr/local/bin/ffmpeg";
 
-                    String[] cmd = {exeFile, "-i", tempFilePath, "-r", "1", "-vframes", "1", "-f", "image2", thumbnailFilePath};
+                String[] cmd = {exeFile, "-i", tempFilePath, "-r", "1", "-vframes", "1", "-f", "image2", thumbnailFilePath};
 
-                    Process p = Runtime.getRuntime().exec(cmd);
+                Process p = Runtime.getRuntime().exec(cmd);
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
-                    String s = "";
-                    while ((s = br.readLine()) != null) {
-                        System.out.println("返回数据： " + s);
-                    }
-                    br.close();
+                BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
+                String s = "";
+                while ((s = br.readLine()) != null) {
+                    System.out.println("返回数据： " + s);
+                }
+                br.close();
 
-                    File thumbnailFile = new File(thumbnailFilePath);
-                    if (thumbnailFile.exists()) {
-                        // 获取图片的宽高
-                        BufferedImage bufferedImage = ImageIO.read(thumbnailFile);
-                        width = bufferedImage.getWidth();
-                        height = bufferedImage.getHeight();
-
-                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, keyPrefix + uuid + ".jpg", thumbnailFile);
-                        if (StringUtils.isNotBlank(thumbnailFileUrl)) {
-                            thumbnail = thumbnailFileUrl;
-                        }
-                    }
-                } else {
-                    if (fileNameSuffix.equals(".jpg")) {
-                        imgType = 1;
-                    } else if (fileNameSuffix.equals(".jpeg")) {
-                        imgType = 2;
-                    } else if (fileNameSuffix.equals(".png")) {
-                        imgType = 3;
-                    }
+                File thumbnailFile = new File(thumbnailFilePath);
+                if (thumbnailFile.exists()) {
                     // 获取图片的宽高
-                    BufferedImage bufferedImage = ImageIO.read(tempFile);
+                    BufferedImage bufferedImage = ImageIO.read(thumbnailFile);
                     width = bufferedImage.getWidth();
                     height = bufferedImage.getHeight();
+
+                    String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain,keyPrefix + uuid + ".jpg", thumbnailFile);
+                    if (StringUtils.isNotBlank(thumbnailFileUrl)) {
+                        thumbnail = thumbnailFileUrl;
+                    }
                 }
 
 //                保存
-                FunImages funImages = new FunImages();
-                funImages.setImgUuid(uuid);
-                funImages.setThumbnail(thumbnail);
-                if (StringUtils.isBlank(title)){
+                FunVideo funVideo = new FunVideo();
+                funVideo.setThumbnail(thumbnail);
+                if (StringUtils.isBlank(title)) {
                     title = fileTitle;
                 }
-                funImages.setTitle(title);
-                funImages.setImgUrl(imgUrl);
-                funImages.setImgType(imgType);
-                funImages.setWidth(width);
-                funImages.setHeight(height);
-                funImages.setFileSize(file.getSize());
+                funVideo.setTitle(title);
+                funVideo.setVideoLink(mp4Url);
+                funVideo.setWidth(width);
+                funVideo.setHeight(height);
+                funVideo.setFileSize(file.getSize());
 
-                funImages.setDel(0);
-                funImages.setCreateTime(new Date());
-                funImages.setUpdateTime(new Date());
-                funImages.setCreatorId("");
-                funImages.setCreatorName("");
-                funImages.setUpdaterId("");
-                funImages.setUpdaterName("");
+                funVideo.setDel(0);
+                funVideo.setCreateTime(new Date());
+                funVideo.setUpdateTime(new Date());
+                funVideo.setCreatorId("");
+                funVideo.setCreatorName("");
+                funVideo.setUpdaterId("");
+                funVideo.setUpdaterName("");
 //
-                System.out.println(JSON.toJSONString(funImages));
-                JsonData jsonData = imageService.addFunImages(funImages);
+                System.out.println(JSON.toJSONString(funVideo));
+                JsonData jsonData = videoService.addFunVideo(funVideo);
                 if (is != null) {
                     is.close();
                 }
@@ -223,17 +208,5 @@ public class VideoController {
     private boolean isWindow() {
         return System.getProperty("os.name").toUpperCase().startsWith("WIN");
     }
-
-    @PostMapping("add")
-    @ResponseBody
-    public JsonData addAlbum(
-            @RequestParam(value = "title") String title,
-            @RequestParam(value = "imgUrl") String imgUrl,
-            @RequestParam(value = "publish_date") String publish_date
-    ) {
-//        return funAlbumService.addAlbum(funAlbum);
-        return null;
-    }
-
 
 }

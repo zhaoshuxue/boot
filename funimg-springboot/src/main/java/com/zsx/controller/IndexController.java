@@ -54,5 +54,10 @@ public class IndexController {
     }
 
 
+    @RequestMapping("videoList")
+    public String gotoVideoList(HttpServletRequest request, Model model) {
+        this.getBasePath(request, model);
+        return "videoPage/videoList";
+    }
 
 }

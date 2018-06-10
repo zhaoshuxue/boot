@@ -18,7 +18,7 @@ import java.io.File;
 public class QcloudUtil {
 
 
-    public static String upload(String accessKey, String secretKey, String regionName, String bucketName, String key, File file) {
+    public static String upload(String accessKey, String secretKey, String regionName, String bucketName, String domain, String key, File file) {
         COSClient cosClient = null;
         try {
             //      1 初始化用户身份信息(secretId, secretKey)
@@ -42,7 +42,8 @@ public class QcloudUtil {
             //        System.out.println(JSON.toJSONString(putObjectResult));
             String eTag = putObjectResult.getETag();
             if (StringUtils.isNotBlank(eTag)) {
-                return "https://highness-1-1253922088.cos.ap-beijing.myqcloud.com" + key;
+                return domain + key;
+//                return "https://highness-1-1253922088.cos.ap-beijing.myqcloud.com" + key;
             }
         } catch (Exception e) {
             e.printStackTrace();
