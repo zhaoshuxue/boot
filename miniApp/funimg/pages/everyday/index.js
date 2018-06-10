@@ -8,7 +8,7 @@ Page({
     baseUrl: '',
     params: {
       pageNum: 1,
-      pageSize: 4
+      pageSize: 3
     },
     pages: 0,
     nomore: true,
