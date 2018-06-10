@@ -5,10 +5,14 @@
     <view class="main" bindtap="gotoDetail" data-id="{{item.id}}" data-url="{{item.linkUrl}}" data-title="{{item.title}}" data-height="{{item.height}}" data-width="{{item.width}}" >
       <view class='item-title'>{{item.title}}</view>
       <view class='item-pic'>
+        <image mode="aspectFill" src="{{item.thumbnail}}" class='video-pic'></image>
+        <!--  
         <video src='{{item.linkUrl}}' style='width:100%;' 
         controls='{{true}}' 
         >
         </video>
+         -->
+         <image mode="scaleToFill" src="/images/pause.png" class="img-pause"></image>
       </view>
     </view>
   </view>

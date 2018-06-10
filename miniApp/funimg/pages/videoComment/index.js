@@ -62,6 +62,9 @@ Page({
         if (h > windowHeight){
           h = windowHeight
         }
+        
+        // h -= 10;
+
         var videoHeight = "height: " + h + "px";
 
         // console.log("计算视频高度为：" + videoHeight);

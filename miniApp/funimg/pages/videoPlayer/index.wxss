@@ -36,9 +36,17 @@ page {
   justify-content: center;
 }
 
-.item-pic image {
+.item-pic .video-pic {
   width: 720rpx;
   height: 410rpx;
+}
+
+
+.item-pic .img-pause{
+  position:absolute;
+  width: 110rpx;
+  height: 110rpx; 
+  opacity: 0.8;
 }
 
 /* 列表 end  */
