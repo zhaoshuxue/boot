@@ -1,7 +1,7 @@
 {
-  "pages": [
-    "pages/everyday/index",
+  "pages": [    
     "pages/home/index",
+    "pages/everyday/index",
     "pages/index/index",
     "pages/detail/index",
     "pages/about/index",
@@ -22,16 +22,16 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "pages/everyday/index",
-        "text": "每日精选"
-      },
-      {
         "pagePath": "pages/home/index",
         "text": "精选趣图"
       },
       {
         "pagePath": "pages/videoPlayer/index",
         "text": "精选视频"
+      },
+      {
+        "pagePath": "pages/everyday/index",
+        "text": "每日精选"
       },
       {
         "pagePath": "pages/about/index",

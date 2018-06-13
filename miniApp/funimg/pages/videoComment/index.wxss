@@ -1,1 +1,4 @@
 /* pages/videoComment/index.wxss */
+page {
+  background-color: #000000;
+}

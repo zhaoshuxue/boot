@@ -10,7 +10,7 @@ Page({
     windowWidth: 0,
     params: {
       pageNum: 1,
-      pageSize: 5
+      pageSize: 3
     },
     pages: 0,
     nomore: true,
