@@ -15,6 +15,8 @@ public class VideoData implements Serializable {
     private Integer width;
     private Integer height;
 
+    private Long nextId;
+
 
     public Long getId() {
         return id;
@@ -62,5 +64,13 @@ public class VideoData implements Serializable {
 
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public Long getNextId() {
+        return nextId;
+    }
+
+    public void setNextId(Long nextId) {
+        this.nextId = nextId;
     }
 }

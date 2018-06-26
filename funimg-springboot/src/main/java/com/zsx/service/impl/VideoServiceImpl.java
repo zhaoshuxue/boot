@@ -3,12 +3,14 @@ package com.zsx.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.zsx.entity.FunVideo;
 import com.zsx.ext.FunVideoDao;
 import com.zsx.service.VideoService;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.VideoData;
 import com.zsx.vo.json.JsonData;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,5 +72,32 @@ public class VideoServiceImpl implements VideoService {
             return JsonData.returnObject(funVideo);
         }
         return JsonData.fail("保存失败");
+    }
+
+    @Override
+    public VideoData getVideoData(Long id) {
+        VideoData videoData = new VideoData();
+        Map<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        search.put("lessId", id);
+        PageHelper.startPage(1, 2, "id desc");
+        List<FunVideo> funVideos = funVideoDao.selectByParams(search);
+        if (CollectionUtils.isNotEmpty(funVideos)){
+            FunVideo funVideo = funVideos.get(0);
+
+            videoData.setId(funVideo.getId());
+            videoData.setTitle(funVideo.getTitle());
+            videoData.setThumbnail(funVideo.getThumbnail());
+            videoData.setLinkUrl(funVideo.getVideoLink());
+            videoData.setWidth(funVideo.getWidth());
+            videoData.setHeight(funVideo.getHeight());
+
+            if (funVideos.size() == 2){
+                videoData.setNextId(funVideos.get(1).getId());
+            }else{
+                videoData.setNextId(null);
+            }
+        }
+        return videoData;
     }
 }

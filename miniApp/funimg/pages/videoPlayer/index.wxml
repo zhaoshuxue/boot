@@ -2,7 +2,7 @@
 <!-- 列表 -->
 <view style="flex-direction:column;">
   <view class="item" wx:for="{{dataList}}" wx:key="">
-    <view class="main" bindtap="gotoDetail" data-id="{{item.id}}" data-url="{{item.linkUrl}}" data-title="{{item.title}}" data-height="{{item.height}}" data-width="{{item.width}}" >
+    <view class="main" bindtap="gotoDetail" data-id="{{item.id}}" >
       <view class='item-title'>{{item.title}}</view>
       <view class='item-pic'>
         <image mode="aspectFill" src="{{item.thumbnail}}" class='video-pic'></image>

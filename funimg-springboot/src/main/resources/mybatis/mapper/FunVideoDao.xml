@@ -35,6 +35,9 @@
                     #{item}
                 </foreach>
             </if>
+            <if test="search.lessId != null">
+                and id &lt;= #{search.lessId,jdbcType=BIGINT}
+            </if>
             <if test="search.summary != null">
                 and summary like concat('%', #{search.summary,jdbcType=VARCHAR}, '%')
             </if>

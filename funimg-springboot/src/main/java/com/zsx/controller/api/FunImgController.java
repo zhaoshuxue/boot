@@ -88,7 +88,7 @@ public class FunImgController {
     }
 
 
-//    @ApiOperation(value = "获取小程序用户openid", notes = "", httpMethod = "GET")
+    //    @ApiOperation(value = "获取小程序用户openid", notes = "", httpMethod = "GET")
     @GetMapping("/getOpenId")
     public JsonData getOpenId(
 //            @ApiParam(value = "code")
@@ -119,10 +119,10 @@ public class FunImgController {
 //            @ApiParam(value = "房屋id")
             @RequestParam(value = "id", defaultValue = "0") Long id
     ) {
-        if (StringUtils.isBlank(openid)){
+        if (StringUtils.isBlank(openid)) {
             return JsonData.fail("");
         }
-        if (StringUtils.isBlank(text)){
+        if (StringUtils.isBlank(text)) {
             return JsonData.fail("");
         }
         Comment comment = new Comment();
@@ -148,5 +148,11 @@ public class FunImgController {
         PageData<VideoData> pageData = videoService.getFunVideoDataPageList(search, pageNum, pageSize);
         return pageData;
     }
+
+    @GetMapping("/videoDetail")
+    public VideoData getVideoDetail(@RequestParam(defaultValue = "0") Long id) {
+        return videoService.getVideoData(id);
+    }
+
 
 }

@@ -25,4 +25,6 @@ public interface VideoService {
     PageData<FunVideo> getFunVideoPageList(Map<String, Object> search, Integer pageNum, Integer pageSize);
 
     JsonData addFunVideo(FunVideo funVideo);
+
+    VideoData getVideoData(Long id);
 }

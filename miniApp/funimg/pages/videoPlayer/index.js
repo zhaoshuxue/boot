@@ -97,14 +97,9 @@ Page({
    */
   gotoDetail: function (event) {
     var id = event.currentTarget.dataset.id;
-    var url = event.currentTarget.dataset.url;
-    var title = event.currentTarget.dataset.title;
-    var height = event.currentTarget.dataset.height;
-    var width = event.currentTarget.dataset.width;
 
     wx.navigateTo({
-      url: '/pages/videoComment/index?id=' + id + '&url=' + url + '&title=' + title
-      + '&height=' + height + '&width=' + width
+      url: '/pages/videoComment/index?id=' + id
     })
   },
 

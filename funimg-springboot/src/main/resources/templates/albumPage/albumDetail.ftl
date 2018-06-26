@@ -39,19 +39,24 @@
                 <h4 class="modal-title">图片列表</h4>
             </div>
             <div  class="modal-body" style="min-height:100px;">
+
+                <div style="text-align: right;">
+                    <button class="btn btn-danger" style="padding: 5px 33px;" onclick="save()">保存</button>
+                </div>
+
                 <input type="hidden" id="album_detail_id" />
                 <input type="text" id="album_title" style="width:100%;" />
                 <button class="btn btn-danger" onclick='javascript: $("#album_title").val($("#file_name").val())'>USE</button>
                 <input type="text" id="file_name" style="width:100%;" disabled/>
                 <input type="text" id="imgUuids" style="width:100%;"/>
 
-                <div class="input-group">
+                <div class="input-group" style="margin:10px">
                     <input name="tupian" id="tupian" type="file" class="form-control"
                            style="width:250px; display: none;"/>
                     <span class="btn btn-info" id="selectImg">请选择一张图片</span>
                     <span class="btn btn-success dn" id="startUpload">请选择一张图片</span>
                 </div>
-                <button class="btn btn-danger" onclick="save()">保存</button>
+
                 <div id="newImgDiv">
 
                 </div>
@@ -90,6 +95,10 @@
 //
         $("#add").click(function () {
             $("#album_detail_id").val("0")
+            $("#album_title").val('');
+            $("#imgUuids").val('');
+            $("#newImgDiv").html('');
+            $("#detailDiv").html('');
             $('#showModal').modal();
         });
 
@@ -196,6 +205,7 @@
                     title: '图片UUIDS',
                     align: 'center',
                     valign: 'middle',
+                    width: 150,
                     formatter: function (value, row, index) {
                         var images = row.images;
                         if(images){
@@ -214,6 +224,7 @@
                     title: "操作",
                     align: 'center',
                     valign: 'middle',
+                    width: 240,
                     formatter: function (value, row, index) {
                         var cls = 'btn btn-primary btn-sm';
                         var btn_up = '<button class="' + cls + '" onclick="sort(\'' + row.id + '\', ' + index + ', 1)">上移</button>';
@@ -286,6 +297,7 @@
                 html += '<img src="' + imageList[i] + '" style="width:200px;" /><br/>';
             }
         }
+        $("#newImgDiv").html('');
         $("#detailDiv").html(html);
         $('#showModal').modal();
     }
