@@ -1,5 +1,6 @@
 import Login from './views/Login.vue'
 import ImageList from './views/ImageList.vue'
+import ImagePage from './views/ImagePage.vue'
 //import Home from './views/Home.vue'
 //import Main from './views/Main.vue'
 
@@ -14,6 +15,12 @@ let routes = [
     {
         path: '/imgPage',
         component: ImageList,
+        name: '',
+        hidden: true
+    },
+    {
+        path: '/',
+        component: ImagePage,
         name: '',
         hidden: true
     },
