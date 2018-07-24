@@ -38,6 +38,9 @@
             <if test="search.summary != null">
                 and summary like concat('%', #{search.summary,jdbcType=VARCHAR}, '%')
             </if>
+            <if test="search.publishDate != null" >
+                and publish_date = #{publishDate,jdbcType=DATE}
+            </if>
         </where>
     </sql>
 

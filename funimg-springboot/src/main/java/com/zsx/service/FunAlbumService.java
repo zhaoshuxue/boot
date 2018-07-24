@@ -61,5 +61,6 @@ public interface FunAlbumService {
 
     JsonData setHotImages(Long id);
 
+    void flushFunAlbum();
 
 }

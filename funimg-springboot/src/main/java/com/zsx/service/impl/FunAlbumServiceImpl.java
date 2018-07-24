@@ -21,6 +21,7 @@ import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -536,4 +537,20 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
         return JsonData.success("成功设置为热门图片");
     }
+
+    @Override
+    public void flushFunAlbum() {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        search.put("status", 1);
+        search.put("publishDate", new LocalDate().toDate());
+        List<FunAlbum> funAlbums = funAlbumDao.selectByParams(search);
+        if (CollectionUtils.isNotEmpty(funAlbums)){
+            FunAlbum funAlbum = funAlbums.get(0);
+            funAlbum.setStatus(0);
+            funAlbumDao.updateByPrimaryKeySelective(funAlbum);
+        }
+    }
+
+
 }
