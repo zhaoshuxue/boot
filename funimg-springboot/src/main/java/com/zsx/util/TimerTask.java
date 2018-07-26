@@ -22,7 +22,7 @@ public class TimerTask {
 
 //		TestService bean = SpringUtil.getBean(TestServiceImpl.class);
 
-        FunAlbumService funAlbumService = SpringUtil.getBean("funAlbumService", FunAlbumService.class);
+        FunAlbumService funAlbumService = SpringUtil.getBean(FunAlbumService.class);
         funAlbumService.flushFunAlbum();
     }
 }
