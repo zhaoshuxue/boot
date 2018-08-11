@@ -41,7 +41,7 @@
             <div  class="modal-body" style="min-height:100px;">
 
                 <div style="text-align: right;">
-                    <button class="btn btn-danger" style="padding: 5px 33px;" onclick="save()">保存</button>
+                    <button class="btn btn-danger" style="padding: 5px 33px; width: 100%; margin-bottom: 20px;" onclick="save()">保存</button>
                 </div>
 
                 <input type="hidden" id="album_detail_id" />
@@ -183,8 +183,16 @@
             uniqueId: 'id',
             columns: [
                 {
-                    checkbox: true, // 显示一个勾选框
-                    align: 'center' // 居中显示
+//                    checkbox: true, // 显示一个勾选框
+//                    align: 'center' // 居中显示
+//                }, {
+                    field: 'id',
+                    title: '序号',
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        return index+1;
+                    }
                 }, {
                     field: 'id', // 返回json数据中的name
                     title: 'ID', // 表格表头显示文字
@@ -346,6 +354,7 @@
     function alertMsg(msg) {
         $.alert({
             title: false,
+            backgroundDismiss: true,
             content: msg,
             confirmButton: '确认'
         });
