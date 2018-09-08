@@ -15,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,9 +58,9 @@ public class UploadController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "upload")
+    @RequestMapping(value = "testupload1")
     @ResponseBody
-    public JsonData upload(
+    public JsonData upload1(
             @RequestParam(value = "tupian", required = true) MultipartFile file,
             HttpServletRequest request) {
         try {
@@ -150,5 +148,67 @@ public class UploadController {
             result[1] = newHeight;
         }
         return result;
+    }
+
+
+    @RequestMapping(value = "upload")
+    @ResponseBody
+    public JsonData upload2(
+            @RequestParam(value = "tupian", required = true) MultipartFile file,
+            HttpServletRequest request) {
+        try {
+            if (!file.isEmpty()) {
+                String uuid = UUID.randomUUID().toString();
+                String tempFileName = uuid + ".jpg";
+//              获取demo图片的路径
+                String demoImagePath = "/data/pintu/image/";
+                File demoImageFile = new File(demoImagePath + "demo.jpg");
+                if (demoImageFile.exists()) {
+//                    demoImageFile.delete();
+                    demoImageFile.renameTo(new File(demoImagePath + tempFileName));
+                }
+
+//              暂存
+                file.transferTo(new File(demoImagePath + "demo.jpg"));
+//              临时文件
+                File tempFile = new File(demoImagePath + "demo.jpg");
+                if (!tempFile.exists()) {
+                    return JsonData.fail("上传失败");
+                }
+
+                String exeFile = isWindow() ? "" : "/data/pintu/mosaic_puzzle/main";
+
+                String[] cmd = {exeFile};
+
+                Process p = Runtime.getRuntime().exec(cmd);
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
+                String s = "";
+                while ((s = br.readLine()) != null) {
+                    System.out.println("返回数据： " + s);
+                }
+                br.close();
+
+                File thumbnailFile = new File(demoImagePath + "demo_out_n.jpg");
+                if (thumbnailFile.exists()) {
+                    String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + uuid + ".jpg", thumbnailFile);
+                    if (StringUtils.isNotBlank(thumbnailFileUrl)) {
+                        return JsonData.returnObject(thumbnailFileUrl);
+                    }
+                }
+
+//                上传
+//                String uploadMp4Url = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + tempFileName, tempFile2);
+//                if (StringUtils.isBlank(uploadMp4Url)) {
+//                }
+                return JsonData.fail("上传失败");
+//                return JsonData.returnObject(uploadMp4Url);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return JsonData.fail("上传失败");
     }
 }
