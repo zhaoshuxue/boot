@@ -1,5 +1,6 @@
 package com.zsx.controller;
 
+import com.google.common.collect.Maps;
 import com.zsx.util.QcloudUtil;
 import com.zsx.vo.json.JsonData;
 import net.coobird.thumbnailator.Thumbnails;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +21,10 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by highness on 2018/5/25 0025.
@@ -50,6 +55,9 @@ public class UploadController {
     @Value("${qcloud.domain}")
     private String CDNdomain;
 
+
+    private static Map<String, String> imageMap = Maps.newHashMap();
+    private static ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * 上传
@@ -158,10 +166,10 @@ public class UploadController {
             HttpServletRequest request) {
         try {
             if (!file.isEmpty()) {
-                String uuid = UUID.randomUUID().toString();
+                final String uuid = UUID.randomUUID().toString();
                 String tempFileName = uuid + ".jpg";
 //              获取demo图片的路径
-                String demoImagePath = "/data/pintu/image/";
+                final String demoImagePath = "/data/pintu/image/";
                 File demoImageFile = new File(demoImagePath + "demo.jpg");
                 if (demoImageFile.exists()) {
 //                    demoImageFile.delete();
@@ -176,33 +184,47 @@ public class UploadController {
                     return JsonData.fail("上传失败");
                 }
 
-                String exeFile = isWindow() ? "" : "/data/pintu/mosaic_puzzle/main";
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
 
-                String[] cmd = {exeFile};
+                        try {
+                            String exeFile = isWindow() ? "" : "/data/pintu/mosaic_puzzle/main";
 
-                Process p = Runtime.getRuntime().exec(cmd);
+                            String[] cmd = {exeFile};
 
-                BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
-                String s = "";
-                while ((s = br.readLine()) != null) {
-                    System.out.println("返回数据： " + s);
-                }
-                br.close();
+                            Process p = Runtime.getRuntime().exec(cmd);
 
-                File thumbnailFile = new File(demoImagePath + "demo_out_n.jpg");
-                if (thumbnailFile.exists()) {
-                    String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + uuid + ".jpg", thumbnailFile);
-                    if (StringUtils.isNotBlank(thumbnailFileUrl)) {
-                        return JsonData.returnObject(thumbnailFileUrl);
+                            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
+                            String s = "";
+                            while ((s = br.readLine()) != null) {
+                                System.out.println("返回数据： " + s);
+                            }
+                            br.close();
+
+                            File thumbnailFile = new File(demoImagePath + "demo_out_n.jpg");
+                            if (thumbnailFile.exists()) {
+                                String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + uuid + ".jpg", thumbnailFile);
+                                if (StringUtils.isNotBlank(thumbnailFileUrl)) {
+//                                    return JsonData.returnObject(thumbnailFileUrl);
+                                    imageMap.put(uuid, thumbnailFileUrl);
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+
+
                     }
-                }
+                });
+
 
 //                上传
 //                String uploadMp4Url = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + tempFileName, tempFile2);
 //                if (StringUtils.isBlank(uploadMp4Url)) {
 //                }
-                return JsonData.fail("上传失败");
-//                return JsonData.returnObject(uploadMp4Url);
+//                return JsonData.fail("上传失败");
+                return JsonData.returnObject(uuid);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,5 +232,16 @@ public class UploadController {
 
         }
         return JsonData.fail("上传失败");
+    }
+
+
+    @RequestMapping(value = "check", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonData check(
+            @RequestParam(value = "uuid", required = true) String uuid) {
+        if (imageMap.get(uuid) != null) {
+            return JsonData.returnObject(imageMap.get(uuid));
+        }
+        return JsonData.returnObject("");
     }
 }
