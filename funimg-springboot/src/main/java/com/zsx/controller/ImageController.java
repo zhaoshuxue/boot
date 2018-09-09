@@ -154,7 +154,7 @@ public class ImageController {
                     String thumbnailFilePath = picturePath + uuid + ".jpg";
 
 
-                    String exeFile = isWindow() ? "D:/ProgramFiles/ffmpeg/bin/ffmpeg.exe" : "/usr/local/bin/ffmpeg";
+                    String exeFile = isWindow() ? ffmpegWinExe : ffmpegLinuxExe;
 
                     String[] cmd = {exeFile, "-i", tempFilePath, "-r", "1", "-vframes", "1", "-f", "image2", thumbnailFilePath};
 
