@@ -277,9 +277,19 @@
             success: function (data) {
                 console.log(data)
                 if(data.code == 200){
-                    alertMsg("保存成功");
+                    // alertMsg("保存成功");
                     $("#showModal").modal('hide');
                     $('#table').bootstrapTable("refresh");
+
+                    $.alert({
+                        title: false,
+                        backgroundDismiss: true,
+                        content: "保存成功",
+                        confirmButton: '确认',
+                        confirm: function(){
+                            $("#add").click()
+                        }
+                    });
                 }else{
                     alertMsg("保存失败");
                 }
