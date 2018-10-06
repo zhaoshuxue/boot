@@ -1,0 +1,118 @@
+.login_div {
+	border: 1px solid #fff;
+	position: absolute;
+	z-index:100001;
+	top: 25%;
+	left: 40%;
+	background-color: #fff;
+	padding-bottom: 10px;
+	
+	border-radius: 2px;
+    box-shadow: 2px 2px 10px #ccc;
+}
+
+.denglu {
+	float: left;
+	margin: 8px 0 0 38px;
+}
+
+.close_btn {
+	float: right;
+	margin: 8px 25px 0 1px;
+}
+
+.login_title {
+	height: 35px;
+	background-color: #f7f7f7;
+	border: 1px solid #ddd;
+}
+
+.userName_div,.password_div {
+	margin-top: 10px;
+}
+
+.pass_label_userName {
+	background-image: url(../../Image/login_input_icons.png);
+	background-repeat: no-repeat;
+	background-position: 0 -68px;
+	display: block;
+	position: absolute;
+	top: 55px;
+	left: 6px;
+	width: 0;
+	height: 24px;
+	overflow: hidden;
+	padding: 0 0 0 24px;
+	z-index: 20;
+}
+
+.pass_label_password {
+	background-image: url(../../Image/login_input_icons.png);
+	background-repeat: no-repeat;
+	background-position: 0 -187px;
+	display: block;
+	position: absolute;
+	top: 107px;
+	left: 6px;
+	width: 0;
+	height: 24px;
+	overflow: hidden;
+	padding: 0 0 0 24px;
+	z-index: 20;
+}
+
+.pass-text-input {
+	display: block;
+	position: relative;
+	height: 16px;
+	padding: 12px 10px 12px 10px;
+	border: 1px solid #ddd;
+	transition: .3s;
+	-moz-transition: .3s;
+	-o-transition: .3s;
+	-webkit-transition: .3s;
+	font-size: 14px;
+	color: #666;
+	width: 300px;
+	padding-left: 38px;
+}
+
+.submit_div {
+	margin-top: 20px;
+}
+
+.pass_button_submit {
+	display: block;
+	height: 48px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	color: #fff;
+	background: #3f89ec;
+	border-radius: 3px;
+	border: none;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	transition: .3s;
+	-moz-transition: .3s;
+	-o-transition: .3s;
+	-webkit-transition: .3s;
+	width: 350px;
+	margin-bottom: 10px;
+}
+
+.pass-reglink,.pass-fgtpwd {
+	font-size: 12px;
+	text-decoration: none;
+	color: #1b66c7;
+	font-family: Arial, Helvetica, STHeiti, "宋体";
+}
+
+.pass-reglink {
+	padding-left: 25px;
+}
+
+.pass-fgtpwd {
+	float: right;
+	padding-right: 22px;
+}

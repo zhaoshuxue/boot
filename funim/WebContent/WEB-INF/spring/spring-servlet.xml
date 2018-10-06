@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<!-- 注解扫描包 -->
+	<!-- springMVC配置文件中将Service注解给去掉 -->
+	<context:component-scan base-package="com.funimg.*,org.weixin.*" > <!--  use-default-filters="false" -->
+		<!-- 
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		 --> 
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		
+	</context:component-scan>
+
+	<!-- 启用spring mvc 注解 -->
+	<context:annotation-config />
+
+	<!-- 开启注解方案1 -->
+	<!-- 注解方法处理 -->
+	<!--
+		<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"
+		/>
+	-->
+	<!-- 注解类映射处理 -->
+	<!--
+		<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"
+		/>
+	-->
+
+	<!-- 开启注解方案2 -->
+	<mvc:annotation-driven />
+
+	<!--
+		<bean name="/helloworld" class="com.zhao.controller.UserController" />
+	-->
+
+	<!-- 静态资源访问，方案1 -->
+	<!--<mvc:resources location="/static/" mapping="/static/**"/> -->
+
+	<!-- 静态资源访问，方案2 -->
+	<mvc:default-servlet-handler />
+
+	<!-- 视图解释类 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- Spring MVC JSON配置 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="messageConverters">
+	    	<!-- 利用fastjson处理json字符串 -->
+	        <bean class="com.funimg.core.util.FastJsonHttpMessageConverter">
+		        <property name="supportedMediaTypes">
+		            <list>
+		            	<!-- 避免IE执行AJAX时,返回JSON出现下载文件-->
+		                <value>text/html;charset=UTF-8</value>
+		            </list> 
+		        </property>
+	        </bean>
+	    </property>
+	</bean>
+ 
+	<!-- 文件上传配置 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>104857600</value> <!-- 100M  1024 * 1024 * 100 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+	
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<!-- <mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.funimg.core.interceptors.EncodingInterceptor" />
+		</mvc:interceptor> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.funimg.core.interceptors.AuthInterceptor">
+				<!-- 不需要权限验证的地址 -->
+				<property name="excludeUrls">
+					<list>
+						<value>wechat</value><!-- 登录页面 -->
+						<value>checkname</value><!-- 注册时检查用户名是否重复 -->
+						<value>register</value><!-- 注册页面 -->
+						<value>login</value><!-- 登录操作 -->
+						<value>logout</value><!-- 登出操作 -->
+						<value>signin</value><!-- 用户注册操作 -->
+						<value>validatecode</value><!-- 生成验证码 -->
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>  

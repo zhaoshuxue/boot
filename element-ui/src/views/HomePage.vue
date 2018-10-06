@@ -41,6 +41,63 @@ export default {
       value3: ''
     };
   },
+  mounted(){var self = this;
+  
+	// 注册scroll事件并监听            
+	window.addEventListener('scroll',function(){                
+	console.log(document.documentElement.clientHeight+'-----------'+window.innerHeight); // 可视区域高度  
+	console.log(document.body.scrollTop); // 滚动高度    
+	var scrollTop=document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+	console.log(scrollTop); 
+	console.log(document.body.offsetHeight); // 文档高度
+
+	// 判断是否滚动到底部
+		if(scrollTop + window.innerHeight >= document.body.offsetHeight) {
+			console.log(new Date())
+
+			      
+			      $.ajax({
+				type: "post",
+				dataType: "json",
+				contentType: "application/json",
+				//url: "https://www.funimg.top/funimg/video/lists",
+				url: "http://127.0.0.1:18080/video/lists",
+				data: {
+				    pageNum: 1,
+				    pageSize: 3
+				},
+				success: function(json) {
+					console.log(json)
+					
+					console.log()
+					console.log(self.dataList)
+
+					let list = self.dataList
+					
+
+					$.each(json.rows, function(e,v){
+					
+						list.push(v)
+					
+					});
+
+
+					self.dataList = list;
+
+
+
+
+//				  
+				},
+				error: function(json) {
+				  alert("加载失败");
+				}
+			      });
+		}
+
+	});
+
+  },
   methods: {
     handleReset2() {
       this.$refs.ruleForm2.resetFields();
@@ -51,11 +108,11 @@ export default {
         type: "post",
         dataType: "json",
         contentType: "application/json",
-        url: "https://www.funimg.top/funimg/video/lists",
-	//url: "http://127.0.0.1:18080/video/lists",
+        //url: "https://www.funimg.top/funimg/video/lists",
+	url: "http://127.0.0.1:18080/video/lists",
 	data: {
 	    pageNum: 1,
-	    pageSize: 10
+	    pageSize: 3
 	},
         success: function(json) {
 		console.log(json)
@@ -66,6 +123,11 @@ export default {
         }
       });
     }
+
+
+
+
+
 
   }
 }
@@ -93,7 +155,7 @@ body {
 .el-footer {
   width: 100%;
   background-color: #ccc;
-  position: fixed;
+  /*position: fixed;*/
   bottom: 0;
 }
 </style>

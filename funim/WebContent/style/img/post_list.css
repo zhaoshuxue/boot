@@ -1,0 +1,102 @@
+body{
+	height: 1250px;background: #eee;
+}
+/*导航nav 暂时没做*/
+.nav_div {
+	border: 1px solid #ccc;
+	height: 70px;
+	left: 50%;
+	margin-left: -512px;
+	min-width: 1024px;
+	position: absolute;
+	top: 70px;
+	background: #35B5D2;
+	box-shadow: 0 0 5px #888;
+}
+/**/
+.title{
+	left: 50%;
+	margin-left: -512px;
+	position: absolute;
+	top: 154px;
+	text-shadow: 0 0 5px #888;
+	font-size: 28px;
+}
+/*主体*/
+.center_div {
+	border: 1px solid #ccc;
+	left: 50%;
+	margin-left: -512px;
+	width: 1024px;
+	position: absolute;
+	top: 200px;
+	box-shadow: 0 0 5px #888;
+	height: 1000px;
+}
+
+.items_list {
+	/*padding-top: 20px;*/
+	
+}
+
+.item {
+	border: 1px solid;
+	width: 980px;
+	height: 40px;
+	margin: -1px;
+	overflow: hidden;
+}
+
+.items_top {
+	width: 100%;
+	height: 20px;
+	background: #B1D3E0;
+	margin-bottom: 15px;
+}
+
+.item div {
+	border-right: 1px solid;
+	float: left;
+	line-height: 40px;
+}
+
+.item_num {
+	width: 40px;
+}
+
+.item_title {
+	width: 580px;
+	text-align: left;
+	padding-left: 20px;
+}
+
+.item_author {
+	width: 150px;
+}
+
+.item_date {
+	width: 100px;
+}
+
+.item_other {
+	width: 80px;
+	border-right: 0px !important;
+}
+
+.item_style {
+	color: #9B9B9B;
+	font-family: "Microsoft Yahei",Tahoma;
+	font-size: 13px;
+}
+/**/
+footer {
+	padding: 30px 0;
+	background-color: #b9b8b8;
+	text-align: center;
+	color:#fff;
+}
+.clear/* 清除浮动 */
+{
+    height: 100%; 
+    clear:both;
+}

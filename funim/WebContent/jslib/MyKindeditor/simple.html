@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Simple Examples</title>
+		<style>
+			form {
+				margin: 0;
+			}
+			textarea {
+				display: block;
+			}
+		</style>
+		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="themes/default/default.css" />
+		<script charset="utf-8" src="kindeditor-min.js"></script>
+		<script charset="utf-8" src="zh_CN.js"></script>
+		<script>
+			var editor;
+			KindEditor.ready(function(K) {
+				editor = K.create('textarea[name="content"]', {
+					//resizeType : 1,
+						
+					resizeType : 0,//不许自己调整编辑大小
+					autoHeightMode: true, //自动高度模式开启
+					//创建完毕过后设置为自动高度
+					afterCreate: function () {
+						this.loadPlugin('autoheight');
+						var self = this;
+						K.ctrl(document, 13, function() {
+							self.sync();
+							//document.forms['example'].submit();
+							alert(K('#editor_id').val());
+						});
+						K.ctrl(self.edit.doc, 13, function() {
+							self.sync();
+							//document.forms['example'].submit();
+							alert(K('#editor_id').val());
+						});
+						
+					},
+
+					allowPreviewEmoticons : false,
+					//width : '735px',
+					items : 
+					[
+							'preview','|', 
+							'formatblock', 'fontname', 'fontsize', '|',
+							'forecolor', 'hilitecolor', 'bold',
+							'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
+							'undo', 'redo',
+							'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+							'justifyfull', 'selectall', '|', 
+							'hr', 'emoticons',
+							'link', '|', 
+							'fullscreen', '|',
+							'about'
+					]
+
+
+				});
+
+				
+			});
+		</script>
+	</head>
+	<body>
+		<h3>默认模式</h3>
+		<form>
+			<textarea name="content" id="editor_id" style="width:735px;height:100px;visibility:hidden;">KindEditor</textarea>
+		</form>
+(提交快捷键: Ctrl + Enter)
+		<br><br>
+		<input type="button" value="editor.html()" onclick="fun1()">
+		<br>
+		<input type="button" value="sync" onclick="fun2()">
+		<br>
+		<input type="button" value="" onclick="editor.html('HTML内容');">
+		<!-- 
+// 取得HTML内容
+html = editor.html();
+
+// 同步数据后可以直接取得textarea的value
+editor.sync();
+html = document.getElementById('editor_id').value; // 原生API
+html = K('#editor_id').val(); // KindEditor Node API
+html = $('#editor_id').val(); // jQuery
+
+// 设置HTML内容
+editor.html('HTML内容');
+		-->
+
+	</body>
+	<script type="text/javascript">
+		function fun1(){
+			alert(editor.html());
+		}
+
+		function fun2(){
+			editor.sync();
+			html = document.getElementById('editor_id').value; // 原生API
+			//html = K('#editor_id').val(); // KindEditor Node API
+			//html = $('#editor_id').val(); // jQuery
+			alert(html);
+		}
+
+	</script>
+</html>

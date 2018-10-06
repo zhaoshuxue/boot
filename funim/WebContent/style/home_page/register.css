@@ -1,0 +1,162 @@
+body .main {
+	margin: 0 auto;
+	margin-top: 28px;
+	margin-bottom: 48px;
+	padding: 0 24px;
+	box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+	background-color: #fff;
+	max-width: 960px;
+	overflow: hidden;
+	border-radius: 2px;
+	font-family: Arial, "宋体";
+}
+
+ul li {
+	list-style: none;
+}
+
+ul {
+	padding: 0px;
+}
+
+.header {
+	height: 80px;
+	margin: 15px 0;
+	background-color: #eee;
+}
+
+.logo {
+	float: left;
+}
+
+.login-link {
+	float: right;
+	margin: 26px 38px 0 0;
+	font-size: 12px;
+}
+
+.login-btn {
+	font-weight: bold;
+	color: #fff;
+	height: 32px;
+	width: 64px;
+	border: none;
+	cursor: pointer;
+	background-color: #3f89ec;
+}
+
+.register {
+	margin: 40px 60px;
+}
+
+.register input {
+	padding: 11px 10px 11px 10px;
+	border: 1px solid #ddd;
+}
+
+th {
+	font-size: 14px;
+	color: #666;
+	font-weight: bold;
+	text-align: right;
+}
+
+.must {
+	color: red;
+}
+
+.titip {
+	padding-bottom: 38px;
+}
+
+.remind {
+	color: #999;
+	font-size: 12px;
+}
+
+.auto {
+	color: #666;
+	font-size: 12px;
+	margin-left: 5px;
+}
+
+.clause {
+	font-size: 12px;
+	color: #1b66c7;
+	cursor: pointer;
+}
+
+.line {
+	height: 32px;
+}
+
+.pass-verifyCode {
+	margin-left: 20px;
+}
+
+.change {
+	font-size: 12px;
+	text-decoration: none;
+	color: #1b66c7;
+	margin-left: 10px;
+}
+
+.change:hover {
+	text-decoration: underline;
+}
+
+.submit_btn {
+	display: block;
+	height: 50px;
+	width: 300px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	color: #fff;
+	background-color: #3F89EC;
+	border: none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	margin: 30px 0 0 65px;
+}
+
+.tip {
+	height: 45px;
+	background-color: #9dd7ef;
+}
+
+.reg-sms {
+	float: right;
+	position: relative;
+	left: 20px;
+	width: 300px;
+	height: 200px;
+	bottom: 380px;
+	border: 1px solid #d1eeff;
+	background-color: #f5fbff;
+}
+
+.tishi {
+	border-bottom: 1px solid #e6edf2;
+	font-size: 15px;
+	color: #666;
+	padding: 10px 0 5px 66px;
+}
+
+.tsmsg {
+	color: red;
+	font-size: 14px;
+	padding-top: 15px;
+	text-align: center;
+}
+
+.footer {
+	margin-top: 50px;
+	padding: 80px 0;
+	background-color: #eee;
+	display: block;
+	font-size: 12px;
+	text-align: center;
+	color: #7a77c8;
+}

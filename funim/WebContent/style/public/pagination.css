@@ -1,0 +1,26 @@
+.pagination {
+	margin: 25px;
+	font-weight: bold;
+}
+
+.page_num {
+	border: 1px solid #d6d6d6;
+	border-radius: 0.2rem;
+	color: #7d7d7d;
+	display: inline-block;
+	padding: 0.5rem 0.9rem;
+	text-align: center;
+	text-decoration: none;
+}
+
+.cur {
+	color: #fdfdfd;
+	background-color: #1d1f20;
+	border: solid 1px #1d1f20;
+}
+
+.pagination a:hover {
+	color: #fdfdfd;
+	background-color: #1d1f20;
+	border: solid 1px #1d1f20;
+}

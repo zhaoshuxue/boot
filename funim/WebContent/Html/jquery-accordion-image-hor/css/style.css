@@ -1,0 +1,30 @@
+@charset "utf-8";
+*{margin:0px;padding:0px;font-family:"微软雅黑";font-size:12px; text-decoration:none;list-style-type:none;}
+img{border:0px;}
+
+
+/*瑞丽深度开始*/
+.flash4{width:1180px;height:450px;margin:0px auto;margin-top:50px;position:relative;}
+.flash4 ul li{width:106px;height:450px;border-left:2px solid #fff;position:relative;overflow:hidden;float:left;}
+.flash4 ul li .imgTop img{opacity:0.4;}
+.flash4 ul li .imgTop img.tm{opacity:1;}
+
+.flash4 ul li .imgCon{width:338px;height:405px;}
+.flash4 ul li .imgCen{width:338px;height:50px;background:rgba(0,0,0,0.5);color:#fff;font-size:20px;
+			line-height:50px;position:absolute;left:0px;bottom:0px;text-indent:20px;display:none;}
+
+.flash4 ul li.first{width:338px;}
+.flash4 ul li.fast{position:absolute;right:0px;bottom:0px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

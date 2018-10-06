@@ -1,0 +1,83 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+.header {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	background-color: #323436;
+	z-index:99999;
+}
+.inner {
+	width: 1000px;
+	margin: 0 auto;
+	overflow: hidden;
+	zoom: 1;
+}
+.inner h1 {
+	float: left;
+}
+.inner h1 img {
+	display: block;
+	border: 0;
+}
+.nav {
+	float: right;
+	list-style-type: none;
+	font-family: "Microsoft Yahei";
+}
+.nav li {
+	float: left;
+	margin-left: 5px;
+}
+.nav a {
+	float: left;
+	color: #cecece;
+	text-decoration: none;
+}
+.nav a:hover {
+	background-color: #555;
+}
+/*改变*/
+.large {
+	padding: 20px 0;
+}
+.large h1 img {
+	height: 64px;
+}
+.large .nav {
+	padding-top: 10px;
+}
+.large .nav a {
+	height: 44px;
+	padding: 0 20px;
+	line-height: 44px;
+	font-size: 18px;
+}
+.small {
+	padding: 10px 0;
+}
+.small h1 img {
+	height: 34px;
+}
+.small .nav {
+	padding-top: 3px;
+}
+.small .nav a {
+	height: 28px;
+	padding: 0 10px;
+	line-height: 28px;
+	font-size: 14px;
+}
+.header,
+.inner,
+.inner a,
+.inner img,
+.inner li {
+	transition: all 1s;
+	-moz-transition: all 1s;
+	-webkit-transition: all 1s;
+	-o-transition: all 1s;
+}
