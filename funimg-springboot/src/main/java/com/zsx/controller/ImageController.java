@@ -8,6 +8,7 @@ import com.zsx.service.FunAlbumService;
 import com.zsx.service.ImageService;
 import com.zsx.util.PageData;
 import com.zsx.util.QcloudUtil;
+import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
@@ -71,6 +72,8 @@ public class ImageController {
 
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private FunAlbumService funAlbumService;
 
     @PostMapping("/lists")
     @ResponseBody
@@ -91,6 +94,19 @@ public class ImageController {
         PageData<FunImages> pageData = imageService.getFunImagesPageList(search, pageNum, pageSize);
         JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
         return jsonTable;
+    }
+
+
+    @PostMapping("/hotImages")
+    @ResponseBody
+    public PageData getHotImageList(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "5") Integer pageSize
+    ) {
+        HashMap<String, Object> search = Maps.newHashMap();
+        search.put("del", 0);
+        PageData<AlbumData> pageData = funAlbumService.getFunHotImagePageList(search, pageNum, pageSize);
+        return pageData;
     }
 
 
@@ -255,6 +271,9 @@ public class ImageController {
 //        return funAlbumService.addAlbum(funAlbum);
         return null;
     }
+
+
+
 
 
 }
