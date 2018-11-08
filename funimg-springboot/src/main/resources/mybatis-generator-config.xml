@@ -59,7 +59,15 @@
 
         <!-- 配置表信息 -->
         <!---->
-        <table tableName="fun_video" domainObjectName="FunVideo"
+        <table tableName="fun_images" domainObjectName="FunImages"
+               enableSelectByExample="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="fun_album_detail" domainObjectName="FunAlbumDetail"
                enableSelectByExample="false"
                enableCountByExample="false"
                enableUpdateByExample="false"
