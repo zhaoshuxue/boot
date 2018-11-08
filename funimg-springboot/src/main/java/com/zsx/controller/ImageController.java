@@ -80,11 +80,15 @@ public class ImageController {
 //            @ApiParam("当选择距离由近到远时，该值为经度") @RequestParam(value = "lat", required = false) String lat,
 //            @ApiParam("页码") @RequestParam(defaultValue = "1") Integer pageNum,
 //            @ApiParam("条数") @RequestParam(defaultValue = "10") Integer pageSize
+
+            @RequestParam(defaultValue = "") String del,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
         HashMap<String, Object> search = Maps.newHashMap();
-//        search.put("del", 0);
+        if (StringUtils.isNotBlank(del)){
+            search.put("del", Integer.parseInt(del));
+        }
         PageData<FunImages> pageData = imageService.getFunImagesPageList(search, pageNum, pageSize);
         JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
         return jsonTable;

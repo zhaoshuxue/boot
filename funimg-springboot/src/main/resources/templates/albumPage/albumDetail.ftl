@@ -5,7 +5,7 @@
     <title>详细页面</title>
     <link rel="stylesheet" type="text/css" href="${basePath}/static/js/bootstrap-3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="${basePath}/static/js/bootstrap-table/bootstrap-table.min.css"/>
-    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/jquery-confirm/jquery-confirm.min.css" />
+    <link rel="stylesheet" type="text/css" href="${basePath}/static/js/jquery-confirm/jquery-confirm.min.css"/>
     <style type="text/css">
         .dn {
             display: none;
@@ -20,6 +20,8 @@
 <div class="container">
     <div>
         <button type="button" class="btn btn-primary" id="add">新增</button>
+        &nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" id="add2">添加</button>
         &nbsp;&nbsp;&nbsp;
         <button type="button" class="btn btn-info" onclick="updateSort()">保存排序</button>
     </div>
@@ -38,15 +40,18 @@
                 </button>
                 <h4 class="modal-title">图片列表</h4>
             </div>
-            <div  class="modal-body" style="min-height:100px;">
+            <div class="modal-body" style="min-height:100px;">
 
                 <div style="text-align: right;">
-                    <button class="btn btn-danger" style="padding: 5px 33px; width: 100%; margin-bottom: 20px;" onclick="save()">保存</button>
+                    <button class="btn btn-danger" style="padding: 5px 33px; width: 100%; margin-bottom: 20px;"
+                            onclick="save()">保存
+                    </button>
                 </div>
 
-                <input type="hidden" id="album_detail_id" />
-                <input type="text" id="album_title" style="width:100%;" />
-                <button class="btn btn-danger" onclick='javascript: $("#album_title").val($("#file_name").val())'>USE</button>
+                <input type="hidden" id="album_detail_id"/>
+                <input type="text" id="album_title" style="width:100%;"/>
+                <button class="btn btn-danger" onclick='javascript: $("#album_title").val($("#file_name").val())'>USE
+                </button>
                 <input type="text" id="file_name" style="width:100%;" disabled/>
                 <input type="text" id="imgUuids" style="width:100%;"/>
 
@@ -71,6 +76,45 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+
+<!-- 模态框2（Modal） -->
+<div class="modal fade" id="showImageModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel22" aria-hidden="true" style="top: 10%">
+    <div class="modal-dialog" style="width: 1050px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">未发布图片列表</h4>
+            </div>
+            <div class="modal-body" style="min-height:100px;">
+
+                <div style="text-align: right;">
+                    <button class="btn btn-danger" style="padding: 5px 33px; width: 100%; margin-bottom: 20px;"
+                            onclick="save()">保存
+                    </button>
+                </div>
+
+                <input type="hidden" id="album_detail_id"/>
+                <input type="text" id="album_title" style="width:100%;"/>
+                <button class="btn btn-danger" onclick='javascript: $("#album_title").val($("#file_name").val())'>USE
+                </button>
+                <input type="text" id="file_name" style="width:100%;" disabled/>
+                <input type="text" id="imgUuids" style="width:100%;"/>
+
+                <div class="input-group" style="margin:10px">
+                    <table id="image_table"></table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 
 <script type="text/javascript" src="${basePath}/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="${basePath}/static/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -100,6 +144,16 @@
             $("#newImgDiv").html('');
             $("#detailDiv").html('');
             $('#showModal').modal();
+        });
+
+        $("#add2").click(function () {
+            // $("#album_detail_id").val("0")
+            // $("#album_title").val('');
+            // $("#imgUuids").val('');
+            // $("#newImgDiv").html('');
+            // $("#detailDiv").html('');
+            loadImageTable();
+            $('#showImageModal').modal();
         });
 
         $("#selectImg").click(function () {
@@ -133,18 +187,18 @@
             },
             done: function (e, data) {
                 if (data.result.code == 200) {
-                    if(data.result.data.code == 200){
+                    if (data.result.data.code == 200) {
 //                        console.log(data.result.data.data.id)
                         var imgUuids = $("#imgUuids").val();
                         $("#imgUuids").val(imgUuids + "," + data.result.data.data.id);
                         $("#file_name").val(data.result.data.data.title)
                         var html = ""
-                        if(data.result.data.data.imgType == 4){
+                        if (data.result.data.data.imgType == 4) {
                             html += '<video width="150" controls>';
                             html += '<source src="' + data.result.data.data.imgUrl + '" type="video/mp4">';
                             html += '您的浏览器不支持Video标签。';
                             html += '</video>';
-                        }else{
+                        } else {
                             html += '<img src="' + data.result.data.data.imgUrl + '" style="width:150px;" /><br/>';
                         }
                         $("#newImgDiv").append(html);
@@ -191,7 +245,7 @@
                     align: 'center',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return index+1;
+                        return index + 1;
                     }
                 }, {
                     field: 'id', // 返回json数据中的name
@@ -216,10 +270,10 @@
                     width: 150,
                     formatter: function (value, row, index) {
                         var images = row.images;
-                        if(images){
+                        if (images) {
                             var imgUrlArr = new Array();
                             var imgTypeArr = new Array();
-                            for(var i = 0, len = images.length; i < len; i++){
+                            for (var i = 0, len = images.length; i < len; i++) {
                                 imgUrlArr.push(images[i].imgUrl);
                                 imgTypeArr.push(images[i].imgType);
                             }
@@ -256,11 +310,133 @@
     }
 
 
+    function loadImageTable() {
+        $('#image_table').bootstrapTable({
+            method: "post",
+            url: basePath + "/image/lists",
+            cache: false,
+            striped: true,
+            pagination: true,
+            pageList: [5, 10, 20],
+            pageSize: 5,
+            pageNumber: 1,
+            clickToSelect: true,
+            sidePagination: 'server',//设置为服务器端分页
+            //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
+            //设置为limit可以获取limit, offset, search, sort, order
+            queryParamsType: "undefined",
+            queryParams: function (params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
+                return {
+                    pageSize: params.pageSize,
+                    pageNum: params.pageNumber,
+                    sort: params.sortName,
+                    sortOrder: params.sortOrder,
+                    del: 2
+                }
+            },
+            uniqueId: 'id',
+            sortName: 'id', // 要排序的字段
+            sortOrder: 'desc', // 排序规则
+            columns: [
+                {
+                    checkbox: true, // 显示一个勾选框
+                    align: 'center' // 居中显示
+                }, {
+                    field: 'id',
+                    title: 'ID',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'title',
+                    title: '标题',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'imgType', // 返回json数据中的name
+                    title: '类型', // 图片类型，0:gif，1:jpg，2:jpeg，3:png，4:mp4,5:
+                    align: 'center', // 左右居中
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        var text = '未知';
+                        if (value == 0) {
+                            text = "gif";
+                        } else if (value == 1) {
+                            text = "jpg";
+                        } else if (value == 2) {
+                            text = "jpeg";
+                        } else if (value == 3) {
+                            text = "png";
+                        } else if (value == 4) {
+                            text = "mp4";
+                        }
+                        return text;
+                    }
+                }, {
+                    field: 'imgUrl',
+                    title: 'imgUrl',
+                    align: 'center',
+                    valign: 'middle',
+                    width: 150,
+                    formatter: function (value, row, index) { // 单元格格式化函数
+                        if (value == '') {
+                            return "没有资源";
+                        }
+                        if (row.imgType == 4) {
+//                                return "mp4格式";
+                            var html = '<video width="100" controls>';
+                            html += '<source src="' + value + '" type="video/mp4">';
+                            html += '您的浏览器不支持Video标签。';
+                            html += '</video>';
+                            return html;
+                        }
+                        return '<img src="' + value + '" style="width:100px;" />';
+                    }
+                }, {
+                    field: 'sinaimgUrl',
+                    title: 'sinaimgUrl',
+                    align: 'center',
+                    valign: 'middle',
+                    width: 150,
+                    formatter: function (value, row, index) {
+                        if (value == '') {
+                            return "没有资源";
+                        }
+                        return '<img src="' + value + '" style="width:100px;" />';
+                    }
+                }, {
+                    field: 'qiniuImgUrl',
+                    title: 'qiniuImgUrl',
+                    align: 'center',
+                    valign: 'middle',
+                    width: 150,
+                    formatter: function (value, row, index) {
+                        if (value == '') {
+                            return "没有资源";
+                        }
+                        return '<img src="' + value + '" style="width:100px;" />';
+                    }
+                }
+            ],
+            onLoadSuccess: function () {  //加载成功时执行
+                console.info("加载成功");
+            },
+            onLoadError: function () {  //加载失败时执行
+                console.info("加载数据失败");
+            },
+            onClickRow: function (row, element, field) {
+                console.info(row.id);
+                console.info(row.title);
+            }
+        });
+
+    }
+
+
     function save() {
         var album_detail_id = $("#album_detail_id").val();
         var album_title = $("#album_title").val();
         var imgUuids = $("#imgUuids").val();
-        if(imgUuids[0] == ','){
+        if (imgUuids[0] == ',') {
             imgUuids = imgUuids.substring(1)
         }
 
@@ -276,7 +452,7 @@
             dataType: "JSON",
             success: function (data) {
                 console.log(data)
-                if(data.code == 200){
+                if (data.code == 200) {
                     // alertMsg("保存成功");
                     $("#showModal").modal('hide');
                     $('#table').bootstrapTable("refresh");
@@ -286,11 +462,11 @@
                         backgroundDismiss: true,
                         content: "保存成功",
                         confirmButton: '确认',
-                        confirm: function(){
+                        confirm: function () {
                             $("#add").click()
                         }
                     });
-                }else{
+                } else {
                     alertMsg("保存失败");
                 }
             }
@@ -305,13 +481,13 @@
         var html = "";
         var imageList = imgList.split("!@#");
         var imageTypeList = imgTypeList.split("!@#");
-        for(var i=0,len=imageList.length; i<len; i++){
-            if(imageTypeList[i] == 4){
+        for (var i = 0, len = imageList.length; i < len; i++) {
+            if (imageTypeList[i] == 4) {
                 html += '<video width="200" controls>';
                 html += '<source src="' + imageList[i] + '" type="video/mp4">';
                 html += '您的浏览器不支持Video标签。';
                 html += '</video><br/>';
-            }else{
+            } else {
                 html += '<img src="' + imageList[i] + '" style="width:200px;" /><br/>';
             }
         }
@@ -340,16 +516,16 @@
         var $tb = $('#table');
         var data = $tb.bootstrapTable('getData');
         var arr = new Array();
-        for(var i=0,len=data.length; i<len; i++){
+        for (var i = 0, len = data.length; i < len; i++) {
             arr.push(data[i].id)
         }
         $.ajax({
-            type : "post",
-            url : basePath + "/album/sortAlbumDetail",
-            data : {ids:arr.join(",")},
-            dataType:"JSON",
-            async : false,
-            success : function(data){
+            type: "post",
+            url: basePath + "/album/sortAlbumDetail",
+            data: {ids: arr.join(",")},
+            dataType: "JSON",
+            async: false,
+            success: function (data) {
 //                console.log(data)
                 if (data.code == 200) {
                     alertMsg(data.message)
