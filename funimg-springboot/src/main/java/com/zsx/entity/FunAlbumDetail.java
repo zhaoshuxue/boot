@@ -14,6 +14,8 @@ public class FunAlbumDetail implements Serializable {
 
     private String imgUuids;
 
+    private String imgSource;
+
     private Integer del;
 
     private Date createTime;
@@ -68,6 +70,14 @@ public class FunAlbumDetail implements Serializable {
 
     public void setImgUuids(String imgUuids) {
         this.imgUuids = imgUuids == null ? null : imgUuids.trim();
+    }
+
+    public String getImgSource() {
+        return imgSource;
+    }
+
+    public void setImgSource(String imgSource) {
+        this.imgSource = imgSource == null ? null : imgSource.trim();
     }
 
     public Integer getDel() {
@@ -137,6 +147,7 @@ public class FunAlbumDetail implements Serializable {
         sb.append(", sort=").append(sort);
         sb.append(", title=").append(title);
         sb.append(", imgUuids=").append(imgUuids);
+        sb.append(", imgSource=").append(imgSource);
         sb.append(", del=").append(del);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);

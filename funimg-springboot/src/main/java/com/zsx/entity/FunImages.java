@@ -22,6 +22,10 @@ public class FunImages implements Serializable {
 
     private Long fileSize;
 
+    private String sinaimgUrl;
+
+    private String qiniuImgUrl;
+
     private Integer del;
 
     private Date createTime;
@@ -110,6 +114,22 @@ public class FunImages implements Serializable {
         this.fileSize = fileSize;
     }
 
+    public String getSinaimgUrl() {
+        return sinaimgUrl;
+    }
+
+    public void setSinaimgUrl(String sinaimgUrl) {
+        this.sinaimgUrl = sinaimgUrl == null ? null : sinaimgUrl.trim();
+    }
+
+    public String getQiniuImgUrl() {
+        return qiniuImgUrl;
+    }
+
+    public void setQiniuImgUrl(String qiniuImgUrl) {
+        this.qiniuImgUrl = qiniuImgUrl == null ? null : qiniuImgUrl.trim();
+    }
+
     public Integer getDel() {
         return del;
     }
@@ -181,6 +201,8 @@ public class FunImages implements Serializable {
         sb.append(", width=").append(width);
         sb.append(", height=").append(height);
         sb.append(", fileSize=").append(fileSize);
+        sb.append(", sinaimgUrl=").append(sinaimgUrl);
+        sb.append(", qiniuImgUrl=").append(qiniuImgUrl);
         sb.append(", del=").append(del);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);

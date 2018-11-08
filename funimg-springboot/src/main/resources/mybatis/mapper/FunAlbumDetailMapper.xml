@@ -1,36 +1,221 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zsx.dao.FunAlbumDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.zsx.entity.FunAlbumDetail" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="album_id" property="albumId" jdbcType="BIGINT" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="img_uuids" property="imgUuids" jdbcType="VARCHAR" />
-    <result column="del" property="del" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
-    <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
-    <result column="updater_id" property="updaterId" jdbcType="VARCHAR" />
-    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsx.dao.FunAlbumDetailMapper">
+  <resultMap id="BaseResultMap" type="com.zsx.entity.FunAlbumDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="album_id" jdbcType="BIGINT" property="albumId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="img_uuids" jdbcType="VARCHAR" property="imgUuids" />
+    <result column="img_source" jdbcType="VARCHAR" property="imgSource" />
+    <result column="del" jdbcType="INTEGER" property="del" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="updater_id" jdbcType="VARCHAR" property="updaterId" />
+    <result column="updater_name" jdbcType="VARCHAR" property="updaterName" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, album_id, sort, title, img_uuids, del, create_time, update_time, creator_id, 
-    creator_name, updater_id, updater_name
+  <sql id="Base_Column_List">
+    id, album_id, sort, title, img_uuids, img_source, del, create_time, update_time, 
+    creator_id, creator_name, updater_id, updater_name
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fun_album_detail
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from fun_album_detail
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.zsx.entity.FunAlbumDetail" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+  <insert id="insert" parameterType="com.zsx.entity.FunAlbumDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fun_album_detail (album_id, sort, title, 
+      img_uuids, img_source, del, 
+      create_time, update_time, creator_id, 
+      creator_name, updater_id, updater_name
+      )
+    values (#{albumId,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{imgUuids,jdbcType=VARCHAR}, #{imgSource,jdbcType=VARCHAR}, #{del,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=VARCHAR}, 
+      #{creatorName,jdbcType=VARCHAR}, #{updaterId,jdbcType=VARCHAR}, #{updaterName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zsx.entity.FunAlbumDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fun_album_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="albumId != null">
+        album_id,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="imgUuids != null">
+        img_uuids,
+      </if>
+      <if test="imgSource != null">
+        img_source,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="creatorName != null">
+        creator_name,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="updaterName != null">
+        updater_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="albumId != null">
+        #{albumId,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUuids != null">
+        #{imgUuids,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSource != null">
+        #{imgSource,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterName != null">
+        #{updaterName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zsx.entity.FunAlbumDetail">
+    update fun_album_detail
+    <set>
+      <if test="albumId != null">
+        album_id = #{albumId,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUuids != null">
+        img_uuids = #{imgUuids,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSource != null">
+        img_source = #{imgSource,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null">
+        del = #{del,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null">
+        creator_name = #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterName != null">
+        updater_name = #{updaterName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zsx.entity.FunAlbumDetail">
+    update fun_album_detail
+    set album_id = #{albumId,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      img_uuids = #{imgUuids,jdbcType=VARCHAR},
+      img_source = #{imgSource,jdbcType=VARCHAR},
+      del = #{del,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=VARCHAR},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
+      updater_id = #{updaterId,jdbcType=VARCHAR},
+      updater_name = #{updaterName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache />
+  <resultMap id="BaseResultMap" type="com.zsx.entity.FunAlbumDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="album_id" jdbcType="BIGINT" property="albumId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="img_uuids" jdbcType="VARCHAR" property="imgUuids" />
+    <result column="del" jdbcType="INTEGER" property="del" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="updater_id" jdbcType="VARCHAR" property="updaterId" />
+    <result column="updater_name" jdbcType="VARCHAR" property="updaterName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, album_id, sort, title, img_uuids, del, create_time, update_time, creator_id, 
+    creator_name, updater_id, updater_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fun_album_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from fun_album_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zsx.entity.FunAlbumDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into fun_album_detail (album_id, sort, title, 
@@ -42,122 +227,122 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=VARCHAR}, #{creatorName,jdbcType=VARCHAR}, 
       #{updaterId,jdbcType=VARCHAR}, #{updaterName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zsx.entity.FunAlbumDetail" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+  <insert id="insertSelective" parameterType="com.zsx.entity.FunAlbumDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into fun_album_detail
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="albumId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="albumId != null">
         album_id,
       </if>
-      <if test="sort != null" >
+      <if test="sort != null">
         sort,
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title,
       </if>
-      <if test="imgUuids != null" >
+      <if test="imgUuids != null">
         img_uuids,
       </if>
-      <if test="del != null" >
+      <if test="del != null">
         del,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time,
       </if>
-      <if test="creatorId != null" >
+      <if test="creatorId != null">
         creator_id,
       </if>
-      <if test="creatorName != null" >
+      <if test="creatorName != null">
         creator_name,
       </if>
-      <if test="updaterId != null" >
+      <if test="updaterId != null">
         updater_id,
       </if>
-      <if test="updaterName != null" >
+      <if test="updaterName != null">
         updater_name,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="albumId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="albumId != null">
         #{albumId,jdbcType=BIGINT},
       </if>
-      <if test="sort != null" >
+      <if test="sort != null">
         #{sort,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="imgUuids != null" >
+      <if test="imgUuids != null">
         #{imgUuids,jdbcType=VARCHAR},
       </if>
-      <if test="del != null" >
+      <if test="del != null">
         #{del,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creatorId != null" >
+      <if test="creatorId != null">
         #{creatorId,jdbcType=VARCHAR},
       </if>
-      <if test="creatorName != null" >
+      <if test="creatorName != null">
         #{creatorName,jdbcType=VARCHAR},
       </if>
-      <if test="updaterId != null" >
+      <if test="updaterId != null">
         #{updaterId,jdbcType=VARCHAR},
       </if>
-      <if test="updaterName != null" >
+      <if test="updaterName != null">
         #{updaterName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zsx.entity.FunAlbumDetail" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.zsx.entity.FunAlbumDetail">
     update fun_album_detail
-    <set >
-      <if test="albumId != null" >
+    <set>
+      <if test="albumId != null">
         album_id = #{albumId,jdbcType=BIGINT},
       </if>
-      <if test="sort != null" >
+      <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="imgUuids != null" >
+      <if test="imgUuids != null">
         img_uuids = #{imgUuids,jdbcType=VARCHAR},
       </if>
-      <if test="del != null" >
+      <if test="del != null">
         del = #{del,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="creatorId != null" >
+      <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=VARCHAR},
       </if>
-      <if test="creatorName != null" >
+      <if test="creatorName != null">
         creator_name = #{creatorName,jdbcType=VARCHAR},
       </if>
-      <if test="updaterId != null" >
+      <if test="updaterId != null">
         updater_id = #{updaterId,jdbcType=VARCHAR},
       </if>
-      <if test="updaterName != null" >
+      <if test="updaterName != null">
         updater_name = #{updaterName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zsx.entity.FunAlbumDetail" >
+  <update id="updateByPrimaryKey" parameterType="com.zsx.entity.FunAlbumDetail">
     update fun_album_detail
     set album_id = #{albumId,jdbcType=BIGINT},
       sort = #{sort,jdbcType=INTEGER},
