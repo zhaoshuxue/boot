@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zsx.ext.FunImagesDao">
-    <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages" >
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="img_uuid" property="imgUuid" jdbcType="VARCHAR" />
-        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
-        <result column="title" property="title" jdbcType="VARCHAR" />
-        <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
-        <result column="img_type" property="imgType" jdbcType="INTEGER" />
-        <result column="width" property="width" jdbcType="INTEGER" />
-        <result column="height" property="height" jdbcType="INTEGER" />
-        <result column="file_size" property="fileSize" jdbcType="BIGINT" />
-        <result column="del" property="del" jdbcType="INTEGER" />
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
-        <result column="creator_name" property="creatorName" jdbcType="VARCHAR" />
-        <result column="updater_id" property="updaterId" jdbcType="VARCHAR" />
-        <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
+    <resultMap id="BaseResultMap" type="com.zsx.entity.FunImages">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="img_uuid" jdbcType="VARCHAR" property="imgUuid" />
+        <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+        <result column="img_type" jdbcType="INTEGER" property="imgType" />
+        <result column="width" jdbcType="INTEGER" property="width" />
+        <result column="height" jdbcType="INTEGER" property="height" />
+        <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+        <result column="sinaimg_url" jdbcType="VARCHAR" property="sinaimgUrl" />
+        <result column="qiniu_img_url" jdbcType="VARCHAR" property="qiniuImgUrl" />
+        <result column="del" jdbcType="INTEGER" property="del" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="updater_id" jdbcType="VARCHAR" property="updaterId" />
+        <result column="updater_name" jdbcType="VARCHAR" property="updaterName" />
     </resultMap>
-    <sql id="Base_Column_List" >
-    id, img_uuid, thumbnail, title, img_url, img_type, width, height, file_size, del,
-    create_time, update_time, creator_id, creator_name, updater_id, updater_name
+    <sql id="Base_Column_List">
+    id, img_uuid, thumbnail, title, img_url, img_type, width, height, file_size, sinaimg_url,
+    qiniu_img_url, del, create_time, update_time, creator_id, creator_name, updater_id,
+    updater_name
   </sql>
 
 

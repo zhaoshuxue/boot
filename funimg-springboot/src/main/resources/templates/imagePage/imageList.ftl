@@ -21,6 +21,7 @@
     <div>
         <button type="button" class="btn btn-default" id="search">查询</button>
         <button type="button" class="btn btn-primary" id="add">新增</button>
+        <button type="button" class="btn btn-primary" id="addImage">添加</button>
     </div>
     <table id="table"></table>
 </div>
@@ -59,6 +60,39 @@
 </div>
 
 
+<!-- 模态框2（Modal） -->
+<div class="modal fade" id="addImageModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel3" aria-hidden="true" style="top: 10%">
+    <div class="modal-dialog" style="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">添加</h4>
+            </div>
+            <div id="detailDiv" class="modal-body" style="min-height:100px;">
+                <form role="form">
+                    <div class="input-group">
+                        <span class="" style="">标题</span>
+                        <input class="form-control" id="title" placeholder="输入标题" />
+                    </div>
+                    <div class="input-group">
+                        <input class="form-control" id="sina_url" placeholder="输入新浪地址" />
+                        <input class="form-control" id="qiniu_url" placeholder="输入七牛云地址" />
+                    </div>
+                    <button class="btn btn-primary btn-lg" onclick="save()">保存</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
 <script type="text/javascript" src="${basePath}/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="${basePath}/static/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${basePath}/static/js/bootstrap-table/bootstrap-table.min.js"></script>
@@ -82,6 +116,10 @@
 //
         $("#add").click(function () {
             $('#addModal').modal();
+        });
+
+        $("#addImage").click(function () {
+            $('#addImageModal').modal();
         });
 
         $("#selectImg").click(function () {
@@ -244,6 +282,30 @@
                         return '<img src="' + value + '" style="width:100px;" />';
                     }
                 }, {
+                    field: 'sinaimgUrl',
+                    title: '新浪地址',
+                    align: 'center',
+                    valign: 'middle',
+                    width: 160,
+                    formatter: function (value, row, index) {
+                        if (value == '') {
+                            return "没有资源";
+                        }
+                        return '<img src="' + value + '" style="width:100px;" />';
+                    }
+                }, {
+                    field: 'qiniuImgUrl',
+                    title: '七牛云地址',
+                    align: 'center',
+                    valign: 'middle',
+                    width: 160,
+                    formatter: function (value, row, index) {
+                        if (value == '') {
+                            return "没有资源";
+                        }
+                        return '<img src="' + value + '" style="width:100px;" />';
+                    }
+                }, {
                     field: 'id',
                     title: '尺寸',
                     align: 'center',
@@ -275,6 +337,41 @@
             }
         });
 
+    }
+
+
+    function save() {
+        var title = $("#title").val();
+        var sina_url = $("#sina_url").val();
+        var qiniu_url = $("#qiniu_url").val();
+
+        $.ajax({
+            type : "post",
+            url : basePath + "/image/addImage",
+            data : {
+                title: title,
+                sinaimgUrl: sina_url,
+                qiniuImgUrl: qiniu_url
+            },
+            dataType:"JSON",
+            success : function(data){
+                if(data.code == 200){
+                    $("#addImageModal").modal('hide');
+                    $('#table').bootstrapTable("refresh");
+                    $.alert({
+                        title: false,
+                        backgroundDismiss: true,
+                        content: "保存成功",
+                        confirmButton: '确认',
+                        confirm: function(){
+                            // $("#add").click()
+                        }
+                    });
+                }else{
+                    alertMsg("保存失败");
+                }
+            }
+        });
     }
 
     function alertMsg(msg) {

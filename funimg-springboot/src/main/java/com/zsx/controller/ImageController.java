@@ -2,24 +2,18 @@ package com.zsx.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
-import com.zsx.entity.FunAlbum;
 import com.zsx.entity.FunImages;
 import com.zsx.service.FunAlbumService;
 import com.zsx.service.ImageService;
 import com.zsx.util.PageData;
 import com.zsx.util.QcloudUtil;
 import com.zsx.vo.app.AlbumData;
-import com.zsx.vo.app.AlbumDetail;
 import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -90,7 +84,7 @@ public class ImageController {
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
         HashMap<String, Object> search = Maps.newHashMap();
-        search.put("del", 0);
+//        search.put("del", 0);
         PageData<FunImages> pageData = imageService.getFunImagesPageList(search, pageNum, pageSize);
         JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
         return jsonTable;
@@ -155,7 +149,7 @@ public class ImageController {
 //               图片地址
                 String imgUrl = "";
 //                上传
-                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain,keyPrefix + tempFileName, tempFile);
+                String uploadImgUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + tempFileName, tempFile);
                 if (StringUtils.isBlank(uploadImgUrl)) {
                     return JsonData.fail("上传失败");
                 }
@@ -188,7 +182,7 @@ public class ImageController {
                         width = bufferedImage.getWidth();
                         height = bufferedImage.getHeight();
 
-                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain,keyPrefix + uuid + ".jpg", thumbnailFile);
+                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + uuid + ".jpg", thumbnailFile);
                         if (StringUtils.isNotBlank(thumbnailFileUrl)) {
                             thumbnail = thumbnailFileUrl;
                         }
@@ -211,7 +205,7 @@ public class ImageController {
                 FunImages funImages = new FunImages();
                 funImages.setImgUuid(uuid);
                 funImages.setThumbnail(thumbnail);
-                if (StringUtils.isBlank(title)){
+                if (StringUtils.isBlank(title)) {
                     title = fileTitle;
                 }
                 funImages.setTitle(title);
@@ -261,19 +255,57 @@ public class ImageController {
         return System.getProperty("os.name").toUpperCase().startsWith("WIN");
     }
 
-    @PostMapping("add")
+    @PostMapping("addImage")
     @ResponseBody
-    public JsonData addAlbum(
+    public JsonData addImage(
             @RequestParam(value = "title") String title,
-            @RequestParam(value = "imgUrl") String imgUrl,
-            @RequestParam(value = "publish_date") String publish_date
+            @RequestParam(value = "sinaimgUrl") String sinaimgUrl,
+            @RequestParam(value = "qiniuImgUrl") String qiniuImgUrl
     ) {
-//        return funAlbumService.addAlbum(funAlbum);
-        return null;
+        FunImages funImages = new FunImages();
+        funImages.setImgUuid("");
+        funImages.setThumbnail("");
+        funImages.setTitle(title);
+        funImages.setImgUrl("");
+        String url = "";
+        if (StringUtils.isNotBlank(sinaimgUrl)) {
+            url = sinaimgUrl;
+        } else if (StringUtils.isNotBlank(qiniuImgUrl)) {
+            url = qiniuImgUrl;
+        }
+        String fileNameSuffix = url.substring(url.lastIndexOf("."));
+//                统一为小写
+        fileNameSuffix = fileNameSuffix.toLowerCase();
+
+        Integer imgType = null;
+        if (fileNameSuffix.equals(".gif")) {
+            imgType = 0;
+        } else if (fileNameSuffix.equals(".jpg")) {
+            imgType = 1;
+        } else if (fileNameSuffix.equals(".jpeg")) {
+            imgType = 2;
+        } else if (fileNameSuffix.equals(".png")) {
+            imgType = 3;
+        }
+
+        funImages.setSinaimgUrl(sinaimgUrl);
+        funImages.setQiniuImgUrl(qiniuImgUrl);
+        funImages.setImgType(imgType);
+        funImages.setWidth(0);
+        funImages.setHeight(0);
+        funImages.setFileSize(0L);
+
+        funImages.setDel(2);
+        funImages.setCreateTime(new Date());
+        funImages.setUpdateTime(new Date());
+        funImages.setCreatorId("");
+        funImages.setCreatorName("");
+        funImages.setUpdaterId("");
+        funImages.setUpdaterName("");
+
+        JsonData jsonData = imageService.addFunImages(funImages);
+        return jsonData;
     }
-
-
-
 
 
 }

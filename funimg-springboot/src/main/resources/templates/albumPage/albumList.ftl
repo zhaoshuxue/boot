@@ -55,11 +55,14 @@
 
                             <img id="loadedImgUrl" src="" style="" alt="暂无图片"/>
 
-                            <input type="hidden" id="imgUrl" />
-                            <input type="hidden" id="imgUuid" />
+                            <br>
+                            <br>
+                            imgUrl：<input type="text" id="imgUrl" style="width: 500px"/>
+                            <br>
+                            imgUuid：<input type="text" id="imgUuid" style="width: 500px" />
 
                         </div>
-                        <button class="btn btn-primary" onclick="save()">保存</button>
+                        <button class="btn btn-primary btn-lg" onclick="save()">保存</button>
                     </form>
                 </div>
                 <div class="modal-footer">
