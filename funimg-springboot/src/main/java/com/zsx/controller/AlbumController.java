@@ -7,8 +7,6 @@ import com.zsx.entity.FunAlbumDetail;
 import com.zsx.service.FunAlbumService;
 import com.zsx.util.PageData;
 import com.zsx.vo.FunAlbumVO;
-import com.zsx.vo.app.AlbumDetail;
-import com.zsx.vo.app.AlbumList;
 import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
 import org.apache.commons.collections.CollectionUtils;
@@ -18,7 +16,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -113,13 +114,15 @@ public class AlbumController {
             @RequestParam(value = "id", defaultValue = "0") Long id,
             @RequestParam(value = "albumId") Long albumId,
             @RequestParam(value = "title") String title,
-            @RequestParam(value = "imgUuids") String imgUuids
+            @RequestParam(value = "imgUuids") String imgUuids,
+            @RequestParam(value = "imgSource", defaultValue = "") String imgSource
     ) {
         FunAlbumDetail funAlbumDetail = new FunAlbumDetail();
         funAlbumDetail.setId(id);
         funAlbumDetail.setAlbumId(albumId);
         funAlbumDetail.setTitle(title);
         funAlbumDetail.setImgUuids(imgUuids);
+        funAlbumDetail.setImgSource(imgSource);
 
         return funAlbumService.saveFunAlbumDetail(funAlbumDetail);
     }

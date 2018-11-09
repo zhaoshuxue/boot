@@ -112,14 +112,31 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             albumData.setTitle(funAlbumDetail.getTitle());
 
             String imgUuids = funAlbumDetail.getImgUuids();
+            String[] imgSources = null;
+            String imgSource = funAlbumDetail.getImgSource();
+            if (StringUtils.isNotBlank(imgSource)) {
+                imgSources = imgSource.split(",");
+            }
             String[] imageIds = imgUuids.split(",");
-            for (String imageId : imageIds) {
+            for (int i = 0; i < imageIds.length; i++) {
+                String imageId = imageIds[i];
                 FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
                 if (funImages == null) {
                     continue;
                 }
+
+                String imgUrl = funImages.getImgUrl();
+                if (imgSources != null) {
+                    String imgSource1 = imgSources[i];
+                    if ("2".equals(imgSource1)) {
+                        imgUrl = funImages.getSinaimgUrl();
+                    } else if ("3".equals(imgSource1)) {
+                        imgUrl = funImages.getQiniuImgUrl();
+                    }
+                }
+
                 AlbumData.ImageList imageList = AlbumData.imgListBuilder()
-                        .imgUrl(funImages.getImgUrl())
+                        .imgUrl(imgUrl)
                         .type(funImages.getImgType())
                         .width(funImages.getWidth())
                         .height(funImages.getHeight());
@@ -179,14 +196,31 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             albumData.setId(funAlbumDetail.getId());
             albumData.setTitle(funAlbumDetail.getTitle());
             String imgIds = funAlbumDetail.getImgUuids();
+            String[] imgSources = null;
+            String imgSource = funAlbumDetail.getImgSource();
+            if (StringUtils.isNotBlank(imgSource)) {
+                imgSources = imgSource.split(",");
+            }
             String[] imageIds = imgIds.split(",");
-            for (String imageId : imageIds) {
+            for (int i = 0; i < imageIds.length; i++) {
+                String imageId = imageIds[i];
                 FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
                 if (funImages == null) {
                     continue;
                 }
+
+                String imgUrl = funImages.getImgUrl();
+                if (imgSources != null) {
+                    String imgSource1 = imgSources[i];
+                    if ("2".equals(imgSource1)) {
+                        imgUrl = funImages.getSinaimgUrl();
+                    } else if ("3".equals(imgSource1)) {
+                        imgUrl = funImages.getQiniuImgUrl();
+                    }
+                }
+
                 AlbumData.ImageList imageList = AlbumData.imgListBuilder()
-                        .imgUrl(funImages.getImgUrl())
+                        .imgUrl(imgUrl)
                         .type(funImages.getImgType())
                         .width(funImages.getWidth())
                         .height(funImages.getHeight());
@@ -545,7 +579,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         search.put("status", 1);
         search.put("publishDate", new LocalDate().toDate());
         List<FunAlbum> funAlbums = funAlbumDao.selectByParams(search);
-        if (CollectionUtils.isNotEmpty(funAlbums)){
+        if (CollectionUtils.isNotEmpty(funAlbums)) {
             FunAlbum funAlbum = funAlbums.get(0);
             funAlbum.setStatus(0);
             funAlbumDao.updateByPrimaryKeySelective(funAlbum);

@@ -93,16 +93,17 @@
 
                 <div style="text-align: right;">
                     <button class="btn btn-danger" style="padding: 5px 33px; width: 100%; margin-bottom: 20px;"
-                            onclick="save()">保存
+                            onclick="save2()">保存
                     </button>
                 </div>
 
-                <input type="hidden" id="album_detail_id"/>
-                <input type="text" id="album_title" style="width:100%;"/>
-                <button class="btn btn-danger" onclick='javascript: $("#album_title").val($("#file_name").val())'>USE
+                <input type="hidden" id="album_detail_id2"/>
+                <input type="text" id="album_title2" style="width:100%;"/>
+                <button class="btn btn-danger" onclick='javascript: $("#album_title2").val($("#file_name2").val())'>USE
                 </button>
-                <input type="text" id="file_name" style="width:100%;" disabled/>
-                <input type="text" id="imgUuids" style="width:100%;"/>
+                <input type="text" id="file_name2" style="width:100%;" disabled/>
+                <input type="text" id="imgUuids2" style="width:100%;"/>
+                <input type="text" id="img_source2" style="width:100%;"/>
 
                 <div class="input-group" style="margin:10px">
                     <table id="image_table"></table>
@@ -133,6 +134,10 @@
 
 <script type="text/javascript">
     var basePath = "${basePath}";
+
+    var imgUUIDArray = new Array();
+    var imgSourceArray = new Array();
+
     $(function () {
         loadTable();
 
@@ -153,6 +158,8 @@
             // $("#newImgDiv").html('');
             // $("#detailDiv").html('');
             loadImageTable();
+            imgUUIDArray = new Array();
+            imgSourceArray = new Array();
             $('#showImageModal').modal();
         });
 
@@ -426,6 +433,29 @@
             onClickRow: function (row, element, field) {
                 console.info(row.id);
                 console.info(row.title);
+                console.info(field);
+                if (field != 'imgUrl' &&  field != 'sinaimgUrl' &&  field != 'qiniuImgUrl'){
+                    return
+                }
+
+                var index1 = undefined;
+                for(var i=0,len=imgUUIDArray.length; i<len; i++){
+                    if(imgUUIDArray[i] == row.id){
+                        index1 = i;
+                    }
+                }
+                if(index1 != undefined){
+                    imgUUIDArray.splice(index1, 1);
+                    imgSourceArray.splice(index1, 1);
+                }else{
+                    imgUUIDArray.push(row.id)
+                    imgSourceArray.push(field)
+                    $("#file_name2").val(row.title);
+                }
+
+                $("#imgUuids2").val(imgUUIDArray.join(","));
+                $("#img_source2").val(imgSourceArray.join(","));
+
             }
         });
 
@@ -464,6 +494,49 @@
                         confirmButton: '确认',
                         confirm: function () {
                             $("#add").click()
+                        }
+                    });
+                } else {
+                    alertMsg("保存失败");
+                }
+            }
+        });
+    }
+
+    function save2() {
+        var album_detail_id = $("#album_detail_id2").val();
+        var album_title = $("#album_title2").val();
+        var imgUuids = $("#imgUuids2").val();
+        var img_source2 = $("#img_source2").val();
+        if (imgUuids[0] == ',') {
+            imgUuids = imgUuids.substring(1)
+        }
+
+        $.ajax({
+            type: "post",
+            url: basePath + "/album/saveAlbumDetail",
+            data: {
+                id: album_detail_id,
+                albumId: "${albumId}",
+                title: album_title,
+                imgUuids: imgUuids,
+                imgSource: img_source2
+            },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 200) {
+                    // alertMsg("保存成功");
+                    $("#showImageModal").modal('hide');
+                    $('#table').bootstrapTable("refresh");
+
+                    $.alert({
+                        title: false,
+                        backgroundDismiss: true,
+                        content: "保存成功",
+                        confirmButton: '确认',
+                        confirm: function () {
+                            $("#add2").click()
                         }
                     });
                 } else {
