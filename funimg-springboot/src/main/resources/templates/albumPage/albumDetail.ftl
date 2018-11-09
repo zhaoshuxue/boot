@@ -511,6 +511,17 @@
         if (imgUuids[0] == ',') {
             imgUuids = imgUuids.substring(1)
         }
+        var imgSource = new Array();
+        var split = img_source2.split(",");
+        for(var i=0,len=split.length; i<len; i++){
+            if (split[i] == 'sinaimgUrl'){
+                imgSource.push('2');
+            }else if(split[i] == 'qiniuImgUrl'){
+                imgSource.push('3');
+            }else{
+                imgSource.push('1');
+            }
+        }
 
         $.ajax({
             type: "post",
@@ -520,7 +531,7 @@
                 albumId: "${albumId}",
                 title: album_title,
                 imgUuids: imgUuids,
-                imgSource: img_source2
+                imgSource: imgSource.join(',')
             },
             dataType: "JSON",
             success: function (data) {
