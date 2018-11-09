@@ -57,6 +57,14 @@ public class AlbumController {
     }
 
 
+    /**
+     * 添加专辑
+     * @param title
+     * @param imgUrl
+     * @param imgUuid
+     * @param publish_date
+     * @return
+     */
     @PostMapping("add")
     @ResponseBody
     public JsonData addAlbum(
@@ -84,6 +92,12 @@ public class AlbumController {
         return funAlbumService.addAlbum(funAlbum);
     }
 
+    /**
+     * 修改专辑的状态，发布/不发布
+     * @param albumId
+     * @param status
+     * @return
+     */
     @PostMapping("updateAlbumStatus")
     @ResponseBody
     public JsonData updateAlbumStatus(
@@ -100,6 +114,11 @@ public class AlbumController {
     }
 
 
+    /**
+     * 获取专辑的详细列表
+     * @param albumId
+     * @return
+     */
     @PostMapping("albumDetailList")
     @ResponseBody
     public JsonTable getAlbumDetailList(
@@ -108,6 +127,16 @@ public class AlbumController {
         return funAlbumService.getAlbumDetailList(albumId);
     }
 
+
+    /**
+     * 添加或修改 专辑详情
+     * @param id
+     * @param albumId
+     * @param title
+     * @param imgUuids
+     * @param imgSource
+     * @return
+     */
     @PostMapping("saveAlbumDetail")
     @ResponseBody
     public JsonData saveAlbumDetail(
@@ -128,6 +157,11 @@ public class AlbumController {
     }
 
 
+    /**
+     * 对图片排序
+     * @param ids
+     * @return
+     */
     @PostMapping("sortAlbumDetail")
     @ResponseBody
     public JsonData sortAlbumDetail(

@@ -129,7 +129,10 @@
         $('#tupian').fileupload({
             url: basePath + '/image/upload',
             dataType: 'json',
-            formData: {title: $("#title").val()},
+            formData: {
+                title: $("#title").val(),
+                isDel: 2
+            },
             add: function (e, data) {
                 var uploadErrors = [];
                 // console.log(data.originalFiles[0]['size']) ;

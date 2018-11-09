@@ -90,6 +90,12 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         return pageData;
     }
 
+    /**
+     * 给小程序提供的接口
+     *
+     * @param albumId
+     * @return
+     */
     @Override
     public AlbumDetail getAlbumData(Long albumId) {
 
@@ -111,38 +117,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             albumData.setId(funAlbumDetail.getId());
             albumData.setTitle(funAlbumDetail.getTitle());
 
-            String imgUuids = funAlbumDetail.getImgUuids();
-            String[] imgSources = null;
-            String imgSource = funAlbumDetail.getImgSource();
-            if (StringUtils.isNotBlank(imgSource)) {
-                imgSources = imgSource.split(",");
-            }
-            String[] imageIds = imgUuids.split(",");
-            for (int i = 0; i < imageIds.length; i++) {
-                String imageId = imageIds[i];
-                FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
-                if (funImages == null) {
-                    continue;
-                }
-
-                String imgUrl = funImages.getImgUrl();
-                if (imgSources != null) {
-                    String imgSource1 = imgSources[i];
-                    if ("2".equals(imgSource1)) {
-                        imgUrl = funImages.getSinaimgUrl();
-                    } else if ("3".equals(imgSource1)) {
-                        imgUrl = funImages.getQiniuImgUrl();
-                    }
-                }
-
-                AlbumData.ImageList imageList = AlbumData.imgListBuilder()
-                        .imgUrl(imgUrl)
-                        .type(funImages.getImgType())
-                        .width(funImages.getWidth())
-                        .height(funImages.getHeight());
-
-                albumData.addImgList(imageList);
-            }
+            albumData = this.setAlbumDataImageList(funAlbumDetail, albumData);
 
             resultData.add(albumData);
         }
@@ -155,6 +130,49 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         albumDetail.setLastAlbumId(lastAlbumId);
         albumDetail.setNextAlbumId(nextAlbumId);
         return albumDetail;
+    }
+
+    /**
+     * 转换图片的链接url信息
+     *
+     * @param funAlbumDetail
+     * @param albumData
+     * @return
+     */
+    public AlbumData setAlbumDataImageList(FunAlbumDetail funAlbumDetail, AlbumData albumData) {
+        String imgUuids = funAlbumDetail.getImgUuids();
+        String[] imgSources = null;
+        String imgSource = funAlbumDetail.getImgSource();
+        if (StringUtils.isNotBlank(imgSource)) {
+            imgSources = imgSource.split(",");
+        }
+        String[] imageIds = imgUuids.split(",");
+        for (int i = 0; i < imageIds.length; i++) {
+            String imageId = imageIds[i];
+            FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
+            if (funImages == null) {
+                continue;
+            }
+
+            String imgUrl = funImages.getImgUrl();
+            if (imgSources != null) {
+                String imgSource1 = imgSources[i];
+                if ("2".equals(imgSource1)) {
+                    imgUrl = funImages.getSinaimgUrl();
+                } else if ("3".equals(imgSource1)) {
+                    imgUrl = funImages.getQiniuImgUrl();
+                }
+            }
+
+            AlbumData.ImageList imageList = AlbumData.imgListBuilder()
+                    .imgUrl(imgUrl)
+                    .type(funImages.getImgType())
+                    .width(funImages.getWidth())
+                    .height(funImages.getHeight());
+
+            albumData.addImgList(imageList);
+        }
+        return albumData;
     }
 
 
@@ -182,7 +200,6 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             }
         });
 
-
         ArrayList<AlbumData> albumDatas = Lists.newArrayList();
         AlbumData albumData;
         for (FunHotImages funHotImage : funHotImages) {
@@ -195,38 +212,8 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
             albumData.setId(funAlbumDetail.getId());
             albumData.setTitle(funAlbumDetail.getTitle());
-            String imgIds = funAlbumDetail.getImgUuids();
-            String[] imgSources = null;
-            String imgSource = funAlbumDetail.getImgSource();
-            if (StringUtils.isNotBlank(imgSource)) {
-                imgSources = imgSource.split(",");
-            }
-            String[] imageIds = imgIds.split(",");
-            for (int i = 0; i < imageIds.length; i++) {
-                String imageId = imageIds[i];
-                FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
-                if (funImages == null) {
-                    continue;
-                }
 
-                String imgUrl = funImages.getImgUrl();
-                if (imgSources != null) {
-                    String imgSource1 = imgSources[i];
-                    if ("2".equals(imgSource1)) {
-                        imgUrl = funImages.getSinaimgUrl();
-                    } else if ("3".equals(imgSource1)) {
-                        imgUrl = funImages.getQiniuImgUrl();
-                    }
-                }
-
-                AlbumData.ImageList imageList = AlbumData.imgListBuilder()
-                        .imgUrl(imgUrl)
-                        .type(funImages.getImgType())
-                        .width(funImages.getWidth())
-                        .height(funImages.getHeight());
-
-                albumData.addImgList(imageList);
-            }
+            albumData = this.setAlbumDataImageList(funAlbumDetail, albumData);
 
             albumDatas.add(albumData);
         }
@@ -250,21 +237,8 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
         albumData.setId(funAlbumDetail.getId());
         albumData.setTitle(funAlbumDetail.getTitle());
-        String imgIds = funAlbumDetail.getImgUuids();
-        String[] imageIds = imgIds.split(",");
-        for (String imageId : imageIds) {
-            FunImages funImages = funImagesDao.selectByPrimaryKey(Long.valueOf(imageId));
-            if (funImages == null) {
-                continue;
-            }
-            AlbumData.ImageList imageList = AlbumData.imgListBuilder()
-                    .imgUrl(funImages.getImgUrl())
-                    .type(funImages.getImgType())
-                    .width(funImages.getWidth())
-                    .height(funImages.getHeight());
 
-            albumData.addImgList(imageList);
-        }
+        albumData = this.setAlbumDataImageList(funAlbumDetail, albumData);
 
         comment.setImgData(albumData);
         List<Comment> commentList = this.getImageCommentList(id);
@@ -405,47 +379,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         if (CollectionUtils.isEmpty(funAlbumDetails)) {
             return JsonTable.toTable(0L, Lists.newArrayList());
         }
-
-        List<Long> funImageIds = Lists.newArrayList();
-        for (FunAlbumDetail funAlbumDetail : funAlbumDetails) {
-            String imgUuids = funAlbumDetail.getImgUuids();
-            String[] imageIds = imgUuids.split(",");
-            for (String imageId : imageIds) {
-                funImageIds.add(Long.valueOf(imageId));
-            }
-        }
-
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("ids", funImageIds);
-        List<FunImages> funImagesList = funImagesDao.selectByParams(params);
-        Map<Long, FunImages> funImagesMap = Maps.uniqueIndex(funImagesList, new Function<FunImages, Long>() {
-            @Override
-            public Long apply(FunImages funImages) {
-                return funImages.getId();
-            }
-        });
-
-        List<FunAlbumDetailVO> albumDetailVOList = Lists.newArrayList();
-
-        for (FunAlbumDetail funAlbumDetail : funAlbumDetails) {
-            FunAlbumDetailVO funAlbumDetailVO = JSONObject.parseObject(JSON.toJSONString(funAlbumDetail), FunAlbumDetailVO.class);
-
-            List<FunImages> images = Lists.newArrayList();
-            String imgUuids = funAlbumDetailVO.getImgUuids();
-            if (StringUtils.isNotBlank(imgUuids)) {
-                String[] imageIds = imgUuids.split(",");
-                for (String imageId : imageIds) {
-                    FunImages funImages = funImagesMap.get(Long.valueOf(imageId));
-                    if (funImages == null) {
-                        continue;
-                    }
-                    images.add(funImages);
-                }
-            }
-            funAlbumDetailVO.setImages(images);
-
-            albumDetailVOList.add(funAlbumDetailVO);
-        }
+        List<FunAlbumDetailVO> albumDetailVOList = this.transferAlbumDetailList(funAlbumDetails);
         return JsonTable.toTable(Long.valueOf(String.valueOf(albumDetailVOList.size())), albumDetailVOList);
     }
 
@@ -458,6 +392,18 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         }
         PageInfo pageInfo = new PageInfo(albumDetailList);
 
+        List<FunAlbumDetailVO> albumDetailVOList = this.transferAlbumDetailList(albumDetailList);
+
+        return JsonTable.toTable(Long.valueOf(String.valueOf(pageInfo.getTotal())), albumDetailVOList);
+    }
+
+    /**
+     * 把专辑详情转换为VO对象
+     *
+     * @param albumDetailList
+     * @return
+     */
+    public List<FunAlbumDetailVO> transferAlbumDetailList(List<FunAlbumDetail> albumDetailList) {
         List<Long> funImageIds = Lists.newArrayList();
         for (FunAlbumDetail funAlbumDetail : albumDetailList) {
             String imgUuids = funAlbumDetail.getImgUuids();
@@ -478,9 +424,9 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         });
 
         List<FunAlbumDetailVO> albumDetailVOList = Lists.newArrayList();
-
+        FunAlbumDetailVO funAlbumDetailVO;
         for (FunAlbumDetail funAlbumDetail : albumDetailList) {
-            FunAlbumDetailVO funAlbumDetailVO = JSONObject.parseObject(JSON.toJSONString(funAlbumDetail), FunAlbumDetailVO.class);
+            funAlbumDetailVO = JSONObject.parseObject(JSON.toJSONString(funAlbumDetail), FunAlbumDetailVO.class);
 
             List<FunImages> images = Lists.newArrayList();
             String imgUuids = funAlbumDetailVO.getImgUuids();
@@ -498,7 +444,7 @@ public class FunAlbumServiceImpl implements FunAlbumService {
 
             albumDetailVOList.add(funAlbumDetailVO);
         }
-        return JsonTable.toTable(Long.valueOf(String.valueOf(pageInfo.getTotal())), albumDetailVOList);
+        return albumDetailVOList;
     }
 
     @Override
@@ -585,6 +531,5 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             funAlbumDao.updateByPrimaryKeySelective(funAlbum);
         }
     }
-
 
 }

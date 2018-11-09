@@ -124,6 +124,12 @@ public class ImageController {
         try {
             String title = request.getParameter("title");
             System.out.println(title);
+            String isDel = request.getParameter("isDel");
+            Integer del = 0;
+            if (StringUtils.isNotBlank(isDel)){
+                del = Integer.parseInt(isDel);
+            }
+
 //            System.out.println(file.isEmpty()); // false
 //            System.out.println(file.getContentType()); // image/jpeg
 //            System.out.println(file.getName()); // stream
@@ -219,7 +225,7 @@ public class ImageController {
                 funImages.setHeight(height);
                 funImages.setFileSize(file.getSize());
 
-                funImages.setDel(0);
+                funImages.setDel(del);
                 funImages.setCreateTime(new Date());
                 funImages.setUpdateTime(new Date());
                 funImages.setCreatorId("");
