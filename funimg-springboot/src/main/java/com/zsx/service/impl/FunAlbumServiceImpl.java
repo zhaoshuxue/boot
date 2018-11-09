@@ -476,8 +476,28 @@ public class FunAlbumServiceImpl implements FunAlbumService {
             funAlbumDetail.setCreatorName("");
 
             funAlbumDetailDao.insertSelective(funAlbumDetail);
+
+            this.updateAlbumDetailImageListDelStatus(funAlbumDetail, 0);
+
         }
         return JsonData.returnObject(funAlbumDetail);
+    }
+
+    public void updateAlbumDetailImageListDelStatus(FunAlbumDetail funAlbumDetail, Integer del){
+        String imgUuids = funAlbumDetail.getImgUuids();
+        String[] imageIds = imgUuids.split(",");
+        List<Long> funImageIds = Lists.newArrayList();
+        for (String imageId : imageIds) {
+            funImageIds.add(Long.valueOf(imageId));
+        }
+
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("ids", funImageIds);
+        List<FunImages> funImagesList = funImagesDao.selectByParams(params);
+        for (FunImages funImages : funImagesList) {
+            funImages.setDel(del);
+            funImagesDao.updateByPrimaryKey(funImages);
+        }
     }
 
     @Override
@@ -532,4 +552,18 @@ public class FunAlbumServiceImpl implements FunAlbumService {
         }
     }
 
+    @Override
+    public JsonData delAlbumDetail(Long id) {
+        FunAlbumDetail funAlbumDetail = funAlbumDetailDao.selectByPrimaryKey(id);
+        if (funAlbumDetail == null){
+            return JsonData.fail("删除失败，数据不存在");
+        }
+
+        int i = funAlbumDetailDao.deleteByPrimaryKey(id);
+        if (i == 1) {
+            this.updateAlbumDetailImageListDelStatus(funAlbumDetail, 2);
+            return JsonData.success("删除成功");
+        }
+        return JsonData.fail("删除失败");
+    }
 }

@@ -59,6 +59,7 @@ public class AlbumController {
 
     /**
      * 添加专辑
+     *
      * @param title
      * @param imgUrl
      * @param imgUuid
@@ -94,6 +95,7 @@ public class AlbumController {
 
     /**
      * 修改专辑的状态，发布/不发布
+     *
      * @param albumId
      * @param status
      * @return
@@ -116,6 +118,7 @@ public class AlbumController {
 
     /**
      * 获取专辑的详细列表
+     *
      * @param albumId
      * @return
      */
@@ -130,6 +133,7 @@ public class AlbumController {
 
     /**
      * 添加或修改 专辑详情
+     *
      * @param id
      * @param albumId
      * @param title
@@ -159,6 +163,7 @@ public class AlbumController {
 
     /**
      * 对图片排序
+     *
      * @param ids
      * @return
      */
@@ -184,6 +189,14 @@ public class AlbumController {
             return funAlbumService.updateAlbumDetailSort(albumDetailList);
         }
         return JsonData.fail("保存失败");
+    }
+
+    @PostMapping("delAlbumDetail")
+    @ResponseBody
+    public JsonData delAlbumDetail(
+            @RequestParam(value = "id") String id
+    ) {
+        return funAlbumService.delAlbumDetail(Long.parseLong(id));
     }
 
     @PostMapping("albumDetailPageList")

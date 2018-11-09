@@ -140,7 +140,7 @@
 
     $(function () {
         loadTable();
-
+        loadImageTable();
 //
         $("#add").click(function () {
             $("#album_detail_id").val("0")
@@ -157,7 +157,7 @@
             // $("#imgUuids").val('');
             // $("#newImgDiv").html('');
             // $("#detailDiv").html('');
-            loadImageTable();
+            $('#image_table').bootstrapTable("refresh");
             imgUUIDArray = new Array();
             imgSourceArray = new Array();
             $('#showImageModal').modal();
@@ -278,10 +278,23 @@
                     formatter: function (value, row, index) {
                         var images = row.images;
                         if (images) {
+                            var imgSource = row.imgSource;
+                            var imgSourceArr = undefined;
+                            if (imgSource != '') {
+                                imgSourceArr = imgSource.split(",");
+                            }
                             var imgUrlArr = new Array();
                             var imgTypeArr = new Array();
                             for (var i = 0, len = images.length; i < len; i++) {
-                                imgUrlArr.push(images[i].imgUrl);
+                                var imgUrl = images[i].imgUrl;
+                                if (imgSourceArr){
+                                    if (imgSourceArr[i] == '2') {
+                                        imgUrl = images[i].sinaimgUrl;
+                                    } else if (imgSourceArr[i] == '3') {
+                                        imgUrl = images[i].qiniuImgUrl;
+                                    }
+                                }
+                                imgUrlArr.push(imgUrl);
                                 imgTypeArr.push(images[i].imgType);
                             }
                             row.imgList = imgUrlArr.join("!@#");
@@ -434,20 +447,20 @@
                 console.info(row.id);
                 console.info(row.title);
                 console.info(field);
-                if (field != 'imgUrl' &&  field != 'sinaimgUrl' &&  field != 'qiniuImgUrl'){
+                if (field != 'imgUrl' && field != 'sinaimgUrl' && field != 'qiniuImgUrl') {
                     return
                 }
 
                 var index1 = undefined;
-                for(var i=0,len=imgUUIDArray.length; i<len; i++){
-                    if(imgUUIDArray[i] == row.id){
+                for (var i = 0, len = imgUUIDArray.length; i < len; i++) {
+                    if (imgUUIDArray[i] == row.id) {
                         index1 = i;
                     }
                 }
-                if(index1 != undefined){
+                if (index1 != undefined) {
                     imgUUIDArray.splice(index1, 1);
                     imgSourceArray.splice(index1, 1);
-                }else{
+                } else {
                     imgUUIDArray.push(row.id)
                     imgSourceArray.push(field)
                     $("#file_name2").val(row.title);
@@ -513,12 +526,12 @@
         }
         var imgSource = new Array();
         var split = img_source2.split(",");
-        for(var i=0,len=split.length; i<len; i++){
-            if (split[i] == 'sinaimgUrl'){
+        for (var i = 0, len = split.length; i < len; i++) {
+            if (split[i] == 'sinaimgUrl') {
                 imgSource.push('2');
-            }else if(split[i] == 'qiniuImgUrl'){
+            } else if (split[i] == 'qiniuImgUrl') {
                 imgSource.push('3');
-            }else{
+            } else {
                 imgSource.push('1');
             }
         }
@@ -618,6 +631,37 @@
             }
         });
 
+    }
+
+    function del(id) {
+        $.confirm({
+            title: false,
+            backgroundDismiss: true,
+            content: "确认删除吗？？？",
+            confirmButton: '确认',
+            cancelButton: '算了',
+            confirm: function () {
+
+                // start
+                $.ajax({
+                    type: "post",
+                    url: basePath + "/album/delAlbumDetail",
+                    data: {id: id},
+                    dataType: "JSON",
+                    async: false,
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alertMsg(data.message)
+                            $('#table').bootstrapTable("refresh");
+                        }
+                    }
+                });
+                // end
+            },
+            cancel: function () {
+
+            }
+        });
     }
 
 

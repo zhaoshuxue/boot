@@ -63,4 +63,6 @@ public interface FunAlbumService {
 
     void flushFunAlbum();
 
+    JsonData delAlbumDetail(Long id);
+
 }
