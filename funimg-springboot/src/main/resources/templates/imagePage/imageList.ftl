@@ -246,6 +246,12 @@
                     align: 'center', // 左右居中
                     valign: 'middle' // 上下居中
                 }, {
+                    field: 'title', 
+                    title: '标题', 
+                    align: 'center', 
+                    valign: 'middle',
+                    width: 200
+                }, {
                     field: 'imgType', // 返回json数据中的name
                     title: '类型', // 图片类型，0:gif，1:jpg，2:jpeg，3:png，4:mp4,5:
                     align: 'center', // 左右居中
