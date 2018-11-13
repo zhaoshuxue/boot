@@ -75,7 +75,7 @@
                 <form role="form">
                     <div class="input-group">
                         <span class="" style="">标题</span>
-                        <input class="form-control" id="title" placeholder="输入标题" />
+                        <input class="form-control" id="title2" placeholder="输入标题" />
                     </div>
                     <div class="input-group">
                         <input class="form-control" id="sina_url" placeholder="输入新浪地址" />
@@ -344,7 +344,7 @@
 
 
     function save() {
-        var title = $("#title").val();
+        var title = $("#title2").val();
         var sina_url = $("#sina_url").val();
         var qiniu_url = $("#qiniu_url").val();
 
