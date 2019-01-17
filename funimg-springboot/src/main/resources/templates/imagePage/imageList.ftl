@@ -246,9 +246,9 @@
                     align: 'center', // 左右居中
                     valign: 'middle' // 上下居中
                 }, {
-                    field: 'title', 
-                    title: '标题', 
-                    align: 'center', 
+                    field: 'title',
+                    title: '标题',
+                    align: 'center',
                     valign: 'middle',
                     width: 200
                 }, {
@@ -374,6 +374,7 @@
                         confirmButton: '确认',
                         confirm: function(){
                             // $("#add").click()
+                            $('#addImageModal').modal();
                         }
                     });
                 }else{
