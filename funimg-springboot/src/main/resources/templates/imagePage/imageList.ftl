@@ -76,7 +76,8 @@
                     <div class="input-group" style="width:100%">
                         <span class="" style="">标题</span>
                         <input class="form-control" id="title2" placeholder="输入标题" />
-                        <input class="btn" type="button" value="清空标题" onclick="javascript:$('#title2').val('')" />
+                        <input class="form-control" id="title3" type="hidden" />
+                        <input class="btn" type="button" value="复用上一个标题" onclick="javascript:$('#title2').val($('#title3').val())" />
                     </div>
                     <div class="input-group" style="width:100%">
                         <input class="form-control" id="sina_url" placeholder="输入新浪地址" />
@@ -352,6 +353,8 @@
 
     function save() {
         var title = $("#title2").val();
+        $("#title3").val(title);
+
         var sina_url = $("#sina_url").val();
         var qiniu_url = $("#qiniu_url").val();
 
@@ -375,6 +378,7 @@
                         confirmButton: '确认',
                         confirm: function(){
                             // $("#add").click()
+                            $("#title2").val("");
                             $("#sina_url").val("");
                             $("#qiniu_url").val("");
                             $('#addImageModal').modal();
