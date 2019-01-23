@@ -73,16 +73,17 @@
             </div>
             <div id="detailDiv" class="modal-body" style="min-height:100px;">
                 <form role="form">
-                    <div class="input-group">
+                    <div class="input-group" style="width:100%">
                         <span class="" style="">标题</span>
                         <input class="form-control" id="title2" placeholder="输入标题" />
+                        <input class="btn" type="button" value="清空标题" onclick="javascript:$('#title2').val('')" />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="width:100%">
                         <input class="form-control" id="sina_url" placeholder="输入新浪地址" />
                         <input class="form-control" id="qiniu_url" placeholder="输入七牛云地址" />
                     </div>
-                    <button class="btn btn-primary btn-lg" onclick="save()">保存</button>
                 </form>
+                <button class="btn btn-primary btn-lg" onclick="save()">保存</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -374,7 +375,10 @@
                         confirmButton: '确认',
                         confirm: function(){
                             // $("#add").click()
+                            $("#sina_url").val("");
+                            $("#qiniu_url").val("");
                             $('#addImageModal').modal();
+
                         }
                     });
                 }else{
