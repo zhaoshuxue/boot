@@ -201,6 +201,7 @@
                     valign: 'middle',
                     formatter: function (value, row, index) {
                         var images = row.images;
+			/*
                         if(images){
                             var imgUrlArr = new Array();
                             var imgTypeArr = new Array();
@@ -211,6 +212,34 @@
                             row.imgList = imgUrlArr.join("!@#");
                             row.imgTypeList = imgTypeArr.join("!@#");
                         }
+			*/
+
+
+			if (images) {
+                            var imgSource = row.imgSource;
+                            var imgSourceArr = undefined;
+                            if (imgSource != '') {
+                                imgSourceArr = imgSource.split(",");
+                            }
+                            var imgUrlArr = new Array();
+                            var imgTypeArr = new Array();
+                            for (var i = 0, len = images.length; i < len; i++) {
+                                var imgUrl = images[i].imgUrl;
+                                if (imgSourceArr){
+                                    if (imgSourceArr[i] == '2') {
+                                        imgUrl = images[i].sinaimgUrl;
+                                    } else if (imgSourceArr[i] == '3') {
+                                        imgUrl = images[i].qiniuImgUrl;
+                                    }
+                                }
+                                imgUrlArr.push(imgUrl);
+                                imgTypeArr.push(images[i].imgType);
+                            }
+                            row.imgList = imgUrlArr.join("!@#");
+                            row.imgTypeList = imgTypeArr.join("!@#");
+                        }
+
+
                         return value;
                     }
                 }, {
