@@ -312,9 +312,10 @@
                         var btn_up = '<button class="' + cls + '" onclick="sort(\'' + row.id + '\', ' + index + ', 1)">上移</button>';
                         var btn_down = '<button class="' + cls + '" onclick="sort(\'' + row.id + '\', ' + index + ', 2)">下移</button>';
                         var btn_del = '<button class="' + cls + '" onclick="del(\'' + row.id + '\')">删除</button>';
+                        var btn_hot = '<button class="' + cls + '" onclick="setHot(\'' + row.id + '\')">设置为热门</button>';
                         var btn_img = '<button class="' + cls
                                 + '" onclick="albumDetail(\'' + row.id + '\',\'' + row.title + '\',\'' + row.imgUuids + '\',\'' + row.imgList + '\',\'' + row.imgTypeList + '\')">详情</button>';
-                        var btn = btn_up + btn_down + btn_del + btn_img;
+                        var btn = btn_up + btn_down + btn_del + btn_hot + btn_img;
                         return btn;
                     }
                 }
@@ -660,6 +661,25 @@
             },
             cancel: function () {
 
+            }
+        });
+    }
+
+    function setHot(id) {
+        $.ajax({
+            type: "post",
+            url: basePath + "/album/setHotImg",
+            data: {
+                id: id
+            },
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data)
+                if(data.code == 200){
+                    alertMsg(data.message);
+                }else{
+                    alertMsg("操作失败");
+                }
             }
         });
     }
