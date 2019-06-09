@@ -70,13 +70,8 @@ public class WechatService {
                 } else if ("今天历史".equals(content)) {
 //					respContent = BaiduApis.api_todayInHistory();
                 } else {
-					String tulingRes = TuLing.reboot(content);
-					JSONObject jsonObject = JSON.parseObject(tulingRes);
-					if (jsonObject.getIntValue("code") == 100000) {
-						respContent = jsonObject.getString("text");
-					}else {
-						respContent = content;
-					}
+					String tulingRes = TuLing.rebootV2(content);
+                    respContent = tulingRes;
                 }
                 textMessage.setContent(respContent);
                 respMessage = MessageUtil.textMessageToXml(textMessage);
