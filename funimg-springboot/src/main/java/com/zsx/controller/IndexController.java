@@ -47,6 +47,12 @@ public class IndexController {
         return "imagePage/imageList";
     }
 
+    @RequestMapping("panoList")
+    public String gotoPanoList(HttpServletRequest request, Model model) {
+        this.getBasePath(request, model);
+        return "panoPage/imageList";
+    }
+
     @RequestMapping("hotImages")
     public String gotoHotImageList(HttpServletRequest request, Model model) {
         this.getBasePath(request, model);

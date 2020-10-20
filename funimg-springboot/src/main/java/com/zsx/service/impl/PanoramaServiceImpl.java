@@ -2,6 +2,7 @@ package com.zsx.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.zsx.entity.FunPanoramaImage;
 import com.zsx.ext.FunPanoramaImageDao;
 import com.zsx.service.PanoramaService;
@@ -10,6 +11,7 @@ import com.zsx.vo.json.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,5 +40,17 @@ public class PanoramaServiceImpl implements PanoramaService {
             return JsonData.returnObject(funPanoramaImage);
         }
         return JsonData.fail("保存失败");
+    }
+
+    @Override
+    public JsonData getPanoramaImage(Long id) {
+        FunPanoramaImage funPanoramaImage = funPanoramaImageDao.selectByPrimaryKey(id);
+        HashMap<String, String> map = Maps.newHashMap();
+        if (funPanoramaImage != null) {
+            map.put("title", funPanoramaImage.getTitle());
+            map.put("imgUrl", funPanoramaImage.getImgUrl());
+            return JsonData.returnObject(map);
+        }
+        return JsonData.fail("null");
     }
 }

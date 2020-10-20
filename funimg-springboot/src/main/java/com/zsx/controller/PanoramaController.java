@@ -3,8 +3,10 @@ package com.zsx.controller;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.zsx.entity.FunImages;
+import com.zsx.entity.FunPanoramaImage;
 import com.zsx.service.FunAlbumService;
 import com.zsx.service.ImageService;
+import com.zsx.service.PanoramaService;
 import com.zsx.util.PageData;
 import com.zsx.util.QcloudUtil;
 import com.zsx.vo.app.AlbumData;
@@ -29,10 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
-/**
- * Created by highness on 2018/5/25 0025.
- */
-@RequestMapping("image")
+@RequestMapping("pano")
 @Controller
 @CrossOrigin
 public class PanoramaController {
@@ -65,22 +64,11 @@ public class PanoramaController {
 
 
     @Autowired
-    private ImageService imageService;
-    @Autowired
-    private FunAlbumService funAlbumService;
+    private PanoramaService panoramaService;
 
     @PostMapping("/lists")
     @ResponseBody
     public JsonTable getList(
-//            @ApiParam(value = "区域id") @RequestParam(value = "districtId", defaultValue = "") String districtId,
-//            @ApiParam(value = "模糊查询文本") @RequestParam(value = "searchText", required = false) String searchText,
-//            @ApiParam("租金范围") @RequestParam(value = "rentalRange", required = false) String rentalRange,
-//            @ApiParam("其它条件，1：最近发布，2：距离由近到远，3：租金由低到高，4：租金由高到低") @RequestParam(value = "filter", required = false) String filter,
-//            @ApiParam("当选择距离由近到远时，该值为纬度") @RequestParam(value = "lng", required = false) String lng,
-//            @ApiParam("当选择距离由近到远时，该值为经度") @RequestParam(value = "lat", required = false) String lat,
-//            @ApiParam("页码") @RequestParam(defaultValue = "1") Integer pageNum,
-//            @ApiParam("条数") @RequestParam(defaultValue = "10") Integer pageSize
-
             @RequestParam(defaultValue = "") String del,
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize
@@ -89,24 +77,10 @@ public class PanoramaController {
         if (StringUtils.isNotBlank(del)){
             search.put("del", Integer.parseInt(del));
         }
-        PageData<FunImages> pageData = imageService.getFunImagesPageList(search, pageNum, pageSize);
+        PageData<FunPanoramaImage> pageData = panoramaService.getFunPanoramaImagePageList(search, pageNum, pageSize);
         JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
         return jsonTable;
     }
-
-
-    @PostMapping("/hotImages")
-    @ResponseBody
-    public PageData getHotImageList(
-            @RequestParam(defaultValue = "1") Integer pageNum,
-            @RequestParam(defaultValue = "5") Integer pageSize
-    ) {
-        HashMap<String, Object> search = Maps.newHashMap();
-        search.put("del", 0);
-        PageData<AlbumData> pageData = funAlbumService.getFunHotImagePageList(search, pageNum, pageSize);
-        return pageData;
-    }
-
 
     /**
      * 上传
@@ -212,29 +186,30 @@ public class PanoramaController {
                 }
 
 //                保存
-                FunImages funImages = new FunImages();
-                funImages.setImgUuid(uuid);
-                funImages.setThumbnail(thumbnail);
+                FunPanoramaImage panoramaImage = new FunPanoramaImage();
+                panoramaImage.setImgUuid(uuid);
+                panoramaImage.setThumbnail(thumbnail);
                 if (StringUtils.isBlank(title)) {
                     title = fileTitle;
                 }
-                funImages.setTitle(title);
-                funImages.setImgUrl(imgUrl);
-                funImages.setImgType(imgType);
-                funImages.setWidth(width);
-                funImages.setHeight(height);
-                funImages.setFileSize(file.getSize());
+                panoramaImage.setTitle(title);
+                panoramaImage.setImgUrl(imgUrl);
+                panoramaImage.setImgType(imgType);
+                panoramaImage.setWidth(width);
+                panoramaImage.setHeight(height);
+                panoramaImage.setFileSize(file.getSize());
 
-                funImages.setDel(del);
-                funImages.setCreateTime(new Date());
-                funImages.setUpdateTime(new Date());
-                funImages.setCreatorId("");
-                funImages.setCreatorName("");
-                funImages.setUpdaterId("");
-                funImages.setUpdaterName("");
+                panoramaImage.setDel(del);
+                panoramaImage.setCreateTime(new Date());
+                panoramaImage.setUpdateTime(new Date());
+                panoramaImage.setCreatorId("");
+                panoramaImage.setCreatorName("");
+                panoramaImage.setUpdaterId("");
+                panoramaImage.setUpdaterName("");
 //
-                System.out.println(JSON.toJSONString(funImages));
-                JsonData jsonData = imageService.addFunImages(funImages);
+                System.out.println(JSON.toJSONString(panoramaImage));
+//                todo
+                JsonData jsonData = panoramaService.addFunPanoramaImage(panoramaImage);
                 if (is != null) {
                     is.close();
                 }
@@ -313,7 +288,8 @@ public class PanoramaController {
         funImages.setUpdaterId("");
         funImages.setUpdaterName("");
 
-        JsonData jsonData = imageService.addFunImages(funImages);
+        // todo
+        JsonData jsonData = panoramaService.addFunPanoramaImage(null);
         return jsonData;
     }
 

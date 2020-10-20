@@ -3,6 +3,7 @@ package com.zsx.controller.api;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.zsx.service.FunAlbumService;
+import com.zsx.service.PanoramaService;
 import com.zsx.service.VideoService;
 import com.zsx.util.HttpUtil;
 import com.zsx.util.PageData;
@@ -35,6 +36,8 @@ public class FunImgController {
     private FunAlbumService funAlbumService;
     @Autowired
     private VideoService videoService;
+    @Autowired
+    private PanoramaService panoramaService;
 
     //    @ApiOperation(value = "获取房屋列表", notes = "供小程序调用", httpMethod = "GET")
     @GetMapping("/lists")
@@ -155,4 +158,8 @@ public class FunImgController {
     }
 
 
+    @GetMapping("/panoDetail")
+    public JsonData getPanoDetail(@RequestParam(defaultValue = "0") Long id) {
+        return panoramaService.getPanoramaImage(id);
+    }
 }
