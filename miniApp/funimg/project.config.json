@@ -1,83 +1,101 @@
 {
-	"description": "项目配置文件。",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": false,
-		"es6": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true
-	},
-	"compileType": "miniprogram",
-	"libVersion": "1.9.98",
-	"appid": "wx33406ece92b499f4",
-	"projectname": "funimg",
-	"isGameTourist": false,
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"currentL": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "详情页面",
-					"pathName": "pages/detail/index",
-					"query": "id=10014"
-				},
-				{
-					"id": -1,
-					"name": "精选",
-					"pathName": "pages/home/index",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "关于我",
-					"pathName": "pages/about/index",
-					"query": ""
-				},
-				{
-					"id": 3,
-					"name": "评论",
-					"pathName": "pages/comment/index",
-					"query": "id=10089"
-				},
-				{
-					"id": -1,
-					"name": "demo",
-					"pathName": "pages/demo/index",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "视频",
-					"pathName": "pages/videoPlayer/index",
-					"query": ""
-				},
-				{
-					"id": 6,
-					"name": "视频播放",
-					"pathName": "pages/videoComment/index",
-					"query": "id=10030&url=https://highness-1-1253922088.file.myqcloud.com/201806/5842b303-fee1-4677-bf12-01fbd88246a1.mp4&title=你好啊&height=480&width=854"
-				}
-			]
-		}
-	}
+  "description": "项目配置文件。",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "scopeDataCheck": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "1.9.98",
+  "appid": "wx33406ece92b499f4",
+  "projectname": "funimg",
+  "isGameTourist": false,
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "currentL": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": [
+        {
+          "id": 0,
+          "name": "详情页面",
+          "pathName": "pages/detail/index",
+          "query": "id=10014"
+        },
+        {
+          "id": -1,
+          "name": "精选",
+          "pathName": "pages/home/index",
+          "query": ""
+        },
+        {
+          "id": -1,
+          "name": "关于我",
+          "pathName": "pages/about/index",
+          "query": ""
+        },
+        {
+          "id": 3,
+          "name": "评论",
+          "pathName": "pages/comment/index",
+          "query": "id=10089"
+        },
+        {
+          "id": -1,
+          "name": "demo",
+          "pathName": "pages/demo/index",
+          "query": ""
+        },
+        {
+          "id": -1,
+          "name": "视频",
+          "pathName": "pages/videoPlayer/index",
+          "query": ""
+        },
+        {
+          "id": 6,
+          "name": "视频播放",
+          "pathName": "pages/videoComment/index",
+          "query": "id=10030&url=https://highness-1-1253922088.file.myqcloud.com/201806/5842b303-fee1-4677-bf12-01fbd88246a1.mp4&title=你好啊&height=480&width=854"
+        }
+      ]
+    }
+  }
 }

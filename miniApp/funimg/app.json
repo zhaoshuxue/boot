@@ -1,5 +1,5 @@
 {
-  "pages": [    
+  "pages": [
     "pages/home/index",
     "pages/everyday/index",
     "pages/index/index",
@@ -38,5 +38,6 @@
         "text": "关于我"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
