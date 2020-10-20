@@ -24,6 +24,27 @@
     create_time, update_time, creator_id, creator_name, updater_id, updater_name
   </sql>
 
+  <sql id="Base_Where_Clause">
+    <where>
+      <if test="search.del != null">
+        and del = #{search.del,jdbcType=INTEGER}
+      </if>
+      <if test="search.ids != null and search.ids.size() > 0">
+        and id in
+        <foreach item="item" index="index" collection="search.ids" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="search.summary != null">
+        and summary like concat('%', #{search.summary,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </sql>
 
-  <cache />
+  <select id="selectByParams" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM fun_panorama_image
+    <include refid="Base_Where_Clause"/>
+  </select>
 </mapper>
