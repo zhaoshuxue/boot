@@ -35,7 +35,7 @@ import java.util.UUID;
 @RequestMapping("image")
 @Controller
 @CrossOrigin
-public class ImageController {
+public class PanoramaController {
 
     /**
      * 配置文件中的配置
