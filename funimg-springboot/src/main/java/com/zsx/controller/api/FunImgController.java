@@ -177,6 +177,8 @@ public class FunImgController {
 
                 image.setId(panoramaImage.getId());
                 image.setTitle(panoramaImage.getTitle());
+//                使用腾讯云图片处理缩放功能
+//                imageMogr2/thumbnail/!10p
                 image.setThumbnail(panoramaImage.getThumbnail());
 
                 images.add(image);
