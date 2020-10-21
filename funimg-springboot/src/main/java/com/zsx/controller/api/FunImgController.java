@@ -2,6 +2,7 @@ package com.zsx.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.zsx.entity.FunPanoramaImage;
 import com.zsx.service.FunAlbumService;
 import com.zsx.service.PanoramaService;
 import com.zsx.service.VideoService;
@@ -9,12 +10,15 @@ import com.zsx.util.HttpUtil;
 import com.zsx.util.PageData;
 import com.zsx.vo.app.*;
 import com.zsx.vo.json.JsonData;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by highness on 2018/5/10 0010.
@@ -157,6 +161,31 @@ public class FunImgController {
         return videoService.getVideoData(id);
     }
 
+
+    @GetMapping("/panoList")
+    public PageData getPanoList(
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageData<FunPanoramaImage> pageData = panoramaService.getFunPanoramaImagePageList(new HashMap<String, Object>(1), pageNum, pageSize);
+
+        List<FunPanoramaImage> list = pageData.getList();
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<FunPanoramaImage> images = Lists.newArrayList();
+
+            for (FunPanoramaImage panoramaImage : list) {
+                FunPanoramaImage image = new FunPanoramaImage();
+
+                image.setId(panoramaImage.getId());
+                image.setTitle(panoramaImage.getTitle());
+                image.setThumbnail(panoramaImage.getThumbnail());
+
+                images.add(image);
+            }
+
+            pageData.setList(images);
+        }
+        return pageData;
+    }
 
     @GetMapping("/panoDetail")
     public JsonData getPanoDetail(@RequestParam(defaultValue = "0") Long id) {
