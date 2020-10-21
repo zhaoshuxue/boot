@@ -104,11 +104,6 @@ public class PanoramaController {
                 del = Integer.parseInt(isDel);
             }
 
-//            System.out.println(file.isEmpty()); // false
-//            System.out.println(file.getContentType()); // image/jpeg
-//            System.out.println(file.getName()); // stream
-//            System.out.println(file.getOriginalFilename()); // 微信图片_20170830144659.jpg
-//            System.out.println(file.getSize()); // 44982  字节
             if (!file.isEmpty()) {
                 String originalFilename = file.getOriginalFilename();
                 String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
