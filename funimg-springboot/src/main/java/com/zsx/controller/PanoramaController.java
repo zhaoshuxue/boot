@@ -108,12 +108,15 @@ public class PanoramaController {
                 String originalFilename = file.getOriginalFilename();
                 String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
                 String fileTitle = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+
+                if (!fileNameSuffix.equals(".jpg")) {
+                    return JsonData.fail("图片格式必须为jpg");
+                }
+
 //                统一为小写
                 fileNameSuffix = fileNameSuffix.toLowerCase();
-                String uuid = UUID.randomUUID().toString();
+                String uuid = UUID.randomUUID().toString().replaceAll("-", "");
                 String tempFileName = uuid + fileNameSuffix;
-                String format = new SimpleDateFormat("yyMMdd").format(new Date());
-//                String fileName = format + "_" + uuid + fileNameSuffix;
 
 //              获取图片的临时存储路径
                 String picturePath = getPicturePath(request);
@@ -122,9 +125,8 @@ public class PanoramaController {
 //              临时文件
                 File tempFile = new File(picturePath + tempFileName);
 
-                int width = 0, height = 0, imgType = 0;
-//                视频第一帧图片
-                String thumbnail = "";
+                int width = 0, height = 0, imgType = 1;
+
 //               图片地址
                 String imgUrl = "";
 //                上传
@@ -133,52 +135,24 @@ public class PanoramaController {
                     return JsonData.fail("上传失败");
                 }
                 imgUrl = uploadImgUrl;
+//                缩略图地址
+                String thumbnail = "";
 
-                if (fileNameSuffix.equals(".mp4")) {
-                    imgType = 4;
-//                    得到第一帧图片
-                    String tempFilePath = picturePath + tempFileName;
-                    String thumbnailFilePath = picturePath + uuid + ".jpg";
+                // 获取图片的宽高
+                BufferedImage bufferedImage = ImageIO.read(tempFile);
+                width = bufferedImage.getWidth();
+                height = bufferedImage.getHeight();
 
 
-                    String exeFile = isWindow() ? ffmpegWinExe : ffmpegLinuxExe;
-
-                    String[] cmd = {exeFile, "-i", tempFilePath, "-r", "1", "-vframes", "1", "-f", "image2", thumbnailFilePath};
-
-                    Process p = Runtime.getRuntime().exec(cmd);
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
-                    String s = "";
-                    while ((s = br.readLine()) != null) {
-                        System.out.println("返回数据： " + s);
-                    }
-                    br.close();
-
-                    File thumbnailFile = new File(thumbnailFilePath);
-                    if (thumbnailFile.exists()) {
-                        // 获取图片的宽高
-                        BufferedImage bufferedImage = ImageIO.read(thumbnailFile);
-                        width = bufferedImage.getWidth();
-                        height = bufferedImage.getHeight();
-
-                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + uuid + ".jpg", thumbnailFile);
-                        if (StringUtils.isNotBlank(thumbnailFileUrl)) {
-                            thumbnail = thumbnailFileUrl;
-                        }
-                    }
-                } else {
-                    if (fileNameSuffix.equals(".jpg")) {
-                        imgType = 1;
-                    } else if (fileNameSuffix.equals(".jpeg")) {
-                        imgType = 2;
-                    } else if (fileNameSuffix.equals(".png")) {
-                        imgType = 3;
-                    }
-                    // 获取图片的宽高
-                    BufferedImage bufferedImage = ImageIO.read(tempFile);
-                    width = bufferedImage.getWidth();
-                    height = bufferedImage.getHeight();
-                }
+//                if (fileNameSuffix.equals(".mp4")) {
+//                        String thumbnailFileUrl = QcloudUtil.upload(accessKey, secretKey, regionName, bucket, CDNdomain, keyPrefix + uuid + ".jpg", thumbnailFile);
+//
+//                    if (StringUtils.isNotBlank(thumbnailFileUrl)) {
+//                        thumbnail = thumbnailFileUrl;
+//                    }
+//                } else {
+//
+//                }
 
 //                保存
                 FunPanoramaImage panoramaImage = new FunPanoramaImage();
