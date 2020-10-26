@@ -1,6 +1,8 @@
 package com.zsx.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.zsx.entity.FunPanoramaImage;
 import com.zsx.util.QcloudUtil;
 import com.zsx.vo.json.JsonData;
 import net.coobird.thumbnailator.Thumbnails;
@@ -243,5 +245,44 @@ public class UploadController {
             return JsonData.returnObject(imageMap.get(uuid));
         }
         return JsonData.returnObject("");
+    }
+
+
+
+
+    @RequestMapping(value = "uploadTest")
+    @ResponseBody
+    public JsonData uploadTest(
+            @RequestParam(value = "file", required = true) MultipartFile file,
+            HttpServletRequest request) {
+        InputStream is = null;
+        try {
+            String title = request.getParameter("title");
+            System.out.println(title);
+
+            if (!file.isEmpty()) {
+                String originalFilename = file.getOriginalFilename();
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String fileTitle = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+
+//                统一为小写
+                fileNameSuffix = fileNameSuffix.toLowerCase();
+                String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+                String tempFileName = uuid + fileNameSuffix;
+
+//              暂存
+                file.transferTo(new File("D:\\1\\2\\" + tempFileName));
+//              临时文件
+//                File tempFile = new File(picturePath + tempFileName);
+
+
+                return JsonData.returnObject(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return JsonData.fail("上传失败");
     }
 }
