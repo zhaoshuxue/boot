@@ -1,6 +1,7 @@
 package com.zsx.controller.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.zsx.entity.FunPanoramaImage;
 import com.zsx.service.FunAlbumService;
@@ -12,7 +13,6 @@ import com.zsx.vo.app.*;
 import com.zsx.vo.json.JsonData;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;

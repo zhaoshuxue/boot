@@ -29,9 +29,10 @@
     
     <!-- 分页助手 -->
     <plugins>
-        <plugin interceptor="com.github.pagehelper.PageHelper">
+<!--        <plugin interceptor="com.github.pagehelper.PageHelper">-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
         	<!-- 数据库方言 -->
-            <property name="dialect" value="mysql" />
+<!--            <property name="dialect" value="mysql" />-->
             <property name="offsetAsPageNum" value="true" />
             <!-- 设置为true时，使用RowBounds分页会进行count查询 会去查询出总数 -->
             <property name="rowBoundsWithCount" value="true" />
