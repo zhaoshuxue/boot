@@ -20,7 +20,7 @@
 
         <fastjson.version>1.2.75</fastjson.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <xstream.version>1.4.15</xstream.version>
+        <xstream.version>1.4.16</xstream.version>
         <joda.time.version>2.10.9</joda.time.version>
     </properties>
 
