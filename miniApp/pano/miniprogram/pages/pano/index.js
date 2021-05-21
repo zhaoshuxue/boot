@@ -26,7 +26,8 @@ Page({
     wxPano.config({
       panolist: [{
         name: "xindamen",
-        src: "https://www.aiotforest.com/pano2048-1024.jpg",
+        // src: "https://www.aiotforest.com/pano2048-1024.jpg",
+        src: "https://highness-1-1253922088.cos.ap-beijing.myqcloud.com/202010temp/04ba6225-24f5-41e0-8a65-fbd773b41b78.jpg",
         infospots: [ //信息标记
           {
             type: "modal",

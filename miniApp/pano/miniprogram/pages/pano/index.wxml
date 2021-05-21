@@ -1,5 +1,4 @@
 <!--miniprogram/pages/pano/index.wxml-->
-<text>miniprogram/pages/pano/index.wxml</text>
 <pano panolist="{{panolist}}" entryid="{{entrypanoid}}" entryname="{{entrypanoname}}" width="320" height="240"
   key="{{key}}" autoinit="{{false}}">
   <cover-view style="position: fixed;top:80%;width:100%;text-align:center;">
