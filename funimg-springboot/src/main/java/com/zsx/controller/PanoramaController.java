@@ -1,6 +1,8 @@
 package com.zsx.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.zsx.entity.FunImages;
 import com.zsx.entity.FunPanoramaImage;
@@ -9,6 +11,7 @@ import com.zsx.service.ImageService;
 import com.zsx.service.PanoramaService;
 import com.zsx.util.PageData;
 import com.zsx.util.QcloudUtil;
+import com.zsx.vo.FunPanorama;
 import com.zsx.vo.app.AlbumData;
 import com.zsx.vo.json.JsonData;
 import com.zsx.vo.json.JsonTable;
@@ -27,9 +30,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("pano")
 @Controller
@@ -73,12 +74,19 @@ public class PanoramaController {
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
+        JsonTable jsonTable = null;
         HashMap<String, Object> search = Maps.newHashMap();
-        if (StringUtils.isNotBlank(del)){
+        if (StringUtils.isNotBlank(del)) {
             search.put("del", Integer.parseInt(del));
         }
         PageData<FunPanoramaImage> pageData = panoramaService.getFunPanoramaImagePageList(search, pageNum, pageSize);
-        JsonTable jsonTable = JsonTable.toTable(pageData.getTotal(), pageData.getList());
+        if (pageData.getList() != null) {
+            List<FunPanoramaImage> list = pageData.getList();
+
+            List<FunPanorama> resultList = JSONArray.parseArray(JSON.toJSONString(list), FunPanorama.class);
+
+            jsonTable = JsonTable.toTable(pageData.getTotal(), resultList);
+        }
         return jsonTable;
     }
 
@@ -100,7 +108,7 @@ public class PanoramaController {
             System.out.println(title);
             String isDel = request.getParameter("isDel");
             Integer del = 0;
-            if (StringUtils.isNotBlank(isDel)){
+            if (StringUtils.isNotBlank(isDel)) {
                 del = Integer.parseInt(isDel);
             }
 
@@ -261,13 +269,6 @@ public class PanoramaController {
         JsonData jsonData = panoramaService.addFunPanoramaImage(null);
         return jsonData;
     }
-
-
-
-
-
-
-
 
 
 }

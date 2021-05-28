@@ -12,6 +12,10 @@ public class FunPanoramaImage implements Serializable {
 
     private String title;
 
+    private String summary;
+
+    private String content;
+
     private String imgUrl;
 
     private Integer imgType;
@@ -68,6 +72,22 @@ public class FunPanoramaImage implements Serializable {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getImgUrl() {
