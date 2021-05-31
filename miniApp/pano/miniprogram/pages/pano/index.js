@@ -28,46 +28,6 @@ Page({
         name: "xindamen",
         // src: "https://www.aiotforest.com/pano2048-1024.jpg",
         src: "https://highness-1-1253922088.cos.ap-beijing.myqcloud.com/202010temp/04ba6225-24f5-41e0-8a65-fbd773b41b78.jpg",
-        infospots: [ //信息标记
-          {
-            type: "modal",
-            modal: {
-              title: "wxPano",
-              content: "欢迎使用wxPano"
-            },
-            position: {
-              x: 0.092,
-              y: 0.434
-            },
-            size: 1,
-            icon: "info",
-            bindcamera: true,
-            bindsize: 0.5,
-            bindicon: "info",
-            bindopacity: 0.75,
-            bindposition: {
-              x: 0.5,
-              y: 0.75
-            }
-          },
-          {
-            type: "page",
-            page: function () {
-              wx.navigateTo({
-                url: "ar",
-                success(evt) {
-                  console.log(evt);
-                }
-              })
-            },
-            position: {
-              x: 0.437,
-              y: 0.447
-            },
-            size: 1,
-            icon: "info"
-          }
-        ]
       }],
       request: wx.request,
       loader: "GLLoader",

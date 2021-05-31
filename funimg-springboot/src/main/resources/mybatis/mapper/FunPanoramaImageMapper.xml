@@ -6,6 +6,8 @@
     <result column="img_uuid" property="imgUuid" jdbcType="VARCHAR" />
     <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
     <result column="img_type" property="imgType" jdbcType="INTEGER" />
     <result column="width" property="width" jdbcType="INTEGER" />
@@ -20,7 +22,7 @@
     <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, img_uuid, thumbnail, title, img_url, img_type, width, height, file_size, del, 
+    id, img_uuid, thumbnail, title, summary, content, img_url, img_type, width, height, file_size, del,
     create_time, update_time, creator_id, creator_name, updater_id, updater_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -37,13 +39,13 @@
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into fun_panorama_image (img_uuid, thumbnail, title, 
+    insert into fun_panorama_image (img_uuid, thumbnail, title, summary, content,
       img_url, img_type, width, 
       height, file_size, del, 
       create_time, update_time, creator_id, 
       creator_name, updater_id, updater_name
       )
-    values (#{imgUuid,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+    values (#{imgUuid,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
       #{imgUrl,jdbcType=VARCHAR}, #{imgType,jdbcType=INTEGER}, #{width,jdbcType=INTEGER}, 
       #{height,jdbcType=INTEGER}, #{fileSize,jdbcType=BIGINT}, #{del,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=VARCHAR}, 
@@ -64,6 +66,12 @@
       </if>
       <if test="title != null" >
         title,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+      <if test="content != null" >
+        content,
       </if>
       <if test="imgUrl != null" >
         img_url,
@@ -111,6 +119,12 @@
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="imgUrl != null" >
         #{imgUrl,jdbcType=VARCHAR},
@@ -162,6 +176,12 @@
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
       <if test="imgUrl != null" >
         img_url = #{imgUrl,jdbcType=VARCHAR},
       </if>
@@ -206,6 +226,8 @@
     set img_uuid = #{imgUuid,jdbcType=VARCHAR},
       thumbnail = #{thumbnail,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
       img_type = #{imgType,jdbcType=INTEGER},
       width = #{width,jdbcType=INTEGER},
