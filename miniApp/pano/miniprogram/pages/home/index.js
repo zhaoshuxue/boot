@@ -77,10 +77,16 @@ Page({
       return;
     }
 
+    var params = {
+      pageNum: num,
+      pageSize: 5
+    }
+
     wx.request({
-      method: "GET",
+      method: "POST",
       // url: app.globalData.url + '/wx/studentLeaveList',
-      url: 'https://www.funimg.top/funimg/api/funimg/panoList?pageNum=1&pageSize=5',
+      url: 'https://www.funimg.top/pano/list',
+      data: params,
       success: (res) => {
         console.log(res.data)
 

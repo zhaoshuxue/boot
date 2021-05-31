@@ -30,6 +30,7 @@ public class PanoramaServiceImpl implements PanoramaService {
         PageData pageData = new PageData(pageInfo.getTotal(), pageInfo.getPages(), list);
         pageData.setPageNum(pageInfo.getPageNum());
         pageData.setPageSize(pageInfo.getPageSize());
+        pageData.setPages(pageInfo.getPages());
         return pageData;
     }
 
