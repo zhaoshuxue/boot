@@ -67,7 +67,7 @@ public class PanoramaController {
     @Autowired
     private PanoramaService panoramaService;
 
-    @PostMapping("/lists")
+    @PostMapping("/list")
     @ResponseBody
     public JsonTable getList(
             @RequestParam(defaultValue = "") String del,
