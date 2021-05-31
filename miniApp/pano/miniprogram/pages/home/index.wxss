@@ -5,3 +5,8 @@ image {
   width: 200rpx;
   height: 200rpx;
 }
+
+.sumCls {
+  font-size: 30rpx;
+  word-break: break-all;
+}

@@ -57,7 +57,8 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    console.warn(2)
+    this.getData()
   },
 
   /**
@@ -83,9 +84,9 @@ Page({
     }
 
     wx.request({
-      method: "POST",
+      method: "GET",
       // url: app.globalData.url + '/wx/studentLeaveList',
-      url: 'https://www.funimg.top/pano/list',
+      url: 'https://www.funimg.top/api/pano/list',
       data: params,
       success: (res) => {
         console.log(res.data)
@@ -97,11 +98,12 @@ Page({
           if (list) {
             for (var i = 0, len = list.length; i < len; i++) {
               // list[i].checkTime = "请假时间： " + list[i].checkTime.substr(0, 10);
+              list[i].thumbnail = list[i].imgUrl + '?imageView2/2/h/150'
               arr.push(list[i])
             }
             _this.setData({
               list: arr,
-              totalPage: res.data.pageSize,
+              totalPage: res.data.pages,
               page: num
             })
             console.log(arr)
@@ -129,9 +131,10 @@ Page({
     console.log(e.currentTarget.dataset.id)
 
     var id = e.currentTarget.dataset.id
+    var url = e.currentTarget.dataset.url
 
     wx.navigateTo({
-      url: '/pages/pano/index?id=' + id
+      url: '/pages/pano/index?id=' + id + '&url=' + url
     })
   }
 })

@@ -8,14 +8,14 @@
   <view class="page__bd">
     <mp-cells ext-class="my-cells" title="">
       <!-- <mp-cell value="标题文字" footer="说明文字"></mp-cell> -->
-      <mp-cell wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="showImg">
+      <mp-cell wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" data-url="{{item.imgUrl}}" bindtap="showImg">
         <view>
           <image mode="aspectFill" src="{{item.thumbnail}}" />
         </view>
         <view slot="footer">
           <view style="width: 420rpx; height: 200rpx; text-align: left;">
             <view>{{item.title}}</view>
-            <text style="font-size: 30rpx">这里放描述</text>
+            <text class="sumCls">{{item.summary}}</text>
           </view>
         </view>
       </mp-cell>

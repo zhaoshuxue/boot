@@ -20,7 +20,7 @@
     <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, img_uuid, thumbnail, title, img_url, img_type, width, height, file_size, del, 
+    id, img_uuid, thumbnail, title, summary, content, img_url, img_type, width, height, file_size, del,
     create_time, update_time, creator_id, creator_name, updater_id, updater_name
   </sql>
 
